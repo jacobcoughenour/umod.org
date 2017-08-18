@@ -1,0 +1,40 @@
+- name: 7 Days to Die
+  os: ['windows', 'linux']
+  features: {console: true, chatcommands: false, consolecommands: false, tabcompletion: false}
+  hooks: {core: true, advanced: false}
+- name: Blockstorm
+  os: ['windows', 'linux']
+  features: {console: true, chatcommands: false, consolecommands: false, tabcompletion: false}
+  hooks: {core: true, advanced: false}
+- name: Hurtworld
+  os: ['windows', 'linux']
+  features: {console: true, chatcommands: true, consolecommands: true, tabcompletion: true}
+  hooks: {core: true, advanced: true}
+- name: Medieval Engineers
+  os: ['windows']
+  features: {console: true, chatcommands: false, consolecommands: false, tabcompletion: false}
+  hooks: {core: true, advanced: false}
+- name: Reign of Kings
+  os: ['windows']
+  features: {console: true, chatcommands: true, consolecommands: true, tabcompletion: true}
+  hooks: {core: true, advanced: true}
+- name: Rust
+  os: ['windows', 'linux']
+  features: {console: true, chatcommands: true, consolecommands: true, tabcompletion: true}
+  hooks: {core: true, advanced: true}
+- name: Space Engineers
+  os: ['windows']
+  features: {console: false, chatcommands: false, consolecommands: false, tabcompletion: false}
+  hooks: {core: true, advanced: false}
+- name: Terraria
+  os: ['windows']
+  features: {console: false, chatcommands: false, consolecommands: false, tabcompletion: false}
+  hooks: {core: true, advanced: false}
+- name: The Forest
+  os: ['windows']
+  features: {console: true, chatcommands: false, consolecommands: false, tabcompletion: false}
+  hooks: {core: true, advanced: false}
+- name: Unturned
+  os: ['windows']
+  features: {console: true, chatcommands: false, consolecommands: false, tabcompletion: false}
+  hooks: {core: true, advanced: false}

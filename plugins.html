@@ -1,0 +1,228 @@
+---
+title: Plugins
+description: Expand your server functionality with one or <span id="plugin-total">many</span> plugins
+layout: docs
+permalink: /plugins/
+---
+
+<script type="text/javascript">
+    var accessToken = localStorage.getItem('accessToken');
+    var pluginCount = 0;
+
+    function getPlugins() {
+        if (!checkAccess()) { return; }
+        
+        $.ajax({
+            url: 'https://api.github.com/orgs/umods/repos',
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            beforeSend: function(xhr) {
+                if (accessToken != null && accessToken !== undefined) {
+                    xhr.setRequestHeader("Authorization", "token " + accessToken);
+                }
+            },
+            success: function(data) {
+                var count = data.length;
+                if (count < 0) { return; } // TODO: We need to show something on the page still
+                
+                // TODO: Handle empty repos (don't show)
+                
+                pluginCount = count;
+                $("#plugin-total").innerHTML = pluginCount;
+
+                for (var i in data) {
+                    if (data[i].size === 0 || data[i].language == null) { continue; }
+                    
+                    var id = data[i].id;
+                    var name = data[i].name;
+                    var repo = data[i].html_url;
+                    var image = data[i].owner.avatar_url;
+                    var description = data[i].description;
+                    
+                    $("#plugin-list").append('\
+                        <div class="col-md-3"> \
+                            <div class="box box-image"> \
+                                <a href="{{ site.url }}/plugins/#' + id + '" alt="' + name + '" onclick="window.location.href"> \
+                                    <img src="' + image + '" class="image" alt="box image"> \
+                                    <h4 class="box-title">' + name + '</h4> \
+                                </a> \
+                            </div> \
+						</div> \
+                    ');
+                }
+                
+                if (callback && typeof(callback) === "function") {
+                    callback(data);
+                }
+                return data;
+            },
+            error: function(err) {
+                alert("Error: " + JSON.stringify(err));
+                // TODO: Show better message
+            }
+        });
+    }
+
+    function getPlugin(id, callback) {
+        if (!checkAccess()) { return; }
+
+        getTags(id, function(tags) {
+            getContent(id, null, function(pluginInfo) {
+                if (pluginInfo == null || pluginInfo.length < 0) {
+                    document.getElementById("plugin-list").innerHTML = '\
+                        <div class="note js-note"> \
+                            <h4 class="note-title">Unable to fetch plugin data at this time</h4> \
+                        </div>';
+                    return;
+                }
+
+                // TODO: Handle multiple files (plugin may not always be first)
+                var filename = pluginInfo[0].name;
+                var name = filename.slice(0, -3);
+                var sha = pluginInfo[0].sha;
+                var size = pluginInfo[0].size;
+                var download = pluginInfo[0].download_url;
+                var issues = 'https://github.com/umods/' + name + '/issues';
+
+                // has_issues
+                // open_issues
+                // open_issues_count
+                // watchers
+                // watchers_count
+                // stargazers_count
+                // subscribers_count
+                // html_url
+                // contributors_url
+
+                // https://api.github.com/repos/umods/BabelChat
+                // https://api.github.com/repos/umods/BabelChat/contributors
+                // https://api.github.com/repos/umods/BabelChat/contents
+                // https://api.github.com/repos/umods/BabelChat/contents/BabelChat.cs
+
+                $("#plugin-list").append('\
+                    <ul class="tabs" data-tab> \
+                        <a href="' + download + '" class="button" download>Download</a> \
+                        <a href="' + issues + '" class="button">Issues</a> \
+                        <li class="tab-title active"><a href="#overview-' + sha + '">Overview</a></li> \
+                        <li class="tab-title"><a href="#faq-' + sha + '">FAQ</a></li> \
+                        <li class="tab-title"><a href="#updates-' + sha + '">Updates</a></li> \
+                        <li class="tab-title" onclick="loadSource(\'' + download + '\', \'' + sha + '\')"><a href="#source-' + sha + '">Source</a></li> \
+                    <\/ul> \
+                    <div class="tabs-content"> \
+                        <div class="content active" id="overview-' + sha + '"> \
+                            <p>\
+                                <b>Plugin Name:</b> ' + name + '<br/> \
+                                <b>File Name:</b> ' + filename + '<br/> \
+                                <b>File Hash:</b> ' + sha + '<br/> \
+                                <b>File Size:</b> ' + (size / 1024).toFixed(1) + ' kb<br/> \
+                            <\/p> \
+                        <\/div> \
+                        <div class="content" id="faq-' + sha + '"> \
+                            <p>This is the second panel of the basic tab example. This is the second panel of the basic tab example.<\/p> \
+                        <\/div> \
+                        <div class="content" id="updates-' + sha + '"> \
+                            <p>This is the third panel of the basic tab example. This is the third panel of the basic tab example.<\/p> \
+                        <\/div> \
+                        <div class="content" id="source-' + sha + '"> \
+                            <pre><code id=\"' + sha + '\"></code></pre><br/> \
+                        <\/div> \
+                    <\/div> \
+                ');
+            });
+        });
+    }
+
+    function getContent(id, tag, callback) {
+        if (!checkAccess()) { return; }
+        
+        if (tag != null && tag !== undefined) {
+            tag = '?ref=' + tag;
+        } else {
+            tag = '';
+        }
+                
+        $.ajax({
+            url: 'https://api.github.com/repositories/' + id + '/contents' + tag,
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            beforeSend: function(xhr) {
+                if (accessToken != null && accessToken !== undefined) {
+                    xhr.setRequestHeader("Authorization", "token " + accessToken);
+                }
+            },
+            success: function(data) {
+                if (callback && typeof(callback) === "function") {
+                    callback(data);
+                }
+                return data;
+            },
+            error: function(err) {
+                alert("Error: " + JSON.stringify(err));
+                // TODO: Show better message
+            }
+        });
+    }
+    
+    function getTags(id, callback) {
+        if (!checkAccess()) { return; }
+        
+        $.ajax({
+            url: 'https://api.github.com/repositories/' + id + '/tags',
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            beforeSend: function(xhr) {
+                if (accessToken != null && accessToken !== undefined) {
+                    xhr.setRequestHeader("Authorization", "token " + accessToken);
+                }
+            },
+            success: function(data) {
+                if (callback && typeof(callback) === "function") {
+                    callback(data);
+                }
+                return data;
+            },
+            error: function(err) {
+                alert("Error: " + JSON.stringify(err));
+                // TODO: Show better message
+            }
+        });
+    }
+
+    function loadSource(source, sha) {
+        $.get(source, function(data) {
+            $('#' + sha).text(data);
+            $('#' + sha).each(function(i, e) { hljs.highlightBlock(e) });
+        });
+    };
+    
+    $(document).ready(function() {
+        setAccess('plugins');
+
+        var param = getParameter();
+        if (param == null || param.length > 0) {
+            getPlugin(param);
+        } else {
+            getPlugins();
+        }
+                
+        if (accessToken != null && accessToken !== undefined) {
+            $('#new-plugin').html("New Plugin");
+        }
+    });
+</script>
+
+<noscript>
+    <div class="note js-note blue">
+        <h4 class="note-title">JavaScript supported browser required</h4>
+        <p class="note-description">
+            In order to view these forums, JavaScript must be allowed and enabled. A modern browser such as Chrome, Firefox, Safari, or similar browser with the latest web technologies and standards is also recommended. If you'd prefer, you can use the <a href="{{ site.github }}/forums{% if site.url == 'http://localhost:4000' %}-test{% endif %}">GitHub issues</a> site instead.
+        </p>
+    </div>
+</noscript>
+
+<div class="row">
+    <div class="col-md-12" id="plugin-list"></div>
+</div>

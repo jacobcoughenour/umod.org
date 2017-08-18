@@ -1,0 +1,25 @@
+General:
+  icon: "&#xe64a"
+  questions:
+    - question: "What is uMod?"
+      answer: "uMod is essentially Oxide 3.0 (the previous name); an extended universal API, support for additional games, advanced self-patching, more extensive documentation, a new home, and more to come."
+    - question: "Where can I get plugins?"
+      answer: "You can find all of the previous plugins for Oxide at oxidemod.org; these will eventually be updated for uMod along with a standalone site and repository. For new plugins, check out the Plugins section."
+    - question: "When will X game be supported?"
+      answer: "A game being supported depends on if it's written in a compatible programming language and isn't jumbled up. Feel free to post a request on our forums or issue tracker and we'll take a look!"
+    - question: "When will an update be available for X game?"
+      answer: "If support for a game is somehow outdated, we've either ran into an issue with the update or we haven't been able to get to it. Rest assured it'll be available ASAP!"
+    - question: "Why do some plugin hooks not work after updating?"
+      answer: "If you updated to a newer game update and not all uMod features are working, that's likely because there were changes that affected it and would need to be reviewed by a team member and a patch be pushed out."
+
+Installation:
+  icon: "&#xe60a"
+  questions:
+    - question: "How do I install uMod?"
+      answer: "We'll have many detailed tutorials available for this soon! For self-hosting, just download the latest uMod release, extract it, and overwrite in your server's install."
+
+Hosting:
+  icon: "&#xe617"
+  questions:
+    - question: "Which hosts support uMod?"
+      answer: "While we don't keep track of all of hosting providers right now, most of the well-known hosts support uMod, and any that offer full FTP access should allow you to install uMod manually."

@@ -1,0 +1,8 @@
+description: ""
+intro: "Since many users can't or don't want to edit the plugin directly to change settings or options, it's best to offer them a configuration file that can easily be edited without worrying about messing up the plugin or it resetting each time the plugin is updated."
+
+topics:
+  - title: "Creating a configuration"
+    summary: "There are many methods to create a configuration file, but we'll only be coving the basic example here."
+  - title: "Updating a configuration"
+    summary: "You can change and save configuration entries by simply assigning the new values and calling the save function."

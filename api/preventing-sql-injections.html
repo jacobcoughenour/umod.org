@@ -1,0 +1,84 @@
+---
+title: SQL Injections
+description:
+layout: api
+icon: database
+permalink: /api/sql-injections/
+menu-weight: 30
+---
+
+<div class="category-info helper pt0" id="{{ page.title | slugify }}">
+    <h3 class="category-title">
+        <a class="fragment-identifier js-fragment-identifier fragment-identifier-scroll" href="#{{ page.title | slugify }}">
+            <i class="fa fa-link"></i>
+        </a>
+        {{ page.title }}
+    </h3>
+    <p class="category-content">
+        We'll start this guide with a brief introduction to and in regards to SQL injections and then explain approaches to preventing SQL injections in plugins.
+    </p>
+    <hr/>
+    <h4 class="category-description">
+        <a class="fragment-identifier js-fragment-identifier fragment-identifier-scroll" href="#{{ "SQL injections" | slugify }}">
+            <i class="fa fa-link"></i>
+        </a>
+        SQL injections
+    </h4>
+    <p class="category-content">
+        An SQL injection is a type of attack used to attack databases. This attack is executed by making use of malicious user input and often allows clients to manipulate a database at will.
+
+        Let's assume our table looks like this:
+        [CODE]+---+------+--------+
+        |id | name | name2  |
+        +---+------+--------+[/CODE]
+        id is some sort of integer, name and name2 are strings.
+        A possible query for this table might look like this:
+        [CODE]mysql.NewSql().Append("SELECT * FROM table WHERE name = \"" + arg[0] + "\" AND name2 = \"" + arg[1] + "\";")[/CODE]
+        Assuming arg[0] and arg[1] are input strings provided by the user, this query is vulnerable to SQL injections.
+
+        The first possible attack ends the query via a quote to inject custom SQL code after the input:
+        [CODE]arg[0] = "\"; DROP TABLE table;--"
+        arg[1] = ""[/CODE]
+        When combined with the SQL query, this results in the following query:
+        [CODE]SELECT * FROM table WHERE name = ""; DROP TABLE table;-- AND name2 = "";[/CODE]
+        First a select is executed, then the table is dropped and the rest is commented out.
+
+        The second possible attack ends the query via a quote to ignore the second condition name2 = "":
+        [CODE]arg[0] = "foo\";--"
+        arg[1] = ""[/CODE]
+        This results in the following query when combined:
+        [CODE]SELECT * FROM table WHERE name = "foo";-- AND name2 = "";[/CODE]
+        The select is executed without considering the second condition because the second condition is commented out.
+
+        The first attack is generally dangerous because you don't want your users to be able to delete your data, the second attack is dangerous in regards to bypassing authentication and leaking data.
+        Let's assume name and name2 are username and password, then the attacker would be able to authenticate as any user without the password being considered.
+        This might also result in the database leaking data when the result of the select can be accessed by the attacker, giving him access to data he shouldn't have access to.
+
+        There are more possible attack vectors than this. You should always protect yourself against SQL injections when user input is involved.
+    </p>
+    <h4 class="category-description">
+        <a class="fragment-identifier js-fragment-identifier fragment-identifier-scroll" href="#{{ "Preventing SQL injections" | slugify }}">
+            <i class="fa fa-link"></i>
+        </a>
+        Preventing SQL injections
+    </h4>
+    <p class="category-content">
+        There are effectively two different types of mechanisms in uMod that help with preventing SQL injections. The following applies to both the SQLite and the MySQL extension, the only difference being that MySQL is replaced with SQLite.
+
+        The first one prevents multiple queries being executed in a single .Append() call, meaning the following code is invalid when added to the SQL query in a single call:
+        [CODE]SELECT * FROM table; DROP TABLE table;[/CODE]
+        This automatically prevents the first kind of attack I mentioned, as the attacker cannot drop the table after ending the query with a quote.
+
+        The second one prevents all kinds of attacks using parameterized queries.
+        Parameterized queries are queries where user input is replaced with a placeholder. The SQL driver then parses the parameterized query, removes malicious code from user input and inserts the clean user input into the placeholders.
+        In Oxide, our query from above can be written as a parameterized query as follows:
+        [CODE]mysql.NewSql().Append("SELECT * FROM table WHERE name = @0 AND name2 = @1;", arg[0], arg[1])[/CODE]
+        @0 and @1 are the placeholders for the arguments provided in the varargs list after the query in our .Append() call.
+        @0 refers to the first argument supplied, in this case arg[0], while @1 refers to the second argument supplied, in this case arg[1].
+        Placeholders may not be enclosed by quotation marks.
+        This parameterized query protects the database from the full spectrum of SQL injections.
+        The actual C# syntax is very similar, just that you may use [CODE]new Sql(query, args)[/CODE] instead of [CODE]mysql.NewSql().Append(query, args)[/CODE]
+
+        To sum it up, use parameterized queries whenever possible, even when input isn't derived from user input, as you might change that in the future and then forget that this kind of input isn't protected against SQL injections.
+    </p>
+</div>

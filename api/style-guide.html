@@ -1,0 +1,110 @@
+---
+title: Style Guide
+description:
+layout: api
+icon: magic
+permalink: /api/style-guide/
+menu-weight: 10
+---
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="category-info helper pt0" id="plugin-info">
+            <h3 class="category-title">
+                <a class="fragment-identifier js-fragment-identifier fragment-identifier-scroll" href="#plugin-info">
+                    <i class="fa fa-link"></i>
+                </a>
+                Plugin Info
+            </h3>
+
+            <hr/>
+
+            <h4 class="category-description">
+                <a class="fragment-identifier js-fragment-identifier fragment-identifier-scroll" href="#title">
+                    <i class="fa fa-link"></i>
+                </a>
+                Title
+            </h4>
+            <p class="category-content">
+	            The title of the plugin (first part of Info attribute in C# plugins) must be set and closely match the submission name on our site. Please avoid using "Plugin" in the title as well as it would be a bit redundant.
+            </p>
+			<span class="button small green">Good</span> BanSystem<br/>
+			<span class="button small red">Bad</span> BanPlugin for Admin
+
+            <h4 class="category-description">
+                <a class="fragment-identifier js-fragment-identifier fragment-identifier-scroll" href="#author">
+                    <i class="fa fa-link"></i>
+                </a>
+                Author
+            </h4>
+            <p class="category-content">
+	            The author of the plugin (second part of Info attribute in C# plugins) must be set and match or contain the name of the user submitting the plugin on our site. Please do not use this to advertise your site or personal server.
+            </p>
+            <div class="col-md-4">
+				<div class="box box-small-icon">
+					<span class="box-icon button button-icon small green"><i class="fa fa-check"></i></span>
+					<h4 class="box-title">Wulf</h4>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="box box-small-icon">
+					<span class="box-icon button button-icon small red"><i class="fa fa-close"></i></span>
+					<h4 class="box-title">Fluw @ MyServer.net</h4>
+				</div>
+			</div>
+
+            <h4 class="category-description">
+                <a class="fragment-identifier js-fragment-identifier fragment-identifier-scroll" href="#version">
+                    <i class="fa fa-link"></i>
+                </a>
+                Version
+            </h4>
+            <p class="category-content">
+	            The version of the plugin (third part of Info attribute in C# plugins) must be set in the x.x or "x.x.x" format. This is updated each time you post an update, and should match your submission on our site. Semantic Versioning is recommended.
+            </p>
+			<span class="button small green">Good</span> 1.2.3<br/>
+			<span class="button small red">Bad</span> 2017-02-01 Beta 1
+
+            <h4 class="category-description">
+                <a class="fragment-identifier js-fragment-identifier fragment-identifier-scroll" href="#version">
+                    <i class="fa fa-link"></i>
+                </a>
+                Description
+            </h4>
+            <p class="category-content">
+	            The Description is an optional, standalone attribute, but recommended as other plugins can utilize it for making help commands and such. Please make sure to actually describe your plugin, but keep it brief. Best practice is to use Sentence case, not Title Case or CAPS. Keep it clean!
+            </p>
+			<span class="button small green">Good</span> Allows admin to ban players easily on command<br/>
+			<span class="button small red">Bad</span> Cool Admin BanPlugin
+        </div>
+    </div>
+</div>
+
+Best Practices
+
+While not a requirement, cleanly formatted code is always appreciated as it makes our job easier when we can easily follow the code of plugin being submitted. Visual Studio 2015 or above is always recommended to enable support for the latest C# version as well as numerous options for helping improve your code.
+Using statements (ie. using System; at the top of the plugin) can easily get out of hand. Try to only add what is needed by the plugin and remove those that are not. Most IDEs such as Visual Studio have options and addons to handle this and more.
+
+Hooks are what make plugins tick in most cases. A hook in Oxide gets triggered every time an area of the game, which in turn calls the hooks in the plugins that are using it. Each time a hook is called takes up resources and time. If your plugin doesn't need a specific hook, don't use it! If you can combine some, go for it! Try to keep the plugin's impact as little as possible.
+
+Undesirables
+
+There are certain types of plugins that we generally do not approve. These are often because of their general use for abuse, trolling, backdoors, causing conflicts, drama, potentially problematic, or going way beyond their purpose.
+Piracy enabling or authentication bypassing plugins (this should be an obvious one)
+Any plugin attempt to bypass sandboxing or security measures put in place (security is important)
+Any plugin containing a backdoor or access privileges for specific individuals, even developers
+FPS "booster" type plugins (these have been known to be malicious and problematic)
+All-in-one does-everything plugins (these defeat the purpose of being modular, often cause conflicts)
+Copies of existing plugins with various "fixes" in them (fixes should be contributed to the original)
+Copies of existing plugins with messages translated directly (translations can be contributed to the original)
+
+Plugin Messages
+All default plugin messages are required to be written in English. If you'd like to add support for additional languages, take a look at the Lang API. This includes messages printed in the server console or logs only.
+
+The Lang API: When sending messages to players, the Lang API should be used so that server owners can easily customize or localize them instead of being hard-coded or using the configuration file that is meant mainly for settings/options. Also keep in mind that not all server owners have access to edit plugins directly, and they generally shouldn't be edited directly either as they'd have to make those same edits each time the plugin is updated. Make sure to use the player's Steam ID when sending messages to a player, this will allow them to use their own language when available. If you are unsure how to use the Lang API, most of the recent new submissions will have examples as well as many of the existing plugins from myself and others.
+
+While not required, not prefixing messages with your plugin name is generally encouraged as it keeps the messages sent to players shorter and cleaner. Some plugin developers opt for having the prefix configurable via the config file, but most do not set one.
+
+Try to keep messages brief and to the point to avoid taking up an excess amount of screen or console space. Best practice is to use Sentence case, not Title Case or ALL CAPS.
+    </div>
+</div>

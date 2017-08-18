@@ -1,0 +1,24 @@
+description: "Learn how to make your own epic plugins easily by following these docs and tutorials."
+intro: "uMod's focus is on modularity and extensibility. The core is highly abstracted and loosely coupled, and could be used to mod any game that uses the .NET Framework or Unity engine, with support for C++ and Unreal powered games on the way."
+
+points:
+  row1:
+    - title: "Basics"
+      icon: "paper-plane-o"
+      content: "blurb blurb blurb blurb blurb blurb blurb v"
+    - title: "Configs"
+      icon: "wrench"
+      content: "blurb blurb blurb blurb blurb blurb blurb v"
+    - title: "Hooks"
+      icon: "bolt"
+      content: "blurb blurb blurb blurb blurb blurb blurb v"
+  row2:
+    - title: "Reference"
+      icon: "info"
+      content: "blurb blurb blurb blurb blurb blurb blurb v"
+    - title: "GitHub"
+      icon: "github-alt"
+      content: "blurb blurb blurb blurb blurb blurb blurb v"
+    - title: "Forums"
+      icon: "support"
+      content: "blurb blurb blurb blurb blurb blurb blurb v"

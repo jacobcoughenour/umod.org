@@ -1,0 +1,64 @@
+---
+title: Compatibility
+description: Not every supported game is 100% supported yet, but here's what we've got so far!
+layout: docs
+permalink: /compatibility/
+---
+
+<style type="text/css">
+    table th, table td {
+        text-align: center !important;
+    }
+    .table > tbody > tr > td {
+        vertical-align: middle;
+    }
+    .table > tbody > tr > td > i {
+        padding: 4px;
+    }
+    .table > tbody > tr > td > img {
+        width: 80px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="col-xs-1"></th>
+                        <th class="col-xs-1"></th>
+                        <th class="col-xs-1">Custom Console</th>
+                        <th class="col-xs-1">Chat Commands</th>
+                        <th class="col-xs-1">Console Commands</th>
+                        <th class="col-xs-1">Command Completion</th>
+                        <th class="col-xs-1">Basic Core Hooks</th>
+                        <th class="col-xs-1">Advanced Hooks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for game in site.data.games %}
+                        <tr>
+                            <td class="col-xs-1">
+                                <img src="{{ "/assets/images/games/" | prepend: site.baseurl }}{{ game.name | slugify }}.png" alt="{{ game.name }}">
+                            </td>
+                            <td class="col-xs-1">
+                                {% for os in game.os %}<i class="fa fa-{{ os }} color grey fa-2x"></i>{% endfor %}
+                            </td>
+                            {% for feature in game.features %}
+                                <td class="col-xs-1">
+                                    <i class="fa fa-{% if feature[1] == true %}check color green{% else %}close color red{% endif %} fa-2x"></i>
+                                </td>
+                            {% endfor %}
+                            {% for hook in game.hooks %}
+                                <td class="col-xs-1">
+                                    <i class="fa fa-{% if hook[1] == true %}check color green{% else %}close color red{% endif %} fa-2x"></i>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

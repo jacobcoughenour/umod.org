@@ -1,0 +1,67 @@
+---
+title: Changelog
+description: "Here you can find all of the latest and greatest fixes and features we have implemented."
+layout: docs
+permalink: /changelog/
+---
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="changelog-wrapper js-changelog">
+            <div class="changelog-filters">
+                <input type="text" class="changelog-input js-changelog-input">
+                <input id="changelog-filter-feature" class="js-changelog-checkbox changelog-checkbox" type="checkbox" value="feature">
+                <label class="changelog-checkbox-label" for="changelog-filter-feature">features</label>
+                <input id="changelog-filter-improvement" class="js-changelog-checkbox changelog-checkbox" type="checkbox" value="improvement">
+                <label class="changelog-checkbox-label" for="changelog-filter-improvement">improvements</label>
+                <input id="changelog-filter-bug-fix" class="js-changelog-checkbox changelog-checkbox" type="checkbox" value="bug-fix">
+                <label class="changelog-checkbox-label" for="changelog-filter-bug-fix">fixes</label>
+                <!--<div class="changelog-scroll-to">scroll to
+                    <i class="pe-7s-angle-down"></i>
+                    <ul class="changelog-scroll-to-list">
+                        <li class="changelog-scroll-to-list-item">
+                            {% for update in site.data.changelog limit: 10 %}
+                                <a href="#" class="js-scroll-to" data-target="#{{ update.version | replace: '.', '' }}">{{ update.version }}</a>
+                            {% endfor %}
+                        </li>
+                    </ul>
+                </div>-->
+            </div>
+            <div class="changelog-items">
+                {% for update in site.data.changelog limit: 10 %}
+                    <div id="{{ update.version | replace: '.', '' }}" class="changelog-item js-changelog-item">
+                        <!--<header class="changelog-header">
+                            <h3 class="changelog-version"><a href="#{{ update.version | replace: '.', '' }}">{{ update.version }}</a></h3>
+                            <p class="changelog-date">{{ update.date | date: '%B %d, %Y' }}</p>
+                        </header>-->
+                        <div class="changelog-update-descriptions">
+                            {% for commit in update.commits %}
+                                {% if commit.message contains "Patch" %}
+                                    <p class="changelog-update-description changelog-general js-changelog-update-description" data-instafilta-category="general">
+                                        <span class="changelog-type">general</span>{{ commit.message }}
+                                    </p>
+                                {% endif %}
+                                {% if commit.message contains "Fix" %}
+                                    <p class="changelog-update-description changelog-bug-fix js-changelog-update-description" data-instafilta-category="bug-fix">
+                                        <span class="changelog-type">bugfix</span>{{ commit.message }}
+                                    </p>
+                                {% endif %}
+                                {% if commit.message contains "Add" %}
+                                    <p class="changelog-update-description changelog-feature js-changelog-update-description" data-instafilta-category="feature">
+                                        <span class="changelog-type">feature</span>{{ commit.message }}
+                                    </p>
+                                {% endif %}
+                                {% if commit.message contains "Improve" %}
+                                    <p class="changelog-update-description changelog-improvement js-changelog-update-description" data-instafilta-category="improvement">
+                                        <span class="changelog-type">improvement</span>{{ commit.message }}
+                                    </p>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="changelog-link"></div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

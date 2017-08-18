@@ -1,0 +1,24 @@
+---
+title: Download
+description: "Get uMod for any of the games below. Don't see your game? Hook us up and we'll see what we can do!"
+layout: docs
+permalink: /download/
+redirect_from: /downloads/
+---
+
+<div class="row">
+    {% for game in site.data.games %}
+        <div class="col-md-1">
+            <img src="{{ "/assets/images/games/" | prepend: site.baseurl }}{{ game.name | slugify }}.png" class="download-image" alt="">
+        </div>
+    {% endfor %}
+</div>
+
+<hr/>
+
+<div class="note js-note blue">
+    <h4 class="note-title">Development Builds</h4>
+    <p class="note-description">
+        Every commit made to GitHub creates a new build that we refer to as development snapshots/builds. You can find the latest snapshots for all of our projects <a href="{{ site.snapshots }}">here</a>. These builds may not always be stable, so use them at your own risk and be sure to backup!
+    </p>
+</div>

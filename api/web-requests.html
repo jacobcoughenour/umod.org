@@ -1,0 +1,40 @@
+---
+title: Web Requests
+description: {{ site.data.api.webrequests.description }}
+layout: api
+icon: external-link
+permalink: /api/web-requests/
+menu-weight: 15
+---
+
+<div class="category-info helper pt0" id="{{ page.title | slugify }}">
+    <h3 class="category-title">
+        <a class="fragment-identifier js-fragment-identifier fragment-identifier-scroll" href="#{{ page.title | slugify }}">
+            <i class="fa fa-link"></i>
+        </a>
+        {{ page.title }}
+    </h3>
+    <p class="category-content">{{ site.data.api.webrequests.intro }}</p>
+    <hr/>
+    {% for type in site.data.api.webrequests.types %}
+        <h4 class="category-description">
+            <a class="fragment-identifier js-fragment-identifier fragment-identifier-scroll" href="#{{ type.name | slugify }}">
+                <i class="fa fa-link"></i>
+            </a>
+            {{ type.name }}
+        </h4>
+        <p class="category-content">{{ type.summary }}</p>
+        <div class="tabs js-tabs code-highlight-tabs">
+            <div class="tab-content">
+                <div class="code-highlight" data-label="">
+                    <span class="js-copy-to-clipboard copy-code">copy</span>
+                    <pre><code class="language-csharp js-code ghostIn">
+{% assign words = type.name | split: ' ' %}
+{% assign filename = words[0] %}
+{% include snippets/webrequest-{{ filename | downcase }}.html %}
+                    </code></pre>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>

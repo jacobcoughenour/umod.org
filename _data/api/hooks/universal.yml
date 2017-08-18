@@ -1,0 +1,94 @@
+"Plugin Hooks":
+  - name: Init
+    type: void
+    summary: "Called when a plugin is being initialized. Other plugins may or may not be present, dependent on load order."
+    return: "No return behavior."
+  - name: Loaded
+    type: void
+    summary: "Called when a plugin has finished loading. Other plugins may or may not be present, dependent on load order."
+    return: "No return behavior."
+  - name: Unload
+    type: void
+    summary: "Called when a plugin is being unloaded."
+    return: "No return behavior."
+  - name: LoadDefaultConfig
+    type: void
+    summary: "Called when the config for a plugin should be initialized. Only called if the config file does not already exist."
+    return: "No return behavior."
+  - name: OnFrame
+    type: void
+    summary: "Called by engine every server frame."
+    return: "No return behavior."
+  - name: OnPluginLoaded
+    type: void
+    args: string name
+    summary: "Called when a plugin has been loaded."
+    return: "No return behavior."
+  - name: OnPluginUnloaded
+    type: void
+    args: string name
+    summary: "Called when a plugin has been unloaded."
+    return: "No return behavior."
+
+"Server Hooks":
+  - name: OnServerInitialized
+    type: void
+    summary: "Called after the server startup has been completed and is awaiting connections."
+    return: "No return behavior."
+  - name: OnServerSave
+    type: void
+    summary: "Called before the server saves and shuts down."
+    return: "No return behavior."
+  - name: OnServerShutdown
+    type: void
+    summary: "Called after plugins are unloaded and before the server shuts down process."
+    return: "No return behavior."
+
+"Player Hooks":
+  - name: CanUserLogin
+    type: bool
+    args: string name, string id, string ip
+    summary: "Called when a user is attempting to login to the server."
+    return: "Return true/false to approve/reject."
+  - name: OnUserApproved
+    type: void
+    args: string name, string id, string ip
+    summary: "Called after a user is approved to login to the server."
+    return: "No return behavior."
+  - name: OnUserBanned
+    type: void
+    args: string name, string id, string ip, string reason
+    summary: "Called when a user is banned by the server, the game developer, EAC, or VAC."
+    return: "No return behavior."
+
+"Permission Hooks":
+  - name: OnUserGroupAdded
+    type: void
+    args: string id, string groupName
+    summary: "Called when a user has been added to a group."
+    return: "No return behavior."
+  - name: OnUserGroupRemoved
+    type: void
+    args: string id, string groupName
+    summary: "Called when a user has been removed from a group."
+    return: "No return behavior."
+  - name: OnUserPermissionGranted
+    type: void
+    args: string id, string perm
+    summary: "Called when a permission has been granted to a user."
+    return: "No return behavior."
+  - name: OnUserPermissionRevoked
+    type: void
+    args: string id, string perm
+    summary: "Called when a permission has been revoked from a user."
+    return: "No return behavior."
+  - name: OnGroupPermissionGranted
+    type: void
+    args: string group, string perm
+    summary: "Called when a permission has been granted to a group."
+    return: "No return behavior."
+  - name: OnGroupPermissionRevoked
+    type: void
+    args: string group, string perm
+    summary: "Called when a permission has been revoked from a group."
+    return: "No return behavior."

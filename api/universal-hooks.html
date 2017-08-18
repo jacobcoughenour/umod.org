@@ -1,0 +1,39 @@
+---
+title: Universal Hooks
+description: These hooks are available for all support games with the same parameters.
+layout: api
+icon: bolt
+permalink: /api/universal-hooks/
+menu-weight: 20
+---
+
+{% for category in site.data.api.hooks.universal %}
+    <div class="category-info helper pt0">
+        <h3 class="category-title" id="{{ category[0] | downcase }}">
+            <a class="fragment-identifier js-fragment-identifier fragment-identifier-scroll" href="#{{ category[0] | downcase }}">
+                <i class="fa fa-link"></i>
+            </a>
+            {{ category[0] }}
+        </h3>
+        <hr/>
+        {% for hook in category[1] %}
+            <h4 class="category-description" id="{{ hook.name | downcase }}">
+                <a class="fragment-identifier js-fragment-identifier fragment-identifier-scroll" href="#{{ hook.name | downcase }}">
+                    <i class="fa fa-link"></i>
+                </a>
+                {{ hook.name }}
+            </h4>
+            <p class="category-content">{{ hook.summary }}<br/><b>Return behavior:</b> {{ hook.return }}</p>
+            <div class="tabs js-tabs code-highlight-tabs">
+                <div class="tab-content">
+                    <div class="code-highlight" data-label="">
+                        <span class="js-copy-to-clipboard copy-code">copy</span>
+                        <pre><code class="language-csharp js-code ghostIn">
+{% include snippets/hooks/{{ hook.name | downcase }}.html %}
+                        </code></pre>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endfor %}

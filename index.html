@@ -1,0 +1,139 @@
+---
+title: Home
+layout: default
+permalink: /
+---
+
+{% include header.html %}
+
+<div class="header-back header-back-default header-back-full-page js-full-page">
+    <div class="header-back-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="page-info helper center">
+                        <h1 class="page-title">Create. Mod. Play.</h1>
+                        <h2 class="page-description">Take your game server to the next level</h2>
+                    </div>
+                    <div class="header-back-buttons helper center">
+                        <a href="{% link download.html %}" class="button rounded large blue">Download uMod <span id="latest-version"></span></a>
+                    </div>
+                    <div class="page-info helper center">
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="promo-title-wrapper helper pt60">
+                    <h3 class="promo-title">Features</h3>
+                    <p class="promo-description">{{ site.title }}'s focus is on modularity and extensibility. The core is highly abstracted and loosely coupled, and could be used to mod any game that uses the .NET Framework or Unity engine, with support for C++ and Unreal powered games on the way.</p>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="box box-small-icon-alt">
+                            <i class="pe-7s-plugin box-icon"></i>
+                            <h4 class="box-title">Open Source</h4>
+                            <p class="box-description">{{ site.title }} is 100% open source! You can check it out on <a href="{{ site.github }}" target="_blank">GitHub</a> and even contribute new features and fixes that you'd like to see included.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="box box-small-icon-alt">
+                            <i class="pe-7s-rocket box-icon"></i>
+                            <h4 class="box-title">Fast Updates</h4>
+                            <p class="box-description">New builds are ready to go for each new game server update usually within an hour or less depending on the game!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="box box-small-icon-alt">
+                            <i class="pe-7s-like2 box-icon"></i>
+                            <h4 class="box-title">Easy to Use</h4>
+                            <p class="box-description">Writing your own plugins is easy! {{ site.title }} enables you to bring your ideas into games using the easy to learn C# (CSharp) language.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="box box-small-icon-alt">
+                            <i class="pe-7s-help2 box-icon"></i>
+                            <h4 class="box-title">Great Support</h4>
+                            <p class="box-description">Our friendly community staff and members are knowledgeable and readily available to help as needed. Ask away!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="call-to-action helper mt60">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="call-to-action-title">Got a minute? Try it, it's free!</h3>
+                    <p class="call-to-action-description">Explore what your server could be, give your players more.</p>
+                    <div class="call-to-action-buttons">
+                        <a href="{% link download.html %}" class="button rounded large blue">Get Started</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="promo-title-wrapper promo-title-no-icon">
+                    <h3 class="promo-title" data-icon="&#xe6af">FAQ</h3>
+                    <p class="promo-description">Got a question? No worries! We've got answers to many of the common and frequently asked questions. If you don't see an answer, don't be afraid to ask!</p>
+                </div>
+                <div class="row">
+                    {% for faq in site.data.faq.General.questions limit: 3 %}
+                    <div class="col-md-4">
+                        <div class="faq-grid">
+                            <h4 class="faq-grid-question">{{ faq.question }}</h4>
+                            <p class="faq-grid-answer">{{ faq.answer }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="helper center">
+                            <a href="{% link faq.html %}" class="button stroke rounded medium blue">View all
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        var latestVersion = "Unknown";
+        if (localStorage.getItem("latestVersion") == null) {
+    	    $.ajax({
+                url: 'https://api.github.com/repos/oxidemod/oxide/releases/latest',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    latestVersion = data.tag_name;
+                    localStorage.setItem("latestVersion", latestVersion);
+                }
+            });
+        } else {
+            latestVersion = localStorage.getItem("latestVersion");
+        }
+        document.getElementById("latest-version").innerHTML = latestVersion;
+    });
+</script>
+
+{% include footer.html %}

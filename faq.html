@@ -1,0 +1,35 @@
+---
+title: FAQ
+description: Begin typing your question. If we don't have an answer for it in our FAQ, check our community for help.
+layout: docs
+permalink: /faq/
+---
+
+<div class="row">
+    {% for category in site.data.faq %}
+        <div class="col-md-6">
+            <div class="faq-table-of-contents " data-icon="{{ category[1].icon }}">
+                <h3 class="faq-table-of-contents-title">{{ category[0] }}</h3>
+                <ul class="faq-table-of-contents-list">
+                    {% for faq in category[1].questions %}
+                        <li>
+                            <a href="#" class="js-scroll-to" data-target="#{{ category[0] | downcase }}-{{ forloop.index }}">{{ faq.question }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% for category in site.data.faq %}
+    <h3 class="faq-category-title" data-icon="{{ category[1].icon }}">{{ category[0] }}</h3>
+    {% for faq in category[1].questions %}
+        <div class="faq-article" id="{{ category[0] | downcase }}-{{ forloop.index }}">
+            <h4 class="faq-article-title">{{ faq.question }}</h4>
+            <div class="faq-article-content">
+                <p>{{ faq.answer }}</p>
+            </div>
+        </div>
+    {% endfor %}
+{% endfor %}

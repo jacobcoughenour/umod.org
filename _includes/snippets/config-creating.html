@@ -1,0 +1,12 @@
+protected override void LoadDefaultConfig()
+{
+    PrintWarning("Creating a new configuration file");
+    Config.Clear();
+
+    Config["ShowJoinMessage"] = true;
+    Config["ShowLeaveMessage"] = true;
+    Config["JoinMessage"] = "Welcome to this server";
+    Config["LeaveMessage"] = "Goodbye";
+
+    SaveConfig();
+}

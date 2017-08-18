@@ -1,0 +1,75 @@
+<footer class="js-footer-is-fixed">
+    <div class="footer-extended">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="footer-extended-container">
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2 col-xs-4">
+                                <div class="footer-extended-menu">
+                                    <div class="footer-logo-wrapper">
+                                        <a href="{% link index.html %}" class="logo-image">
+                                            <img src="{{ "/assets/images/logos/umod-gray.png" | prepend: site.baseurl }}" alt="logo">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-4">
+                                <div class="footer-extended-menu">
+                                    <h5 class="footer-extended-menu-title">About</h5>
+                                    <ul class="footer-extended-menu-list">
+                                        <li><a href="/about/">The Project</a></li>
+                                        <li><a href="/blog/">Blog</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-4">
+                                <div class="footer-extended-menu">
+                                    <h5 class="footer-extended-menu-title">Download</h5>
+                                    <ul class="footer-extended-menu-list">
+                                        <li><a href="{% link download.html %}">Releases</a></li>
+                                        <li><a href="{{ site.github }}" target="_blank">Source</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-4">
+                                <div class="footer-extended-menu">
+                                    <h5 class="footer-extended-menu-title">Docs</h5>
+                                    <ul class="footer-extended-menu-list">
+                                        <li><a href="/getting-started/">Getting Started</a></li>
+                                        <li><a href="{% link faq.html %}">FAQ</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-4">
+                                <div class="footer-extended-menu">
+                                    <h5 class="footer-extended-menu-title">Community</h5>
+                                    <ul class="footer-extended-menu-list">
+                                        <li><a href="{{ site.forums }}">Forums</a></li>
+                                        <li><a href="">Slack</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-2 col-xs-4">
+                                <div class="footer-extended-menu">
+                                    <!--<span class="scroll-top js-scroll-top">
+                                        <i class="fa fa-angle-up"></i>
+                                    </span>-->
+                                    <ul class="footer-menu helper right">
+                                        <li><a href="">About</a></li>
+                                        <li><a href="">Privacy</a></li>
+                                        <li><a href="">Terms</a></li>
+                                    </ul>
+                                    <p class="copyright helper right">
+	                                    The {{ site.title }} Project and {{ site.title }}.org &copy; {{ site.time | date: "%Y" }}
+	                                </p>
+	                                <p class="copyright helper right">Built: {{ site.time | date_to_rfc822 }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

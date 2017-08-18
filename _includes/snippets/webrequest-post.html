@@ -1,0 +1,9 @@
+webrequest.EnqueuePost("http://www.google.com/search?q=umod", "param1=value1", (code, response) =>
+{
+    if (code != 200 || response == null)
+    {
+        Puts($"Couldn't get an answer from Google!");
+        return;
+    }
+    Puts($"Google answered: {response}");
+}

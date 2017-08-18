@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="lt-ie10" lang="en"><![endif]-->
+<html class="no-js" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ site.description }}" />
+
+    <title>{{ site.title }}{% if page.title %} - {{ page.title }}{% endif %}</title>
+    <link rel="canonical" href="{{ site.url }}"/>
+    <link rel="alternate" href="{{ "/feed.xml" | prepend: site.baseurl }}" type="application/rss+xml" title="{{ site.title }}" />
+
+    <link rel="shortcut icon" href="{{ "/assets/images/favicon.ico" | prepend: site.baseurl }}" />
+    <link rel="icon" type="image/png" href="{{ "/assets/images/favicon-16x16.png" | prepend: site.baseurl }}" sizes="16x16" />
+    <link rel="icon" type="image/png" href="{{ "/assets/images/favicon-32x32.png" | prepend: site.baseurl }}" sizes="32x32" />
+    <link rel="icon" type="image/png" href="{{ "/assets/images/favicon-96x96.png" | prepend: site.baseurl }}" sizes="96x96" />
+    <!--link rel="apple-touch-icon" sizes="57x57" href="{{ "/assets/images/apple-touch-icon-57x57.png" | prepend: site.baseurl }}" />
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ "/assets/images/apple-touch-icon-60x60.png" | prepend: site.baseurl }}" />
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ "/assets/images/apple-touch-icon-72x72.png" | prepend: site.baseurl }}" />
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ "/assets/images/apple-touch-icon-76x76.png" | prepend: site.baseurl }}" />
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ "/assets/images/apple-touch-icon-114x114.png" | prepend: site.baseurl }}" />
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ "/assets/images/apple-touch-icon-120x120.png" | prepend: site.baseurl }}" />
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ "/assets/images/apple-touch-icon-144x144.png" | prepend: site.baseurl }}" />
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ "/assets/images/apple-touch-icon-152x152.png" | prepend: site.baseurl }}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ "/assets/images/apple-touch-icon-180x180.png" | prepend: site.baseurl }}" />-->
+
+    <link rel="stylesheet" href="{{ "/assets/css/style.css" | prepend: site.baseurl }}" />
+    <link rel="stylesheet" href="{{ "/assets/css/prism.css" | prepend: site.baseurl }}" />
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script src="{{ "/assets/js/github.js" | prepend: site.baseurl }}"></script>
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div class="page js-page">
+        {{ content }}
+    </div>
+
+    <script src="{{ "/assets/js/all.js" | prepend: site.baseurl }}"></script>
+    <script src="{{ "/assets/js/prism.js" | prepend: site.baseurl }}"></script>
+    <script src="{{ "/assets/js/custom.js" | prepend: site.baseurl }}"></script>
+
+    <script type="text/javascript">(function() { if (window.location.href.indexOf("github.io") > -1) { window.location.replace("{{ site.baseurl }}"); } })();</script>
+</body>
+</html>

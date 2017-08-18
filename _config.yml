@@ -1,0 +1,25 @@
+# Site
+title: uMod
+description: "Universal modding platform and plugin API for Unity, .NET/C#, and soon C++ games"
+url: https://umod.org
+
+# Community
+forums: https://umod.org/forums/
+slack: https://umodcommunity.slack.com
+twitter: https://twitter.com/theumod
+
+# Downloads
+releases: https://dl.bintray.com/oxidemod/builds
+snapshots: https://dl.bintray.com/oxidemod/builds
+
+# Building
+markdown: kramdown
+kramdown:
+  input: GFM
+permalink: /:title/
+excerpt_separator: <!--more-->
+
+# GitHub
+github: theumod
+client_id: 644edf81174f14822070
+exclude: ["js/dev", "js/preprod", "vendor/bundle", .gitignore", "_test.sh", "Gemfile*", "README.md"]

@@ -1,0 +1,20 @@
+---
+title: Definitions
+description:
+layout: api
+icon: book
+permalink: /api/definitions/
+menu-weight: 100
+---
+
+{% for def in site.data.api.definitions.definitions %}
+    <div class="category-info helper pt0" id="{{ def.title | slugify }}">
+        <h3 class="category-title">
+            <a class="fragment-identifier js-fragment-identifier fragment-identifier-scroll" href="#{{ def.title | slugify }}">
+                <i class="fa fa-link"></i>
+            </a>
+            {{ def.title }}
+        </h3>
+        <p class="category-content">{{ def.body }}</p>
+    </div>
+{% endfor %}

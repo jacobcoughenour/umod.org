@@ -1,0 +1,77 @@
+---
+layout: default
+---
+
+<div class="page js-page ">
+    <div class="one-page-sidebar">
+        <div class="one-page-sidebar-header">
+            <div class="one-page-logo">
+                <a href="{% link api.html %}" class="logo-image ">
+                    <img src="{{ "/assets/images/logos/umod-gray.png" | absolute_url }}" alt="">
+                </a>
+            </div>
+            <div class="one-page-meta">
+                <ul class="one-page-meta-list">
+                    <li><a href="{% link index.html %}"><i class="one-page-meta-list-icon fa fa-home"></i>Home</a></li>
+                    <li><a href="{{ site.github }}"><i class="one-page-meta-list-icon fa fa-github-alt"></i>GitHub</a></li>
+                    <li><a href="{{ site.forums }}"><i class="one-page-meta-list-icon fa fa-support"></i>Forums</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="one-page-nav-wrapper js-custom-scrollbar">
+            <ul class="one-page-nav js-one-page-nav js-menu-vertical" data-prepend-to=".js-prepend-mobile-menu">
+	            {% assign sortedPages = site.pages | sort: 'menu-weight' %}
+                {% for p in sortedPages %}
+                    {% if p.url contains "/api/" %}
+                        <li class="{% if p.permalink == page.url %}is-active{% endif %}">
+                            <a href="{{ p.permalink }}" class="">
+                                <span class="one-page-nav-icon"><i class="fa fa-{{ p.icon }}"></i></span>
+                                {{ p.title }}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        <footer class="one-page-sidebar-footer">
+	        {{ site.title }} and {{ site.title }}.org &copy; {{ site.time | date: "%Y" }}
+	    </footer>
+    </div>
+
+    <div class="one-page-content">
+        <header class="header large header-one-page ">
+            <div class="container-fluid container-spaced">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6 col-xs-5">
+                        <div class="visible-sm-block visible-xs-block">
+                            <a href="{% link api.html %}" class="logo-image">
+                                <img src="{{ "/assets/images/logos/umod-gray.png" | absolute_url }}" alt="logo">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-9 col-sm-6 col-xs-7">
+                        <nav class="right helper">
+                            <ul class="menu sf-menu js-menu">
+                                <li><a href="{% link index.html %}">Home</a></li>
+                                <li><a href="{% link download.html %}">Download</a></li>
+                                <li><a href="{% link forums.html %}">Forums</a></li>
+                                <li><a href="{% link faq.html %}">FAQ</a></li>
+                                <li><a href="{% link changelog.html %}">Changelog</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div id="content">
+            <div class="container-fluid container-spaced">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="js-prepend-mobile-menu"></div>
+                        {{ content }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

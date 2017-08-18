@@ -1,0 +1,49 @@
+---
+category:
+title: Compiling the Source
+description:
+layout: docs
+permalink: /docs/compiling/
+---
+
+<div class="category-info helper pt0" id="{{ page.title | slugify }}">
+    <h3 class="category-title">
+        <a class="fragment-identifier js-fragment-identifier fragment-identifier-scroll" href="#{{ page.title | slugify }}">
+            <i class="fa fa-link"></i>
+        </a>
+        Compiling Source
+    </h3>
+    <p class="category-content">
+        While we recommend using one of the <a href="{% link download.html %}">official releases</a>, you can compile your own builds if you'd like. Keep in mind that only official releases are supported by the {{ site.title }} team and community. <i>Good luck!</i>
+    </p>
+
+    <hr/>
+
+    <ul class="steps">
+        <li class="step">
+            <span class="step-number">1</span>
+            <h4 class="step-title">Downloading</h4>
+            <div class="step-content">Download a Git client of your choice such as <a href="https://desktop.github.com/" target="_blank">GitHub Desktop</a> or <a href="https://www.sourcetreeapp.com/" target="_blank">SourceTree</a> if you do not already have a Git client installed and ready.</div>
+        </li>
+        <li class="step">
+            <span class="step-number">2</span>
+            <h4 class="step-title">Cloning</h4>
+            <div class="step-content">Clone the repo <span class="mark fill grey">{{ site.github }}/umod.git</span> <i>(recommended)</i> with your git client, or download and extract the <a href="{{ site.github }}/umod/archive/master.zip">latest zip</a> archive.</div>
+        </li>
+        <li class="step">
+            <span class="step-number">3</span>
+            <h4 class="step-title">Setup</h4>
+            <div class="step-content">Download and install <a href="https://www.visualstudio.com/downloads/" target="_blank">Visual Studio 2015 or 2017</a> <i>(community is free, but any edition will work)</i> if you do not already have it installed.</div>
+        </li>
+        <li class="step">
+            <span class="step-number">4</span>
+            <h4 class="step-title">Building</h4>
+            <div class="step-content">Open the <span class="mark fill grey">{{ site.title }}.sln</span> solution file in Visual Studio 2015 or 2017. Once opened, set the target to Release and click Build. If you get errors, you're likely not using the latest Visual Studio <i>(2015 or 2017)</i> which is required as {{ site.title }} uses some <a href="https://github.com/dotnet/roslyn/wiki/New-Language-Features-in-C%23-6" target="_blank">C# 6.0</a> features.</div>
+        </li>
+        <li class="step">
+            <span class="step-number">5</span>
+            <h4 class="step-title">Deploying</h4>
+            <div class="step-content">Copy the files from the <span class="mark fill grey">Bundles</span> directory to your game server installation, then start the server! To save you a step in the future, simply add the path to a <span class="mark fill grey">.deploy</span> file under the desired game extension directory such as <span class="mark fill grey">Games/Unity/UMod.Game.Rust</span> for automatic deployment.</div>
+        </li>
+    </ul>
+</div>
