@@ -3,6 +3,12 @@ intro: "Since many users can't or don't want to edit the plugin directly to chan
 
 topics:
   - title: "Creating a configuration"
-    summary: "There are many methods to create a configuration file, but we'll only be coving the basic example here."
+    summary: "There are many methods to create a configuration file.  The examples below outline the simplest possible usage."
   - title: "Updating a configuration"
-    summary: "You can change and save configuration entries by simply assigning the new values and calling the save function."
+    summary: "Modify and save configuration entries by simply assigning the new values and calling the save function."
+  - title: "Advanced configuration"
+    summary: "For large plugins with more elaborate configurations, it may be helpful to scaffold a formal configuration class."
+  - title: "Saving advanced configuration"
+    summary: "Write the configuration object directly to a file using this simple one-liner"
+  - title: "Loading advanced configuration"
+    summary: "Load the configuration object directly from a file"

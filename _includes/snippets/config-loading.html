@@ -1,0 +1,18 @@
+PluginConfig myConfig;
+
+void Loaded() {
+    myConfig = Config.ReadObject<PluginConfig>();
+}
+        
+void LoadDefaultConfig() {
+    Config.WriteObject( GetDefaultConfig(), true );
+}
+        
+PluginConfig GetDefaultConfig() {
+    return new PluginConfig {
+        ShowJoinMessage = true,
+        ShowLeaveMessage = true,
+        JoinMessage = "Welcome to this server",
+        LeaveMessage = "Goodbye"
+    };
+}

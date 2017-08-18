@@ -1,0 +1,13 @@
+[Command("Test")]
+void Test(IPlayer player, string command, string[] args)
+{
+    var info = new PlayerInfo(player);
+    if (storedData.Players.Contains(info))
+        PrintToChat(player, "Your data has already been added to the file");
+    else
+    {
+        PrintToChat(player, "Saving your data to the file");
+        storedData.Players.Add(info);
+        Interface.Oxide.DataFileSystem.WriteObject("MyDataFile", storedData);
+    }
+}

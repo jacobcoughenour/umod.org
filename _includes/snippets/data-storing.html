@@ -1,0 +1,31 @@
+class StoredData
+{
+    public HashSet<PlayerInfo> Players = new HashSet<PlayerInfo>();
+
+    public StoredData()
+    {
+    }
+}
+
+class PlayerInfo
+{
+    public string UserId;
+    public string Name;
+
+    public PlayerInfo()
+    {
+    }
+
+    public PlayerInfo(BasePlayer player)
+    {
+        UserId = player.userID.ToString();
+        Name = player.displayName;
+    }
+}
+
+StoredData storedData;
+
+void Loaded()
+{
+    storedData = Interface.Oxide.DataFileSystem.ReadObject<StoredData>("MyDataFile");
+}

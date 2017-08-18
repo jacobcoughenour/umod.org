@@ -1,4 +1,4 @@
-description: "Web requests allow you to send a HTTP GET, POST, or PUT to a specified URL."
+description: "Make a web request to a URI (Uniform Resource Identifier) using the HTTP GET, POST, or PUT methods."
 intro: "This uses the raw connection to a web page as you would on your browser. The request will return true if the web request was sent, false if not. The callback is called with 2 parameters - an integer HTTP response code and a string response."
 
 types:
