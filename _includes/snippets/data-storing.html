@@ -9,17 +9,17 @@ private class StoredData
 
 private class PlayerInfo
 {
-    public string UserId;
+    public string Id;
     public string Name;
 
     public PlayerInfo()
     {
     }
 
-    public PlayerInfo(BasePlayer player)
+    public PlayerInfo(IPlayer player)
     {
-        UserId = player.userID.ToString();
-        Name = player.displayName;
+        Id = player.Id;
+        Name = player.Name;
     }
 }
 
