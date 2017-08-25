@@ -1,9 +1,9 @@
 definitions:
-  - title: "Hooks" 
+  - title: "Hooks"
     body: "A hook is a small snippet of code that is injected by the uMod patcher into the target game. When the game gets to that point of the game, the hook that was injected in that location is triggered, which then calls the hook in every plugin that uses it."
   - title: "Libraries"
     body: "A bunch of libraries (e.g. timers, permissions, config/data files, etc.) are available through uMod. The documentation for libraries is lacking at this point. If you're looking for information on a library that isn't documented, check out the Libraries directory on uMod's GitHub: uMod/Umod.Core/Libraries. The source code of the respective libraries should be clear enough to allow you to work with them."
-  - title: "Extensions" 
+  - title: "Extensions"
     body: "Extensions are like plugins, but they are not wrapped with security precautions (sandboxed) like plugins are, so they have full access to the system and games. Some hosts do not allow third-party or community extensions due to not being sandboxed like plugins, as they can be potentially malicious if you've obtained one from an untrustworthy developer."
   - title: "Game State"
     body: "Server game state through arguments passed to hooks and global state. This is constantly changing, as it's provided by the developers of the respective game, meaning that it's not uMod's responsibility to document this. As the games uMod supports aren't always open source , you'll often have to decompile the server files (e.g. most relevant code being in Assembly-CSharp.dll for Unity games such as Rust) with a decompiler of your choice (Visual Studio has one, JustDecompile or ILSpy together with a Reflexil mod being favorites)."

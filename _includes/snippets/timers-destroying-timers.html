@@ -1,0 +1,7 @@
+var myTimer = timer.Every(3f, () =>
+{
+    Puts("Hello world!")
+});
+
+myTimer.Destroy();
+if (myTimer.Destroyed) Puts("Timer destroyed!");

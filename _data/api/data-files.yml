@@ -2,9 +2,9 @@ description: ""
 intro: "Data files are used to store potentially large amounts of arbitrary data"
 
 topics:
-  - title: "Storing Data"
+  - title: "Storing data"
     summary: "Much like advanced configurations, data files may be scaffolded using a class definition."
-  - title: "Saving Data"
+  - title: "Saving data"
     summary: "Change data files by simply assigning the new values and writing the object to the file."
-  - title: "Advanced Data"
+  - title: "Advanced data"
     summary: "For large plugins that potentially store massive amounts of data, using a single data file may not be advisable.  In this case, uMod provides the ability to store many smaller data files in a custom sub-directory.  These smaller data files may be loaded on an as-needed basis, thus reducing the impact of a plugin on memory and the filesystem overall"
