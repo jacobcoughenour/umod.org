@@ -1,20 +1,20 @@
-public DataFileSystem dataFile;
+private DataFileSystem dataFile;
 
-void Loaded()
+private void Init()
 {
     dataFile = new DataFileSystem($"{Interface.Oxide.DataDirectory}\\player_info");
 }
 
-PlayerInfo LoadPlayerInfo(ulong playerID)
+private PlayerInfo LoadPlayerInfo(ulong playerID)
 {
     string path = $"playerInfo_{playerID}";
-    
+
     return dataFile.ReadObject<PlayerInfo>(path);
 }
 
-void SavePlayerInfo(ulong playerID, PlayerInfo playerInfo)
+private void SavePlayerInfo(ulong playerID, PlayerInfo playerInfo)
 {
     string path = $"playerInfo_{playerID}";
-    
+
     dataFile.WriteObject<PlayerInfo>(path, playerInfo);
 }

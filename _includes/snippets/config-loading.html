@@ -1,18 +1,18 @@
-PluginConfig myConfig;
+private PluginConfig myConfig;
 
-void Loaded()
+private void Init()
 {
     myConfig = Config.ReadObject<PluginConfig>();
 }
-        
-void LoadDefaultConfig()
+
+private new void LoadDefaultConfig()
 {
     Config.WriteObject( GetDefaultConfig(), true );
 }
-        
-PluginConfig GetDefaultConfig()
+
+private PluginConfig GetDefaultConfig()
 {
-    return new PluginConfig 
+    return new PluginConfig
     {
         ShowJoinMessage = true,
         ShowLeaveMessage = true,

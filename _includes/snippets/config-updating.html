@@ -1,5 +1,5 @@
 [Command("test")]
-void TestCommand(IPlayer player, string command, string[] args)
+private void TestCommand(IPlayer player, string command, string[] args)
 {
     Config["ShowJoinMessage"] = !(bool)Config["ShowJoinMessage"]
 

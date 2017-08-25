@@ -1,4 +1,4 @@
-class StoredData
+private class StoredData
 {
     public HashSet<PlayerInfo> Players = new HashSet<PlayerInfo>();
 
@@ -7,7 +7,7 @@ class StoredData
     }
 }
 
-class PlayerInfo
+private class PlayerInfo
 {
     public string UserId;
     public string Name;
@@ -23,9 +23,9 @@ class PlayerInfo
     }
 }
 
-StoredData storedData;
+private StoredData storedData;
 
-void Loaded()
+private void Init()
 {
     storedData = Interface.Oxide.DataFileSystem.ReadObject<StoredData>("MyDataFile");
 }

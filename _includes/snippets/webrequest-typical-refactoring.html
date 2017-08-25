@@ -1,10 +1,10 @@
 [Command("get")]
-void GetRequest(IPlayer player, string command, string[] args)
+private void GetRequest(IPlayer player, string command, string[] args)
 {
-    webrequest.EnqueueGet("http://www.google.com/search?q=oxide", (code, response) => GetCallback(code, response, player), this);
+    webrequest.EnqueueGet("http://www.google.com/search?q=umod", (code, response) => GetCallback(code, response, player), this);
 }
 
-void GetCallback(int code, string response, IPlayer player)
+private void GetCallback(int code, string response, IPlayer player)
 {
     if (response == null || code != 200)
     {
