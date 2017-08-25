@@ -34,7 +34,8 @@ layout: default
             </ul>
         </div>
         <footer class="one-page-sidebar-footer">
-	        {{ site.title }} and {{ site.title }}.org &copy; {{ site.time | date: "%Y" }}
+            {{ site.title }} and {{ site.title }}.org &copy; {{ site.time | date: "%Y" }}
+            <br />Built: {{ site.time | date_to_rfc822 }}
 	    </footer>
     </div>
 
