@@ -1,0 +1,16 @@
+var parameters = new Dictionary<string,string>();
+
+parameters.Add("param1", "value1");
+parameters.Add("param2", "value2");
+
+var body = string.Join("&", parameters.Cast<string>().Select(key => string.Format("{0}={1}", key, source[key]));
+// body = param1=value1&param2=value2
+webrequest.EnqueuePost("http://www.google.com/search?q=umod", body, (code, response) =>
+{
+    if (code != 200 || response == null)
+    {
+        Puts($"Couldn't get an answer from Google!");
+        return;
+    }
+    Puts($"Google answered: {response}");
+}

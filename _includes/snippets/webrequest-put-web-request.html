@@ -1,4 +1,4 @@
-webrequest.EnqueuePost("http://www.google.com/search?q=umod", "param1=value1", (code, response) =>
+webrequest.EnqueuePut("http://www.google.com/search?q=umod", (code, response) =>
 {
     if (code != 200 || response == null)
     {

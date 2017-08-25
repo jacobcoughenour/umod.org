@@ -1,0 +1,16 @@
+[Command("get")]
+void GetRequest(IPlayer player, string command, string[] args)
+{
+    webrequest.EnqueueGet("http://www.google.com/search?q=oxide", (code, response) => GetCallback(code, response, player), this);
+}
+
+void GetCallback(int code, string response, IPlayer player)
+{
+    if (response == null || code != 200)
+    {
+        Puts($"Error: {code} - Couldn't get an answer from Google for {player.Name}");
+        return;
+    }
+
+    Puts($"Google answered for {player.Name}: {response}");
+}

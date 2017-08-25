@@ -1,16 +1,19 @@
 public DataFileSystem dataFile;
 
-void Loaded() {
+void Loaded()
+{
     dataFile = new DataFileSystem($"{Interface.Oxide.DataDirectory}\\player_info");
 }
 
-PlayerInfo LoadPlayerInfo(ulong playerID) {
+PlayerInfo LoadPlayerInfo(ulong playerID)
+{
     string path = $"playerInfo_{playerID}";
     
     return dataFile.ReadObject<PlayerInfo>(path);
 }
 
-void SavePlayerInfo(ulong playerID, PlayerInfo playerInfo) {
+void SavePlayerInfo(ulong playerID, PlayerInfo playerInfo)
+{
     string path = $"playerInfo_{playerID}";
     
     dataFile.WriteObject<PlayerInfo>(path, playerInfo);

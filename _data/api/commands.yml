@@ -1,0 +1,10 @@
+description: ""
+intro: "Custom commands are easily implemented with minimal boilerplate for both in-game chat interfaces and conventional command-line interfaces"
+
+topics:
+  - title: "Chat Commands"
+    summary: "Chat commands are in-game commands, prefixed by a forward slash (/)."
+  - title: "Console Commands"
+    summary: "Console commands may be executed from server terminals and in-game command-line interfaces (where applicable)."
+  - title: "Command Permissions"
+    summary: "Easily constrain command usage to players who have a permission assigned to them"

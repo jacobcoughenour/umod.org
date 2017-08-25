@@ -1,10 +1,10 @@
 ---
-title: Web Requests
-description: {{ site.data.api.webrequests.description }}
+title: Commands
+description: {{ site.data.api.commands.description }}
 layout: api
-icon: external-link
-permalink: /api/web-requests/
-menu-weight: 16
+icon: terminal
+permalink: /api/commands/
+menu-weight: 22
 ---
 
 <div class="category-info helper pt0" id="{{ page.title | slugify }}">
@@ -14,23 +14,23 @@ menu-weight: 16
         </a>
         {{ page.title }}
     </h3>
-    <p class="category-content">{{ site.data.api.webrequests.intro }}</p>
+    <p class="category-content">{{ site.data.api.commands.intro }}</p>
     <hr/>
-    {% for type in site.data.api.webrequests.types %}
+    {% for topic in site.data.api.data-files.topics %}
         <h4 class="category-description">
             <a class="fragment-identifier js-fragment-identifier fragment-identifier-scroll" href="#{{ type.name | slugify }}">
                 <i class="fa fa-link"></i>
             </a>
-            {{ type.name }}
+            {{ topic.title }}
         </h4>
-        <p class="category-content">{{ type.summary }}</p>
+        <p class="category-content">{{ topic.summary }}</p>
         <div class="tabs js-tabs code-highlight-tabs">
             <div class="tab-content">
                 <div class="code-highlight" data-label="">
                     <span class="js-copy-to-clipboard copy-code">copy</span>
                     <pre><code class="language-csharp js-code ghostIn">
 {% assign filename = topic.title | slugify %}
-{% include snippets/webrequest-{{ filename }}.html %}
+{% include snippets/commands-{{ filename }}.html %}
                     </code></pre>
                 </div>
             </div>
