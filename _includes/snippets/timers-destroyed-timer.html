@@ -3,8 +3,5 @@ var myTimer = timer.Every(3f, () =>
     Puts("Hello world!")
 });
 
-Puts($"Timer Destroyed: {myTimer.Destroyed}"); // Timer Destroyed: False
-
 myTimer.Destroy();
-
-Puts($"Timer Destroyed: {myTimer.Destroyed}"); // Timer Destroyed: True
+if (myTimer.Destroyed) Puts("Timer destroyed!");
