@@ -45,42 +45,42 @@
     return: "No return behavior."
 
 "Player Hooks":
-  - name: CanUserLogin
+  - name: CanPlayerConnect
     type: bool
     args: string name, string id, string ip
-    summary: "Called when a user is attempting to login to the server."
+    summary: "Called when a player is attempting to connect to the server."
     return: "Return true/false to approve/reject."
-  - name: OnUserApproved
+  - name: OnPlayerApproved
     type: void
     args: string name, string id, string ip
-    summary: "Called after a user is approved to login to the server."
+    summary: "Called after a player is approved to connect to the server."
     return: "No return behavior."
-  - name: OnUserBanned
+  - name: OnPlayerBanned
     type: void
     args: string name, string id, string ip, string reason
-    summary: "Called when a user is banned by the server, the game developer, EAC, or VAC."
+    summary: "Called when a player is banned by the server, the game developer, EAC, or VAC."
     return: "No return behavior."
 
 "Permission Hooks":
-  - name: OnUserGroupAdded
+  - name: OnPlayerGroupAdded
     type: void
     args: string id, string groupName
-    summary: "Called when a user has been added to a group."
+    summary: "Called when a player has been added to a group."
     return: "No return behavior."
-  - name: OnUserGroupRemoved
+  - name: OnPlayerGroupRemoved
     type: void
     args: string id, string groupName
-    summary: "Called when a user has been removed from a group."
+    summary: "Called when a player has been removed from a group."
     return: "No return behavior."
-  - name: OnUserPermissionGranted
+  - name: OnPlayerPermissionGranted
     type: void
     args: string id, string perm
-    summary: "Called when a permission has been granted to a user."
+    summary: "Called when a permission has been granted to a player."
     return: "No return behavior."
-  - name: OnUserPermissionRevoked
+  - name: OnPlayerPermissionRevoked
     type: void
     args: string id, string perm
-    summary: "Called when a permission has been revoked from a user."
+    summary: "Called when a permission has been revoked from a player."
     return: "No return behavior."
   - name: OnGroupPermissionGranted
     type: void

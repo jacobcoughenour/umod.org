@@ -1,0 +1,6 @@
+private bool CanPlayerConnect(string name, string id, string ip)
+{
+    Puts($"Player {name} ({id}) at {ip} is attempting to connect...");
+    if (ip == "127.0.0.1") return false;
+    return true;
+}

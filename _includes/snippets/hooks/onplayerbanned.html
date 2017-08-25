@@ -1,0 +1,4 @@
+private void OnPlayerBanned(string name, string id, string ip, string reason)
+{
+    Puts($"Player {name} ({id}) banned for {reason ?? "Unknown"} - {ip}");
+}
