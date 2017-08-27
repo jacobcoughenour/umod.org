@@ -1,5 +1,6 @@
 require 'json'
 require 'open-uri'
+require 'sanitize'
 
 module Jekyll
   # The PluginPage class creates a single ingredients, plugin, or plugins page
@@ -45,7 +46,7 @@ module Jekyll
       # Set the title for this page
       self.data['title'] = plugin['name']
       # Set the meta-description for this page
-      self.data['description'] = plugin['description']
+      self.data['description'] = Sanitize.clean(plugin['description']).chomp('.')
     end
 
     # Override so that we can control where the destination file goes
