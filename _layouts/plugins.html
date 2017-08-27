@@ -1,0 +1,18 @@
+---
+title: Plugins
+description: Expand your server functionality with one or many plugins
+layout: docs
+---
+
+<div class="row">
+    {% for plugin in page.plugins %}
+        <div class="col-md-3">
+            <div class="box box-image">
+                <a href="{{ site.url }}/plugins/{{ plugin.name }}" alt="{{ plugin.name }}">
+                    <img src="{{ plugin.owner.avatar_url }}" class="image" alt="box image">
+                    <h4 class="box-title">{{ plugin.name }}</h4>
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+</div>

@@ -1,0 +1,33 @@
+---
+layout: docs
+---
+
+<div class="row">
+    <ul class="tabs" data-tab>
+        <a href="" class="button" download>Download</a>
+        <a href="{{ page.plugin.html_url }}/issues" class="button">Issues</a>
+        <li class="tab-title active"><a href="#overview-{{ page.plugin.id }}">Overview</a></li>
+        <li class="tab-title"><a href="#faq-{{ page.plugin.id }}">FAQ</a></li>
+        <li class="tab-title"><a href="#updates-{{ page.plugin.id }}">Updates</a></li>
+        <li class="tab-title" onclick=""><a href="#source-{{ page.plugin.id }}">Source</a></li>
+    </ul>
+    <div class="tabs-content">
+        <div class="content active" id="overview-{{ page.plugin.id }}">
+            <p>
+                <b>Plugin Name:</b> {{ page.plugin.name }}<br/>
+                <!--<b>File Name:</b> ' + filename + '<br/>-->
+                <b>File ID:</b> {{ page.plugin.id }}<br/>
+                <!--<b>File Size:</b> ' + (size / 1024).toFixed(1) + ' kb<br/>-->
+            </p>
+        </div>
+        <div class="content" id="faq-{{ page.plugin.id }}">
+            <p>This is the second panel of the basic tab example. This is the second panel of the basic tab example.</p>
+        </div>
+        <div class="content" id="updates-{{ page.plugin.id }}">
+            <p>This is the third panel of the basic tab example. This is the third panel of the basic tab example.</p>
+        </div>
+        <div class="content" id="source-{{ page.plugin.id }}">
+            <pre><code id="{{ page.plugin.id }}\"></code></pre><br/>
+        </div>
+    </div>
+</div>
