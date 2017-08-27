@@ -20,6 +20,5 @@ permalink: /:title/
 excerpt_separator: <!--more-->
 
 # GitHub
-github: theumod
 client_id: 644edf81174f14822070
 exclude: ["js/dev", "js/preprod", "vendor/bundle", .gitignore", "_test.sh", "Gemfile*", "README.md"]
