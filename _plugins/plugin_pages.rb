@@ -72,6 +72,7 @@ module Jekyll
       url = 'https://api.github.com/orgs/' + plugins_org + '/repos'
       plugins = JSON.load(open(url, "Authorization" => "token " + token)) if !token.nil?
       plugins = JSON.load(open(url)) if token.nil? # TODO: Handle this better ^
+      plugins = plugins.select { |p| !p['language'].nil? }
       plugins = plugins.sort_by { |p| p['name'] }
       puts "## Plugins data read: found #{plugins.length} plugins"
       if plugins.length <= 0
@@ -97,7 +98,7 @@ module Jekyll
       if plugins && plugins.length > 0
         if self.layouts.key? 'plugin'
           plugins.each_with_index do |plugin,index|
-            write_plugin_page(plugin, dest_dir, (index > 0) ? plugins[index-1] : nil, plugins[index+1]) if !plugin['language'].nil?
+            write_plugin_page(plugin, dest_dir, (index > 0) ? plugins[index-1] : nil, plugins[index+1])
           end
         else
           throw "No 'plugin' layout found."
