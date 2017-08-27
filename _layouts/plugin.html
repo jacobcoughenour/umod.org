@@ -3,31 +3,51 @@ layout: docs
 ---
 
 <div class="row">
-    <ul class="tabs" data-tab>
-        <a href="" class="button" download>Download</a>
-        <a href="{{ page.plugin.html_url }}/issues" class="button">Issues</a>
-        <li class="tab-title active"><a href="#overview-{{ page.plugin.id }}">Overview</a></li>
-        <li class="tab-title"><a href="#faq-{{ page.plugin.id }}">FAQ</a></li>
-        <li class="tab-title"><a href="#updates-{{ page.plugin.id }}">Updates</a></li>
-        <li class="tab-title" onclick=""><a href="#source-{{ page.plugin.id }}">Source</a></li>
-    </ul>
-    <div class="tabs-content">
-        <div class="content active" id="overview-{{ page.plugin.id }}">
-            <p>
-                <b>Plugin Name:</b> {{ page.plugin.name }}<br/>
-                <!--<b>File Name:</b> ' + filename + '<br/>-->
-                <b>File ID:</b> {{ page.plugin.id }}<br/>
-                <!--<b>File Size:</b> ' + (size / 1024).toFixed(1) + ' kb<br/>-->
-            </p>
+    <div class="col-md-9">
+        <div class="main-content">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris porttitor in sapien et lacinia. Ut tortor mi, pulvinar a ligula eget, volutpat dignissim tellus. Duis in enim at lorem venenatis venenatis. Ut vel nibh tristique, egestas lorem vel, venenatis enim. Nunc auctor tellus non neque facilisis ultricies sit amet ac est. Ut ornare nibh vel justo molestie pharetra. Ut maximus convallis rhoncus. Pellentesque tincidunt mollis ante, in ullamcorper turpis convallis eu. Nulla facilisi. Aliquam sit amet nibh vel tortor cursus ullamcorper. Donec in magna eu mi ornare interdum. Nullam non ligula nisi. Nulla facilisi.</p>
+            <div class="separator"></div>
+            <p class="mb40 helper">Mauris id consectetur arcu. Aenean rutrum, quam ac condimentum vulputate, felis libero ullamcorper lectus, non dictum odio dui ac nisi. Sed dignissim, purus at porta blandit, enim orci sagittis dolor, ut ultrices leo ipsum eget nisi. In accumsan iaculis quam, ac aliquam sapien fringilla ut. Quisque eu quam mollis, pretium arcu a, pellentesque dui. Duis massa nisi, volutpat sit amet interdum vel, ullamcorper vitae sem. Nullam ante neque, fermentum ut bibendum feugiat, viverra nec felis. Fusce sodales augue ut ligula efficitur, in dapibus mi tristique.</p>
         </div>
-        <div class="content" id="faq-{{ page.plugin.id }}">
-            <p>This is the second panel of the basic tab example. This is the second panel of the basic tab example.</p>
-        </div>
-        <div class="content" id="updates-{{ page.plugin.id }}">
-            <p>This is the third panel of the basic tab example. This is the third panel of the basic tab example.</p>
-        </div>
-        <div class="content" id="source-{{ page.plugin.id }}">
-            <pre><code id="{{ page.plugin.id }}\"></code></pre><br/>
+    </div>
+    <div class="col-md-3 hidden-sm hidden-xs">
+        <div class="sidebar js-sidebar-fixed">
+            <div class="widget">
+                <div class="search">
+                    <a href="plugins/{{ page.plugin.name}}/{{ page.plugin.name }}.cs" class="button helper mb30 large full blue" download>Download Now</a>
+                </div>
+            </div>
+            <!--<nav class="menu-vertical-wrapper">
+                <ul class="menu-vertical  js-menu-vertical" data-prepend-to=".js-layout" data-select="Menu">
+                    <li>
+                        <a href="#">Placeholder</a>
+                        <ul>
+                            <li>
+                                <a href="#">Placeholder</a>
+                                <ul>
+                                    <li>
+                                        <a href="">Placeholder</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>-->
+            <div class="widget">
+                <h3 class="widget-title">Tags</h3>
+                <ul class="tags">
+                    <li class="tag-item">
+                        <a href="#">admin</a>
+                    </li>
+                    <li class="tag-item">
+                        <a href="#">placeholder</a>
+                    </li>
+                    <li class="tag-item">
+                        <a href="#">universal</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>

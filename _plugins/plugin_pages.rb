@@ -73,7 +73,7 @@ module Jekyll
 
       # Write out all our pages
       write_plugins_index(plugins, 'plugins')
-      write_plugin_indexes(plugins, 'plugins')
+      write_plugin_pages(plugins, 'plugins')
     end
 
     # Write a plugins/index.html page
@@ -82,16 +82,15 @@ module Jekyll
       index.set_data('plugins', data)
       index.render(self.layouts, site_payload)
       index.write(self.dest)
-      # Record the fact that this page has been added, otherwise Site::cleanup will remove it
       self.pages << index
     end
 
     # Loops through the list of plugin and processes each one
-    def write_plugin_indexes(plugins, dest_dir)
+    def write_plugin_pages(plugins, dest_dir)
       if plugins && plugins.length > 0
         if self.layouts.key? 'plugin'
           plugins.each_with_index do |plugin,index|
-            write_plugin_page(plugin, dest_dir, (index > 0) ? plugins[index-1] : nil, plugins[index+1])# if plugin['tags']
+            write_plugin_page(plugin, dest_dir, (index > 0) ? plugins[index-1] : nil, plugins[index+1]) if !plugin['language'].nil?
           end
         else
           throw "No 'plugin' layout found."
@@ -103,12 +102,20 @@ module Jekyll
     def write_plugin_page(plugin, dest_dir, prev_plugin, next_plugin)
       # Attach our plugin data to global site variable. This allows pages to see this plugin's data
       puts "## Generating page for plugin #{plugin['name']} (#{plugin['id']})"
-      index = PluginPage.new(self, self.source, File.join(dest_dir, plugin['name']), 'index.html', 'plugin')
-      index.set_plugin_data(plugin, prev_plugin, next_plugin)
-      index.render(self.layouts, site_payload)
-      index.write(self.dest)
-      # Record the fact that this page has been added, otherwise Site::cleanup will remove it
-      self.pages << index
+      page = PluginPage.new(self, self.source, File.join(dest_dir, plugin['name']), 'index.html', 'plugin')
+      page.set_plugin_data(plugin, prev_plugin, next_plugin)
+      page.render(self.layouts, site_payload)
+      page.write(self.dest)
+      self.pages << page
+
+      # Download the plugin file to serve directly
+      if !plugin['language'].nil?
+        filename = plugin['name'] + '.cs'
+        path = File.join(dest_dir, plugin['name'])
+        file = open('https://raw.githubusercontent.com/umods/' + plugin['name'] + '/master/' + filename).read
+        File.write(File.join(self.dest, File.join(path, filename)), file)
+        #self.static_files << StaticFile.new(self, self.dest, path, filename) // Unknown file type
+      end
     end
   end
 
