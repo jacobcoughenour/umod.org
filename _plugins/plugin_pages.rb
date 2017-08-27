@@ -68,9 +68,10 @@ module Jekyll
         return
       end
 
+      token = ENV['GITHUB_TOKEN']
       url = 'https://api.github.com/orgs/' + plugins_org + '/repos'
-      plugins = JSON.load(open(url), "Authorization" => "token " + ENV['GITHUB_TOKEN']) if !ENV['GITHUB_TOKEN'].nil?
-      plugins = JSON.load(open(url)) if ENV['GITHUB_TOKEN'].nil? # TODO: Handle this better ^
+      plugins = JSON.load(open(url, "Authorization" => "token " + token)) if !token.nil?
+      plugins = JSON.load(open(url)) if token.nil? # TODO: Handle this better ^
       plugins = plugins.sort_by { |p| p['name'] }
       puts "## Plugins data read: found #{plugins.length} plugins"
       if plugins.length <= 0
