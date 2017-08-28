@@ -1839,7 +1839,7 @@ span.color.grey {
     padding: 4px;
     border: 1px solid #cbd3dd;
     border-radius: 3px;
-    margin-bottom: 15px;
+    /*margin-bottom: 15px;*/
     max-width: 100%;
 }
 .image.remove-border {
@@ -9241,7 +9241,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     line-height: 16px;
     font-size: 12px;
 }
-/*.tags {
+.tags {
     margin: 0;
     padding: 0;
     list-style-type: none;
@@ -9293,7 +9293,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     border: 1px solid #cbd3dd;
     top: 11px;
     right: -1px;
-}*/
+}
 /*
         Mobile Menu Core Style
 */
@@ -10602,7 +10602,7 @@ h3:hover .fragment-identifier, h4:hover .fragment-identifier {
     color: #808488;
 }
 .number-box {
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     padding-left: 60px;
     position: relative;
 }
@@ -10611,25 +10611,23 @@ h3:hover .fragment-identifier, h4:hover .fragment-identifier {
 }
 .number-icon {
     position: absolute;
-    left: -15px;
-    top: 2px;
-    font-size: 3.4375em;
-    width: 60px;
+    left: 0px;
+    top: -4px;
+    font-size: 2.9em;
+    width: 40px;
     text-align: center;
     color: #99a3b1;
 }
 .number-wrapper {
-    font-size: 2.1875em;
-    display: block;
+    font-size: 1.1875em;
+    display: inline-block;
     line-height: 40px;
     font-weight: 300;
 }
 .number-description {
-    font-size: 0.8125em;
-    display: block;
+    display: inline;
     margin-left: 3px;
-    line-height: 1.4;
-    color: #2288cc;
+    color: #99a3b1;
 }
 .browsers {
     margin: 30px 0;

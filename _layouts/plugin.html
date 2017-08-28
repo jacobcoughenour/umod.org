@@ -13,10 +13,20 @@ layout: docs
     <div class="col-md-3 hidden-sm hidden-xs">
         <div class="sidebar js-sidebar-fixed">
             <div class="widget">
-                <div class="search">
-                    <a href="plugins/{{ page.plugin.name}}/{{ page.plugin.name }}.cs" class="button helper mb30 large full blue" download>Download Now</a>
+                <div class="box box-image">
+                    <img src="http://placehold.it/800x600?text={{ page.plugin.name | url_encode }}" class="image" alt="{{ page.plugin.name }}" />
                 </div>
             </div>
+            <div class="widget">
+                <div class="">
+                    <a href="plugins/{{ page.plugin.name}}/{{ page.plugin.name }}.cs" class="button helper mb30 large full blue" download="{{ page.plugin.name }}.cs">Download Now</a>
+                </div>
+            </div>
+            <!--<div class="widget">
+                <div class="">
+                    <a href="{{ page.plugin.html_url }}" class="button helper mb30 large full green">Contribute at GitHub</a>
+                </div>
+            </div>-->
             <!--<nav class="menu-vertical-wrapper">
                 <ul class="menu-vertical  js-menu-vertical" data-prepend-to=".js-layout" data-select="Menu">
                     <li>
@@ -34,6 +44,23 @@ layout: docs
                     </li>
                 </ul>
             </nav>-->
+            <div class="widget">
+                <div class="number-box">
+                    <div class="number-icon">
+                        <i class="pe-7s-star"></i>
+                    </div>
+                    <div class="number-wrapper">
+                        <span class="number-rotator js-animate-number" data-number="{{ page.plugin.stargazers_count }}">{{ page.plugin.stargazers_count }} <span class="number-description grey">stargazers</span></span>
+                    </div>
+                </div>
+                <div class="number-box">
+                    <div class="number-icon">
+                        <i class="pe-7s-look"></i>
+                    </div>
+                    <div class="number-wrapper">
+                        <span class="number-rotator js-animate-number" data-number="{{ page.plugin.watchers_count }}">{{ page.plugin.watchers_count }} <span class="number-description grey">watchers</span></span>
+                    </div>
+                </div>
             <div class="widget">
                 <h3 class="widget-title">Tags</h3>
                 <ul class="tags">
