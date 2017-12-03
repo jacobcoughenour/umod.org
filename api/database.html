@@ -20,24 +20,24 @@ menu-weight: 30
         <hr/>
         <p class="category-content">{{ site.data.api.database.intro }}</p>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 text-center">
         PLACEHOLDER MYSQL LOGO HERE
         <h3>MySQL</h3>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 text-center">
         PLACEHOLDER SQLITE LOGO HERE
         <h3>SQLite</h3>
     </div>
     
     <div class="col-md-12">
-        {% for type in site.data.api.database.types %}
+        {% for topic in site.data.api.database.topics %}
             <h4 class="category-description">
-                <a class="fragment-identifier js-fragment-identifier fragment-identifier-scroll" href="#{{ type.name | slugify }}">
+                <a class="fragment-identifier js-fragment-identifier fragment-identifier-scroll" href="#{{ topic.title | slugify }}">
                     <i class="fa fa-link"></i>
                 </a>
-                {{ type.name }}
+                {{ topic.title }}
             </h4>
-            <p class="category-content">{{ type.summary }}</p>
+            <p class="category-content">{{ topic.summary }}</p>
             <div class="tabs js-tabs code-highlight-tabs">
                 <div class="tab-content">
                     <div class="code-highlight" data-label="">

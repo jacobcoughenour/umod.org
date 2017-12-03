@@ -1,0 +1,11 @@
+var SQLQuery = "INSERT INTO example_table (`field1`, `field2`) VALUES (@0, @1);";
+
+var InsertCommand = Oxide.Core.Database.Sql.Builder.Append(SQLQuery, "field1 value", "field2 value");
+
+MySqlLibrary.Insert(InsertCommand, MySqlConnection, rowsAffected => 
+{
+    if(rowsAffected > 0) 
+    {
+        Puts("New record inserted with ID: {0}", MySqlConnection.LastInsertRowId);
+    }
+});

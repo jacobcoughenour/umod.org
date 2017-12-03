@@ -1,0 +1,13 @@
+var SQLQuery = "UPDATE example_table SET `field1` = @0, `field2` = @1 WHERE `id` = @3;";
+
+var exampleID = 2;
+
+var UpdateCommand = Oxide.Core.Database.Sql.Builder.Append(SQLQuery, "field1 value", "field2 value", exampleID);
+
+MySqlLibrary.Update(UpdateCommand, MySqlConnection, rowsAffected => 
+{
+    if(rowsAffected > 0) 
+    {
+        Puts("Record successfully updated!");
+    }
+});
