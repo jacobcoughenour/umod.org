@@ -20,3 +20,14 @@ repository: umods/DevTest
 plugins_org: umods
 client_id: 644edf81174f14822070
 exclude: ["js/dev", "js/preprod", "vendor/bundle", .gitignore", "_test.sh", "Gemfile*", "README.md"]
+
+# Jekyll
+plugins:
+ - github-pages
+ - jekyll-avatar
+ - jekyll-feed
+ - jekyll-github-metadata
+ - jekyll-redirect-from
+ - jekyll-seo-tag
+ - jekyll-sitemap
+ - kramdown
