@@ -8,10 +8,6 @@ forums: https://umod.org/forums/
 discord: https://discord.gg/Bm58rTq
 twitter: https://twitter.com/theumod
 
-# Downloads
-releases: https://dl.bintray.com/oxidemod/builds
-snapshots: https://dl.bintray.com/oxidemod/builds
-
 # Building
 markdown: kramdown
 kramdown:

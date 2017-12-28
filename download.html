@@ -9,7 +9,9 @@ redirect_from: /downloads/
 <div class="row">
     {% for game in site.data.games %}
         <div class="col-md-1">
-            <img src="{{ "/assets/images/games/" | prepend: site.baseurl }}{{ game.name | slugify }}.png" class="download-image" alt="">
+            <a href="https://github.com/OxideMod/Oxide.{{ game.extension }}/releases">
+                <img src="{{ "/assets/images/games/" | prepend: site.baseurl }}{{ game.name | slugify }}.png" class="download-image" alt="">
+            </a>
         </div>
     {% endfor %}
 </div>
