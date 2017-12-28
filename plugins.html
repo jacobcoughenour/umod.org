@@ -1,0 +1,37 @@
+---
+title: Plugins
+description: Expand your server functionality with one or many plugins
+layout: docs
+---
+
+<div class="grid-view js-grid-view">
+    <div class="row">
+        {% for repository in site.github.public_repositories %}
+            {% if repository.language != nil %}
+                <div class="col-md-4">
+                    <div class="grid-view-elem js-grid-view-elem">
+                        <h3 class="grid-view-elem-title">
+                            <a href="{{ repository.html_url }}">{{ repository.name }}</a>
+                        </h3>
+                        <p class="grid-view-elem-description">
+                            {{ repository.description }}<br />
+                            {% if repository.license != nil %}
+                                <!-- TODO: repository.license.url -->
+                                <img src="http://img.shields.io/badge/license-{{ repository.license.spdx_id }}-lightgrey.svg?style=flat" alt="{{ repository.license.name }}" />
+                            {% endif %}
+                        </p>
+                        </p>
+                    </div>
+                </div>
+                <!--<div class="col-md-3">
+                    <div class="box box-image">
+                        <a href="{{ site.url }}/plugins/{{ plugin.name }}" alt="{{ plugin.name }}">
+                            <img src="{{ plugin.owner.avatar_url }}" class="image" alt="box image">
+                            <h4 class="box-title">{{ plugin.name }}</h4>
+                        </a>
+                    </div>
+                </div>-->
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
