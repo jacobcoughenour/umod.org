@@ -40,7 +40,7 @@ permalink: /compatibility/
                     {% for game in site.data.games %}
                         <tr>
                             <td class="col-xs-1">
-                                <img src="{{ "/assets/images/games/" | prepend: site.baseurl }}{{ game.name | slugify }}.png" alt="{{ game.name }}">
+                                <img src="{{ "assets/images/games/" | prepend: site.baseurl }}{{ game.name | slugify }}.png" alt="{{ game.name }}">
                             </td>
                             <td class="col-xs-1">
                                 {% for os in game.os %}<i class="fa fa-{{ os }} color grey fa-2x"></i>{% endfor %}

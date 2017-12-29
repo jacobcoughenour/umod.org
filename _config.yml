@@ -2,6 +2,8 @@
 title: uMod
 description: "Universal modding platform and plugin API for Unity, .NET/C#, and soon C++ games"
 url: https://umod.org
+google_analytics_id:
+google_site_verification:
 
 # Community
 forums: https://umod.org/forums/
@@ -23,11 +25,11 @@ exclude: ["js/dev", "js/preprod", "vendor/bundle", .gitignore", "_test.sh", "Gem
 
 # Jekyll
 plugins:
- - github-pages
- - jekyll-avatar
- - jekyll-feed
- - jekyll-github-metadata
- - jekyll-redirect-from
- - jekyll-seo-tag
- - jekyll-sitemap
- - kramdown
+  - github-pages
+  - jekyll-avatar
+  - jekyll-feed
+  - jekyll-github-metadata
+  - jekyll-redirect-from
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - kramdown
