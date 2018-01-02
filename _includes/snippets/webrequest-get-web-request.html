@@ -1,4 +1,4 @@
-webrequest.EnqueueGet("http://www.google.com/search?q=umod", (code, response) =>
+webrequest.Enqueue("http://www.google.com/search?q=umod", null, (code, response) =>
 {
     if (code != 200 || response == null)
     {
@@ -6,4 +6,4 @@ webrequest.EnqueueGet("http://www.google.com/search?q=umod", (code, response) =>
         return;
     }
     Puts($"Google answered: {response}");
-}
+}, this, RequestMethod.GET);

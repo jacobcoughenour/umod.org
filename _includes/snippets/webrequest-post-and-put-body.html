@@ -4,7 +4,7 @@ parameters.Add("param1", "value1");
 parameters.Add("param2", "value2");
 
 var body = string.Join("&", parameters.Cast<string>().Select(key => string.Format("{0}={1}", key, source[key]));
-webrequest.EnqueuePost("http://www.google.com/search?q=umod", body, (code, response) =>
+webrequest.Enqueue("http://www.google.com/search?q=umod", body, (code, response) =>
 {
     if (code != 200 || response == null)
     {
@@ -12,4 +12,4 @@ webrequest.EnqueuePost("http://www.google.com/search?q=umod", body, (code, respo
         return;
     }
     Puts($"Google answered: {response}");
-}
+}, this, RequestMethod.POST);

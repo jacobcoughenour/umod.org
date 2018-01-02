@@ -7,7 +7,8 @@ private void GetRequest(IPlayer player, string command, string[] args)
     // Set some custom request headers (eg. for HTTP Basic Auth)
     var headers = new Dictionary<string, string> { { "header", "value" } };
 
-    webrequest.EnqueueGet("http://www.google.com/search?q=umod", (code, response) => GetCallback(code, response, player), this, headers, timeout);
+    webrequest.Enqueue("http://www.google.com/search?q=umod", null, (code, response) =>
+        GetCallback(code, response, player), this, RequestMethod.GET, headers, timeout);
 }
 
 private void GetCallback(int code, string response, IPlayer player)
