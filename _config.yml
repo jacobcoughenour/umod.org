@@ -6,9 +6,9 @@ google_analytics_id:
 google_site_verification:
 
 # Community
-forums: https://umod.org/forums/
-discord:
+forums: https://forums.umod.org
 twitter: https://twitter.com/theumod
+discord:
 
 # Building
 markdown: kramdown
