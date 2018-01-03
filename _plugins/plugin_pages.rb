@@ -68,8 +68,7 @@ module Jekyll
         return
       end
 
-      #token = ENV['GITHUB_TOKEN']
-      token = "447a7508769f01724009b029f0ad868cd9b327c2"
+      token = ENV['GITHUB_TOKEN']
       # TODO: Transverse all pages (rel="next" indicates another page is available, rel="last" is last page)
 
       page = 1
