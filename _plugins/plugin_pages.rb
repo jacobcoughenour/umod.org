@@ -68,20 +68,29 @@ module Jekyll
         return
       end
 
-      token = ENV['GITHUB_TOKEN']
-      url = 'https://api.github.com/orgs/' + plugins_org + '/repos'
-      plugins = JSON.load(open(url, "Authorization" => "token " + token)) if !token.nil?
-      plugins = JSON.load(open(url)) if token.nil? # TODO: Handle this better ^
-      plugins = plugins.select { |p| !p['language'].nil? }
-      plugins = plugins.sort_by { |p| p['name'] }
-      puts "## Plugins data read: found #{plugins.length} plugins"
-      if plugins.length <= 0
-        return
+      #token = ENV['GITHUB_TOKEN']
+      token = "447a7508769f01724009b029f0ad868cd9b327c2"
+      # TODO: Transverse all pages (rel="next" indicates another page is available, rel="last" is last page)
+
+      page = 1
+      repos = []
+      while true
+          puts "Getting page #" + page.to_s + " of plugins..."
+          url = 'https://api.github.com/orgs/' + plugins_org + '/repos?page=' + page.to_s
+          response = JSON.load(open(url, "Authorization" => "token " + token)) if !token.nil?
+          response = JSON.load(open(url)) if token.nil? # TODO: Handle this better ^
+          break if response.size == 0
+          response.each { |h| repos << h }
+          puts "Adding " + response.size.to_s + " more plugins to generate"
+          page += 1
       end
 
-      # Write out all our pages
-      write_plugins_index(plugins, 'plugins')
-      write_plugin_pages(plugins, 'plugins')
+      repos = repos.select { |p| !p['language'].nil? }
+      repos = repos.sort_by { |p| p['name'] }
+      # Write all of the plugin pages
+      puts "Plugins data read: found #{repos.length} plugins"
+      write_plugins_index(repos, 'plugins')
+      write_plugin_pages(repos, 'plugins')
     end
 
     # Write a plugins/index.html page
@@ -109,7 +118,7 @@ module Jekyll
     # Write a plugins/plugin-name/index.html page
     def write_plugin_page(plugin, dest_dir, prev_plugin, next_plugin)
       # Attach our plugin data to global site variable. This allows pages to see this plugin's data
-      puts "## Generating page for plugin #{plugin['name']} (#{plugin['id']})"
+      puts "Generating page for plugin #{plugin['name']} (#{plugin['id']})"
       page = PluginPage.new(self, self.source, File.join(dest_dir, plugin['name']), 'index.html', 'plugin')
       page.set_plugin_data(plugin, prev_plugin, next_plugin)
       page.render(self.layouts, site_payload)
