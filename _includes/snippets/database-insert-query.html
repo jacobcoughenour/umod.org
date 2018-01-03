@@ -1,11 +1,10 @@
-var SQLQuery = "INSERT INTO example_table (`field1`, `field2`) VALUES (@0, @1);";
+var sqlQuery = "INSERT INTO example_table (`field1`, `field2`) VALUES (@0, @1);";
+var insertCommand = Oxide.Core.Database.Sql.Builder.Append(sqlQuery, "field1 value", "field2 value");
 
-var InsertCommand = Oxide.Core.Database.Sql.Builder.Append(SQLQuery, "field1 value", "field2 value");
-
-MySqlLibrary.Insert(InsertCommand, MySqlConnection, rowsAffected => 
+sqlLibrary.Insert(insertCommand, sqlConnection, rowsAffected =>
 {
-    if(rowsAffected > 0) 
+    if (rowsAffected > 0)
     {
-        Puts("New record inserted with ID: {0}", MySqlConnection.LastInsertRowId);
+        Puts("New record inserted with ID: {0}", sqlConnection.LastInsertRowId);
     }
 });

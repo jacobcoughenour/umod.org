@@ -1,3 +1,2 @@
-var MySqlLibrary = Interface.Oxide.GetLibrary<Core.MySql.Libraries.MySql>();
-
-var MySqlConnection = MySqlLibrary.OpenDb("localhost", 3306, "rust", "username", "password", this);
+var sqlLibrary = Interface.Oxide.GetLibrary<Core.MySql.Libraries.MySql>();
+var sqlConnection = mySqlLibrary.OpenDb("localhost", 3306, "rust", "username", "password", this);

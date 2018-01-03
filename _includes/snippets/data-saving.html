@@ -3,11 +3,13 @@ private void TestCommand(IPlayer player, string command, string[] args)
 {
     var info = new PlayerInfo(player);
     if (storedData.Players.Contains(info))
+    {
         player.Reply("Your data has already been added to the file");
+    }
     else
     {
-        player.Reply("Saving your data to the file");
         storedData.Players.Add(info);
+        player.Reply("Saving your data to the file...");
         Interface.Oxide.DataFileSystem.WriteObject("MyDataFile", storedData);
     }
 }

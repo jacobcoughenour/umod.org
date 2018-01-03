@@ -1,18 +1,18 @@
-var SelectQuery = "SELECT `id`, `field1`, `field2` FROM example_table";
-var SelectCommand = Oxide.Core.Database.Sql.Builder.Append(SelectQuery);
+var sqlQuery = "SELECT `id`, `field1`, `field2` FROM example_table";
+var selectCommand = Oxide.Core.Database.Sql.Builder.Append(sqlQuery);
 
-MySqlLibrary.Query(SelectCommand, MySqlConnection, list =>
+sqlLibrary.Query(selectCommand, sqlConnection, list =>
 {
-    if(list == null) return; // empty result or no records found
-    
-    var sb = new StringBuilder();
-    sb.AppendLine(" id\tfield1\tfield2");
-    
-    // iterate through resulting records
+    if (list == null) return; // Empty result or no records found
+
+    var newString = new StringBuilder();
+    newString.AppendLine(" id\tfield1\tfield2");
+
+    // Iterate through resulting records
     foreach (var entry in list)
     {
-        sb.AppendFormat(" {0}\t{1}\t{2}\n", entry["id"], entry["field1"], entry["field2"]);
+        newString.AppendFormat(" {0}\t{1}\t{2}\n", entry["id"], entry["field1"], entry["field2"]);
     }
-    
-    Puts(sb.ToString());
+
+    Puts(newString.ToString());
 });

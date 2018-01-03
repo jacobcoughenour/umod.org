@@ -1,12 +1,10 @@
-var SQLQuery = "DELETE FROM example_table WHERE `id` = @0;";
+var exampleId = 2;
+var sqlQuery = "DELETE FROM example_table WHERE `id` = @0;";
+var deleteCommand = Oxide.Core.Database.Sql.Builder.Append(sqlQuery, exampleId);
 
-var exampleID = 2;
-
-var DeleteCommand = Oxide.Core.Database.Sql.Builder.Append(SQLQuery, exampleID);
-
-MySqlLibrary.Delete(DeleteCommand, MySqlConnection, rowsAffected => 
+sqlLibrary.Delete(deleteCommand, sqlConnection, rowsAffected =>
 {
-    if(rowsAffected > 0) 
+    if (rowsAffected > 0)
     {
         Puts("Record successfully deleted!");
     }
