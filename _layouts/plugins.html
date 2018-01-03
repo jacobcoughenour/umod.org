@@ -12,7 +12,13 @@ layout: docs
                     <h3 class="grid-view-elem-title">
                         <a href="{{ plugin.html_url }}">{{ plugin.name }}</a>
                     </h3>
-                    <p class="grid-view-elem-description">{{ plugin.description }}</p>
+                    <p class="grid-view-elem-description">
+                        {{ plugin.description }}<br />
+                        {% if plugin.license != nil %}
+                            <!-- TODO: repository.license.url -->
+                            <img src="http://img.shields.io/badge/license-{{ plugin.license.spdx_id }}-lightgrey.svg?style=flat" alt="{{ plugin.license.name }}" />
+                        {% endif %}
+                    </p>
                 </div>
             </div>
         <!--<div class="col-md-3">
