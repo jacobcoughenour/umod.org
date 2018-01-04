@@ -5,9 +5,13 @@ layout: docs
 <div class="row">
     <div class="col-md-9">
         <div class="main-content">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris porttitor in sapien et lacinia. Ut tortor mi, pulvinar a ligula eget, volutpat dignissim tellus. Duis in enim at lorem venenatis venenatis. Ut vel nibh tristique, egestas lorem vel, venenatis enim. Nunc auctor tellus non neque facilisis ultricies sit amet ac est. Ut ornare nibh vel justo molestie pharetra. Ut maximus convallis rhoncus. Pellentesque tincidunt mollis ante, in ullamcorper turpis convallis eu. Nulla facilisi. Aliquam sit amet nibh vel tortor cursus ullamcorper. Donec in magna eu mi ornare interdum. Nullam non ligula nisi. Nulla facilisi.</p>
-            <div class="separator"></div>
-            <p class="mb40 helper">Mauris id consectetur arcu. Aenean rutrum, quam ac condimentum vulputate, felis libero ullamcorper lectus, non dictum odio dui ac nisi. Sed dignissim, purus at porta blandit, enim orci sagittis dolor, ut ultrices leo ipsum eget nisi. In accumsan iaculis quam, ac aliquam sapien fringilla ut. Quisque eu quam mollis, pretium arcu a, pellentesque dui. Duis massa nisi, volutpat sit amet interdum vel, ullamcorper vitae sem. Nullam ante neque, fermentum ut bibendum feugiat, viverra nec felis. Fusce sodales augue ut ligula efficitur, in dapibus mi tristique.</p>
+            <p>
+                {% if page.more_info %}
+                    {{ page.more_info }}
+                {% else %}
+                    This plugin has no additional information about it. Please let the author know or feel free to contribute a <a href="https://github.com/{{ site.plugins_org }}/{{ page.plugin.name }}/new/master?readme=1">README.md</a> via GitHub or <a href="https://github.com/{{ site.plugins_org }}/{{ page.plugin.name }}/issues/new?title=Plugin+page+is+lacking+additional+information">open an issue</a> to request more information.
+                {% endif %}
+            </p>
         </div>
     </div>
     <div class="col-md-3 hidden-sm hidden-xs">
@@ -19,7 +23,7 @@ layout: docs
             </div>
             <div class="widget">
                 <div class="">
-                    <a href="{{ page.plugin.name}}.cs" class="button helper mb30 large full blue" download="{{ page.plugin.name }}.cs">Download Now</a>
+                    <a href="{{ page.plugin.name }}.cs" class="button helper mb30 large full blue" download="{{ page.plugin.name }}.cs">Download Now</a>
                 </div>
             </div>
             <!--<div class="widget">

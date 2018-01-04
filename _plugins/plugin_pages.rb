@@ -1,4 +1,5 @@
 require 'json'
+require 'net/http'
 require 'open-uri'
 require 'sanitize'
 
@@ -40,18 +41,31 @@ module Jekyll
     # Attach our data to the global page variable. This allows pages to see this data
     # Use to set plugin. Also sets the page title
     def set_plugin_data(plugin, prev_plugin, next_plugin)
+      # Set the plugin instances
       self.data['plugin'] = plugin
       self.data['plugin_prev'] = prev_plugin
       self.data['plugin_next'] = next_plugin
+
       # Set the title for this page
       self.data['title'] = plugin['name']
-      # Set the meta-description for this page
+
+      # Set the meta description for this page
       self.data['description'] = Sanitize.clean(plugin['description']).chomp('.')
+
+      # Set the additional information for this page
+      uri = URI.parse('https://raw.githubusercontent.com/umods/' + plugin['name'] + '/master/README.md')
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
+      request = Net::HTTP::Get.new(uri.request_uri)
+      response = http.request(request)
+      if response.code == '200'
+        self.data['more_info'] = Sanitize.clean(response.body)
+      end
     end
 
     # Override so that we can control where the destination file goes
     def destination(dest)
-      # The url needs to be unescaped in order to preserve the correct filename
+      # The URL needs to be unescaped in order to preserve the correct filename
       path = File.join(dest, @dest_dir, @dest_name)
       path
     end
@@ -104,7 +118,7 @@ module Jekyll
     def write_plugin_pages(plugins, dest_dir)
       if plugins && plugins.length > 0
         if self.layouts.key? 'plugin'
-          plugins.each_with_index do |plugin,index|
+          plugins.each_with_index do |plugin, index|
             write_plugin_page(plugin, dest_dir, (index > 0) ? plugins[index-1] : nil, plugins[index+1])
           end
         else
@@ -125,14 +139,14 @@ module Jekyll
 
       # Download the plugin file to serve directly
       if !plugin['language'].nil?
-        filename = plugin['name'] + '.cs'
+        filename = plugin['name'] + '.cs' # TODO: Handle file extension dynamically
         path = File.join(dest_dir, plugin['name'])
-        file = open('https://raw.githubusercontent.com/umods/' + plugin['name'] + '/master/' + filename) {|f| f.read }
-        if !file.nil?
+        download = open('https://raw.githubusercontent.com/umods/' + plugin['name'] + '/master/' + filename) {|f| f.read }
+        if !download.nil?
           unless File.directory?(File.join(self.source, path))
             FileUtils.mkdir_p(File.join(self.source, path))
           end
-          File.write(File.join(self.source, File.join(path, filename)), file)
+          File.write(File.join(self.source, File.join(path, filename)), download)
           self.static_files << StaticFile.new(self, self.source, path, filename)
         end
       end
