@@ -73,13 +73,13 @@ module Jekyll
       page = 1
       repos = []
       while true
-          puts "Getting page #" + page.to_s + " of plugins..."
+          puts "Getting page #" + page.to_s + " of plugin repositories..."
           url = 'https://api.github.com/orgs/' + plugins_org + '/repos?page=' + page.to_s
           response = JSON.load(open(url, "Authorization" => "token " + token)) if !token.nil?
           response = JSON.load(open(url)) if token.nil? # TODO: Handle this better ^
           break if response.size == 0
           response.each { |h| repos << h }
-          puts "Adding " + response.size.to_s + " more plugins to generate"
+          puts "Found " + response.size.to_s + " more plugins to generate pages for"
           page += 1
       end
 
@@ -129,7 +129,7 @@ module Jekyll
         path = File.join(dest_dir, plugin['name'])
         file = open('https://raw.githubusercontent.com/umods/' + plugin['name'] + '/master/' + filename).read
         File.write(File.join(self.dest, File.join(path, filename)), file)
-        #self.static_files << StaticFile.new(self, self.dest, path, filename) # Unknown file type
+        self.static_files << StaticFile.new(self, self.dest, path, filename) # Unknown file type
       end
     end
   end
