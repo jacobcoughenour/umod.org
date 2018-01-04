@@ -68,8 +68,7 @@ module Jekyll
         return
       end
 
-      token = ENV['GITHUB_TOKEN']
-      # TODO: Transverse all pages (rel="next" indicates another page is available, rel="last" is last page)
+      token = ENV['JEKYLL_GITHUB_TOKEN'] || ENV['GITHUB_TOKEN']
 
       page = 1
       repos = []
@@ -130,7 +129,7 @@ module Jekyll
         path = File.join(dest_dir, plugin['name'])
         file = open('https://raw.githubusercontent.com/umods/' + plugin['name'] + '/master/' + filename).read
         File.write(File.join(self.dest, File.join(path, filename)), file)
-        #self.static_files << StaticFile.new(self, self.dest, path, filename) // Unknown file type
+        #self.static_files << StaticFile.new(self, self.dest, path, filename) # Unknown file type
       end
     end
   end
