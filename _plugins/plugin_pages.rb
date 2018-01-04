@@ -1,4 +1,5 @@
 require 'json'
+require 'kramdown'
 require 'net/http'
 require 'open-uri'
 require 'sanitize'
@@ -59,7 +60,9 @@ module Jekyll
       request = Net::HTTP::Get.new(uri.request_uri)
       response = http.request(request)
       if response.code == '200'
-        self.data['more_info'] = Sanitize.clean(response.body)
+        more_info = response.body.gsub('# ' + plugin['name'], '')
+        more_info = more_info.gsub(self.data['description'], '')
+        self.data['more_info'] = Kramdown::Document.new(more_info).to_html
       end
     end
 
@@ -87,7 +90,7 @@ module Jekyll
       page = 1
       repos = []
       while true
-        puts "Getting page #" + page.to_s + " of plugin repositories..."
+        puts "Getting page #" + page.to_s + " of plugin repositories from GitHub..."
         url = 'https://api.github.com/orgs/' + plugins_org + '/repos?page=' + page.to_s
         response = JSON.load(open(url, "Authorization" => "token " + token)) if !token.nil?
         response = JSON.load(open(url)) if token.nil? # TODO: Handle this better ^
