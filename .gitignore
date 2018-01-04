@@ -15,5 +15,6 @@ coverage
 Gemfile.lock
 gh-pages/
 pkg/
+plugins/
 tmp/
 vendor/

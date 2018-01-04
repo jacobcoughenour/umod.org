@@ -73,14 +73,14 @@ module Jekyll
       page = 1
       repos = []
       while true
-          puts "Getting page #" + page.to_s + " of plugin repositories..."
-          url = 'https://api.github.com/orgs/' + plugins_org + '/repos?page=' + page.to_s
-          response = JSON.load(open(url, "Authorization" => "token " + token)) if !token.nil?
-          response = JSON.load(open(url)) if token.nil? # TODO: Handle this better ^
-          break if response.size == 0
-          response.each { |h| repos << h }
-          puts "Found " + response.size.to_s + " more plugins to generate pages for"
-          page += 1
+        puts "Getting page #" + page.to_s + " of plugin repositories..."
+        url = 'https://api.github.com/orgs/' + plugins_org + '/repos?page=' + page.to_s
+        response = JSON.load(open(url, "Authorization" => "token " + token)) if !token.nil?
+        response = JSON.load(open(url)) if token.nil? # TODO: Handle this better ^
+        break if response.size == 0
+        response.each { |h| repos << h }
+        puts "Found " + response.size.to_s + " more plugins to generate pages for"
+        page += 1
       end
 
       repos = repos.select { |p| !p['language'].nil? }
@@ -127,9 +127,14 @@ module Jekyll
       if !plugin['language'].nil?
         filename = plugin['name'] + '.cs'
         path = File.join(dest_dir, plugin['name'])
-        file = open('https://raw.githubusercontent.com/umods/' + plugin['name'] + '/master/' + filename).read
-        File.write(File.join(self.dest, File.join(path, filename)), file)
-        self.static_files << StaticFile.new(self, self.dest, path, filename) # Unknown file type
+        file = open('https://raw.githubusercontent.com/umods/' + plugin['name'] + '/master/' + filename) {|f| f.read }
+        if !file.nil?
+          unless File.directory?(File.join(self.source, path))
+            FileUtils.mkdir_p(File.join(self.source, path))
+          end
+          File.write(File.join(self.source, File.join(path, filename)), file)
+          self.static_files << StaticFile.new(self, self.source, path, filename)
+        end
       end
     end
   end
