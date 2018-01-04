@@ -5,13 +5,13 @@ layout: docs
 <div class="row">
     <div class="col-md-9">
         <div class="main-content">
-            <p>
-                {% if page.more_info %}
-                    {{ page.more_info }}
-                {% else %}
+            {% if page.more_info %}
+                {{ page.more_info }}
+            {% else %}
+                <p>
                     This plugin has no additional information about it. Please let the author know or feel free to contribute a <a href="https://github.com/{{ site.plugins_org }}/{{ page.plugin.name }}/new/master?readme=1">README.md</a> via GitHub or <a href="https://github.com/{{ site.plugins_org }}/{{ page.plugin.name }}/issues/new?title=Plugin+page+is+lacking+additional+information">open an issue</a> to request more information.
-                {% endif %}
-            </p>
+                </p>
+            {% endif %}
         </div>
     </div>
     <div class="col-md-3 hidden-sm hidden-xs">

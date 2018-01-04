@@ -60,8 +60,8 @@ module Jekyll
       request = Net::HTTP::Get.new(uri.request_uri)
       response = http.request(request)
       if response.code == '200'
-        more_info = response.body.gsub('# ' + plugin['name'], '')
-        more_info = more_info.gsub(self.data['description'], '')
+        more_info = response.body.gsub('# ' + plugin['name'], '').gsub(self.data['description'], '').strip
+        puts more_info
         self.data['more_info'] = Kramdown::Document.new(more_info).to_html
       end
     end
