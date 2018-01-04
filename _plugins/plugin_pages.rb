@@ -61,7 +61,6 @@ module Jekyll
       response = http.request(request)
       if response.code == '200'
         more_info = response.body.gsub('# ' + plugin['name'], '').gsub(self.data['description'], '').strip
-        puts more_info
         self.data['more_info'] = Kramdown::Document.new(more_info).to_html
       end
     end

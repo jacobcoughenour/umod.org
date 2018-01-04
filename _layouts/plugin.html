@@ -6,7 +6,14 @@ layout: docs
     <div class="col-md-9">
         <div class="main-content">
             {% if page.more_info %}
+                <div class="table-of-contents">
+                    {% include toc.html html=page.more_info sanitize=true %}
+                </div>
                 {{ page.more_info }}
+                <!-- TODO: Inject anchors for headings
+                <a class="fragment-identifier js-fragment-identifier fragment-identifier-scroll" href="#{{ page.title | slugify }}">
+                    <i class="fa fa-link"></i>
+                </a>-->
             {% else %}
                 <p>
                     This plugin has no additional information about it. Please let the author know or feel free to contribute a <a href="https://github.com/{{ site.plugins_org }}/{{ page.plugin.name }}/new/master?readme=1">README.md</a> via GitHub or <a href="https://github.com/{{ site.plugins_org }}/{{ page.plugin.name }}/issues/new?title=Plugin+page+is+lacking+additional+information">open an issue</a> to request more information.
@@ -22,16 +29,9 @@ layout: docs
                 </div>
             </div>
             <div class="widget">
-                <div class="">
-                    <a href="{{ page.plugin.name }}.cs" class="button helper mb30 large full blue" download="{{ page.plugin.name }}.cs">Download Now</a>
-                    <a href="{{ page.plugin.html_url }}" class="button helper mb30 large full green">Source</a>
-                </div>
+                <a href="{{ page.plugin.name }}.cs" class="button helper mb30 large full blue" download="{{ page.plugin.name }}.cs">Download Now</a>
+                <a href="{{ page.plugin.html_url }}" class="button helper mb30 large full green">Contribute at GitHub</a>
             </div>
-            <!--<div class="widget">
-                <div class="">
-                    <a href="{{ page.plugin.html_url }}" class="button helper mb30 large full green">Contribute at GitHub</a>
-                </div>
-            </div>-->
             <!--<nav class="menu-vertical-wrapper">
                 <ul class="menu-vertical  js-menu-vertical" data-prepend-to=".js-layout" data-select="Menu">
                     <li>

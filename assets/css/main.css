@@ -17091,10 +17091,12 @@ input.changelog-input {
     padding: 20px 30px;
     margin-bottom: 30px;
 }
-.table-of-contents ol {
+.table-of-contents ol,
+.table-of-contents ul {
     list-style-type: none;
 }
-.table-of-contents > ol {
+.table-of-contents > ol,
+.table-of-contents > ul {
     padding: 0;
     margin: 0;
     padding-left: 25px;
@@ -17102,7 +17104,8 @@ input.changelog-input {
     position: relative;
     counter-reset: b;
 }
-.table-of-contents > ol:after {
+.table-of-contents > ol:after,
+.table-of-contents > ul:after {
     position: absolute;
     content: '';
     display: block;
@@ -17112,7 +17115,8 @@ input.changelog-input {
     top: 0;
     left: -2px;
 }
-.table-of-contents > ol:before {
+.table-of-contents > ol:before,
+.table-of-contents > ul:before {
     position: absolute;
     content: '';
     display: block;
@@ -17122,10 +17126,12 @@ input.changelog-input {
     bottom: 0;
     left: -2px;
 }
-.table-of-contents > ol > li {
+.table-of-contents > ol > li,
+.table-of-contents > ul > li {
     position: relative;
 }
-.table-of-contents > ol > li:after {
+.table-of-contents > ol > li:after,
+.table-of-contents > ul > li:after {
     position: absolute;
     content: '';
     display: block;
@@ -17137,23 +17143,27 @@ input.changelog-input {
     top: 13px;
     left: -28px;
 }
-.table-of-contents > ol > li:before {
+.table-of-contents > ol > li:before,
+.table-of-contents > ul > li:before {
     content: "";
     counter-increment: b;
     font-weight: 300;
     color: #333333;
     font-size: 16px;
 }
-.table-of-contents > ol > li ol {
+.table-of-contents > ol > li ol,
+.table-of-contents > ul > li ul {
     margin: 0;
     padding: 5px 0 5px 15px;
 }
-.table-of-contents > ol > li a {
+.table-of-contents > ol > li a,
+.table-of-contents > ul > li a {
     font-weight: 300;
     color: #333333;
     font-size: 18px;
 }
-.table-of-contents > ol > li a:hover {
+.table-of-contents > ol > li a:hover,
+.table-of-contents > ul > li a:hover {
     text-decoration: none;
     color: #2288cc;
     -webkit-transition: color 0.25s ease;
@@ -17162,23 +17172,28 @@ input.changelog-input {
     -o-transition: color 0.25s ease;
     transition: color 0.25s ease;
 }
-.table-of-contents > ol > li > ol {
+.table-of-contents > ol > li > ol,
+.table-of-contents > ul > li > ul {
     counter-reset: c;
 }
-.table-of-contents > ol > li > ol a {
+.table-of-contents > ol > li > ol a,
+.table-of-contents > ul > li > ul a {
     font-size: 16px;
 }
-.table-of-contents > ol > li > ol > li:before {
+.table-of-contents > ol > li > ol > li:before,
+.table-of-contents > ul > li > ul > li:before {
     content: counter(b) "." counter(c) ". ";
     counter-increment: c;
     font-weight: 300;
     color: #333333;
     font-size: 16px;
 }
-.table-of-contents > ol > li > ol > li > ol {
+.table-of-contents > ol > li > ol > li > ol,
+.table-of-contents > ul > li > ul > li > ul {
     counter-reset: d;
 }
-.table-of-contents > ol > li > ol > li > ol > li:before {
+.table-of-contents > ol > li > ol > li > ol > li:before,
+.table-of-contents > ul > li > ul > li > ul > li:before {
     content: counter(b) "." counter(c) ". " counter(d) ". ";
     counter-increment: d;
     font-weight: 300;
@@ -17189,10 +17204,12 @@ input.changelog-input {
     .table-of-content {
         padding: 20px;
     }
-    .table-of-content > ol {
+    .table-of-content > ol,
+    .table-of-content > ul {
         padding-left: 20px;
     }
-    .table-of-content > ol > li:after {
+    .table-of-content > ol > li:after,
+    .table-of-content > ul > li:after {
         left: -23px;
     }
 }
