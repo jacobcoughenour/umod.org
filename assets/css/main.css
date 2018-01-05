@@ -1516,7 +1516,7 @@ body {
     color: #333333;
 }
 #content {
-    padding: 37px 0;
+    padding: 37px 0 60px 0;
 }
 #content.pt0 {
     padding-top: 0;
