@@ -11559,7 +11559,7 @@ pre.line-numbers > code {
 .content {
     display: block;
 }
-.content .container {
+#content .container {
     padding-bottom: 80px;
 }
 /*
