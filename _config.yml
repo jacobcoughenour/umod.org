@@ -8,11 +8,11 @@ google_site_verification: Q2WUZqluExDuYXsQ8Lq5D1zVGyCL3v3XFclfUQOYLT8
 # Community
 forums: https://forums.umod.org
 twitter: https://twitter.com/theumod
-discord:
 
 # Building
 markdown: kramdown
 kramdown:
+  auto_ids: true
   input: GFM
 permalink: /:title/
 excerpt_separator: <!--more-->
@@ -22,13 +22,3 @@ repository: theumod/umod.org
 plugins_org: umods
 client_id: 644edf81174f14822070
 exclude: ["js/dev", "js/preprod", "plugins", "vendor", .gitignore", "_test.sh", "Gemfile*", "README.md"]
-
-# Jekyll
-plugins:
-  - github-pages
-  - jekyll-avatar
-  - jekyll-feed
-  - jekyll-github-metadata
-  - jekyll-redirect-from
-  - jekyll-sitemap
-  - kramdown

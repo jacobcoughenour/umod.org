@@ -47,10 +47,11 @@ module Jekyll
       self.data['plugin_prev'] = prev_plugin
       self.data['plugin_next'] = next_plugin
 
-      # Set the title for this page
-      self.data['title'] = plugin['name']
+      # Set the humanized title for this page
+      self.data['title'] = plugin['name'].humanize
+      puts "Plugin page title set to: #{self.data['title']}"
 
-      # Set the meta description for this page
+      # Set the brief description for this page
       self.data['description'] = Sanitize.clean(plugin['description']).chomp('.')
 
       # Set the additional information for this page
@@ -59,7 +60,7 @@ module Jekyll
       http.use_ssl = true
       request = Net::HTTP::Get.new(uri.request_uri)
       response = http.request(request)
-      if response.code == '200'
+      if response.code == '200' && !response.body.nil?
         more_info = response.body.gsub('# ' + plugin['name'], '').gsub(self.data['description'], '').strip
         self.data['more_info'] = Kramdown::Document.new(more_info).to_html
       end
@@ -89,13 +90,13 @@ module Jekyll
       page = 1
       repos = []
       while true
-        puts "Getting page #" + page.to_s + " of plugin repositories from GitHub..."
+        puts "Getting page #{page.to_s} of plugin repositories from GitHub..."
         url = 'https://api.github.com/orgs/' + plugins_org + '/repos?page=' + page.to_s
         response = JSON.load(open(url, "Authorization" => "token " + token)) if !token.nil?
         response = JSON.load(open(url)) if token.nil? # TODO: Handle this better ^
         break if response.size == 0
         response.each { |h| repos << h }
-        puts "Found " + response.size.to_s + " more plugins to generate pages for"
+        puts "Found #{response.size.to_s} more plugins to generate pages for"
         page += 1
       end
 
