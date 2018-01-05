@@ -11559,6 +11559,9 @@ pre.line-numbers > code {
 .content {
     display: block;
 }
+.content .container {
+    padding-bottom: 80px;
+}
 /*
  *    Owl Carousel - Animate Plugin
  */
@@ -17659,8 +17662,7 @@ input.changelog-input {
         margin-bottom: 80px;
     }
     .footer-logo-wrapper {
-        text-align: center;
-        padding-bottom: 30px;
+        display: none;
     }
     .footer-menu,
     .copyright {
@@ -17676,8 +17678,9 @@ input.changelog-input {
         margin-left: -50px;
     }
     .scroll-top {
-        right: auto;
-        left: 50%;
+        top: unset;
+        right: 0;
+        left: inherit;
         margin-left: 10px;
     }
     .footer-extended-menu {
