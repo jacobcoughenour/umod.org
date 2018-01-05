@@ -18218,12 +18218,12 @@ input.changelog-input {
     overflow: hidden;
 }
 .plugin-icon {
-    overflow: hidden;
-    max-height: 180px;
+    #overflow: hidden;
+    #max-height: 180px;
 }
 .plugin-icon img {
-    margin-left: 50%;
-    transform: translateX(-50%);
+    #margin-left: 50%;
+    #transform: translateX(-50%);
 }
 @keyframes ghost {
     from {
