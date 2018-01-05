@@ -61,6 +61,7 @@ module Jekyll
       request = Net::HTTP::Get.new(uri.request_uri)
       response = http.request(request)
       if response.code == '200' && !response.body.nil?
+        puts "Found README.md, setting page.more_info for plugin #{plugin['name']}"
         more_info = response.body.gsub('# ' + plugin['name'], '').gsub(self.data['description'], '').strip
         self.data['more_info'] = Kramdown::Document.new(more_info).to_html
       end

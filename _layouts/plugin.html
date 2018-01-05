@@ -18,7 +18,7 @@ layout: docs
                 </a>-->
             {% else %}
                 <p>
-                    This plugin has no additional information about it. Please let the author know or feel free to contribute a <a href="https://github.com/{{ site.plugins_org }}/{{ page.plugin.name }}/new/master?readme=1">README.md</a> via GitHub or <a href="https://github.com/{{ site.plugins_org }}/{{ page.plugin.name }}/issues/new?title=Plugin+page+is+lacking+additional+information">open an issue</a> to request more information.
+                    This plugin has no additional information about it. Please let the author know or feel free to contribute a <a href="{{ page.plugin.html_url }}/new/master?readme=1">README.md</a> via GitHub or <a href="{{ page.plugin.html_url }}/issues/new?title=Plugin+page+is+lacking+additional+information">open an issue</a> to request more information.
                 </p>
             {% endif %}
         </div>
@@ -26,32 +26,62 @@ layout: docs
     <div class="col-md-3 hidden-sm hidden-xs">
         <div class="sidebar js-sidebar-fixed">
             <div class="widget">
-                <div class="box box-image">
-                    <img src="http://www.gravatar.com/avatar/{{ page.plugin.id }}?s=263&d=identicon&r=PG" class="image" alt="{{ page.plugin.name }}" />
+                <div class="box plugin-icon">
+                    {% if page.plugin.icon %}
+                        <img src="https://raw.githubusercontent.com/{{ site.plugins_org }}/{{ site.plugin.name }}/master/icon.png" class="image" alt="{{ page.plugin.name }}" />
+                    {% else %}
+                        <img src="http://www.gravatar.com/avatar/{{ page.plugin.id }}?s=262&d=identicon&r=PG" class="image grayscale" alt="{{ page.plugin.name }}" />
+                    {% endif %}
                 </div>
             </div>
             <div class="widget">
                 <a href="{{ page.plugin.name }}.cs" class="button helper mb30 large full blue" download="{{ page.plugin.name }}.cs">Download Now</a>
                 <a href="{{ page.plugin.html_url }}" class="button helper mb30 large full green">Contribute at GitHub</a>
             </div>
-            <!--<nav class="menu-vertical-wrapper">
-                <ul class="menu-vertical  js-menu-vertical" data-prepend-to=".js-layout" data-select="Menu">
-                    <li>
-                        <a href="#">Placeholder</a>
-                        <ul>
-                            <li>
-                                <a href="#">Placeholder</a>
-                                <ul>
-                                    <li>
-                                        <a href="">Placeholder</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+            <div class="widget">
+                <h3 class="widget-title">Contributors</h3>
+                <ul class="widget-recommended-products">
+                    <li class="widget-recommended-product">
+                        {% avatar lukespragg size=67 %} <!-- TODO: {% avatar {{ contributor.name }} size=67 %} -->
+                        <a href="#" class="widget-recommended-product-link">
+                            <h5 class="widget-recommended-product-link-title">lukespragg <!-- TODO: {{ contributor.name }} -->
+                                <i class="fa fa-angle-right"></i>
+                            </h5>
+                            <p class="widget-recommended-product-link-description">Placeholder</p> <!-- TODO: {{ contributor.bio }} -->
+                        </a>
+                    </li>
+                    <li class="widget-recommended-product">
+                        {% avatar mughisi size=67 %}
+                        <a href="#" class="widget-recommended-product-link">
+                            <h5 class="widget-recommended-product-link-title">mughisi
+                                <i class="fa fa-angle-right"></i>
+                            </h5>
+                            <p class="widget-recommended-product-link-description">Placeholder</p>
+                        </a>
+                    </li>
+                    <li class="widget-recommended-product">
+                        {% avatar Ryan-J-D size=67 %}
+                        <a href="#" class="widget-recommended-product-link">
+                            <h5 class="widget-recommended-product-link-title">Ryan-J-D
+                                <i class="fa fa-angle-right"></i>
+                            </h5>
+                            <p class="widget-recommended-product-link-description">Placeholder</p>
+                        </a>
                     </li>
                 </ul>
-            </nav>-->
-            <!--<div class="widget">
+                <ul class="widget-recommended-products">
+                    <li class="widget-recommended-product">
+                        {% avatar nogrod size=67 %}
+                        <a href="#" class="widget-recommended-product-link">
+                            <h5 class="widget-recommended-product-link-title">nogrod
+                                <i class="fa fa-angle-right"></i>
+                            </h5>
+                            <p class="widget-recommended-product-link-description">Placeholder</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="widget">
                 <div class="number-box">
                     <div class="number-icon">
                         <i class="pe-7s-star"></i>
@@ -67,8 +97,9 @@ layout: docs
                     <div class="number-wrapper">
                         <span class="number-rotator js-animate-number" data-number="{{ page.plugin.watchers_count }}">{{ page.plugin.watchers_count }} <span class="number-description grey">watchers</span></span>
                     </div>
-                </div>-->
-            <!--<div class="widget">
+                </div>
+            </div>
+            <div class="widget">
                 <h3 class="widget-title">Tags</h3>
                 <ul class="tags">
                     <li class="tag-item">
@@ -81,7 +112,7 @@ layout: docs
                         <a href="#">universal</a>
                     </li>
                 </ul>
-            </div>-->
+            </div>
         </div>
     </div>
 </div>
