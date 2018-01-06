@@ -71,4 +71,11 @@
         {% capture my_toc %}{: #{{ include.id }}}
 {{ my_toc | lstrip }}{% endcapture %}
     {% endif %}
-{% endcapture %}{% assign tocWorkspace = '' %}{{ my_toc | markdownify | strip }}
+{% endcapture %}
+{% assign tocWorkspace = '' %}
+
+{% if my_toc != '' %}
+    <div class="table-of-contents">
+        {{ my_toc | markdownify | strip }}
+    </div>
+{% endif %}

@@ -6,9 +6,7 @@ layout: docs
     <div class="col-md-9">
         <div class="main-content">
             {% if page.more_info %}
-                <div class="table-of-contents">
-                    {% include toc.html html=page.more_info sanitize=true %}
-                </div>
+                {% include toc.html html=page.more_info sanitize=true %}
 
                 {{ page.more_info }}
 
@@ -28,7 +26,7 @@ layout: docs
             <div class="widget">
                 <div class="box plugin-icon">
                     <object data="https://raw.githubusercontent.com/{{ site.plugins_org }}/{{ page.plugin.name }}/master/icon.png" class="image" width="262" height="262">
-                        <img src="http://www.gravatar.com/avatar/{{ page.plugin.id }}?s=253&d=identicon&r=PG" alt="{{ page.plugin.name }}" />
+                        <img src="http://www.gravatar.com/avatar/{{ page.plugin.id }}?s=253&d=identicon&r=PG" class="grayscale" alt="{{ page.plugin.name }}" />
                     </object>
                 </div>
             </div>
