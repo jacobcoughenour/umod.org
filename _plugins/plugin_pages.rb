@@ -62,7 +62,15 @@ module Jekyll
       response = http.request(request)
       if response.code == '200' && !response.body.nil?
         puts "Found README.md, setting page.more_info for plugin #{plugin['name']}"
-        more_info = response.body.gsub('# ' + plugin['name'], '').gsub(self.data['description'], '').strip
+        # Remove redundant headings with plugin's name
+        more_info = response.body.gsub('# ' + plugin['name'], '') \
+        # Remove redundant descriptions that match existing
+        .gsub(self.data['description'], '') \
+        # Remove any remote images or badges from description
+        .gsub(/\[?\!\[[\w\s?]+\]?\(.*\)/, '') \
+        # Remove any whitespace from start or end of string
+        .strip
+
         self.data['more_info'] = Kramdown::Document.new(more_info).to_html
       end
     end

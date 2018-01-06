@@ -27,11 +27,9 @@ layout: docs
         <div class="sidebar js-sidebar-fixed">
             <div class="widget">
                 <div class="box plugin-icon">
-                    {% if page.plugin.icon %}
-                        <img src="https://raw.githubusercontent.com/{{ site.plugins_org }}/{{ site.plugin.name }}/master/icon.png" class="image" alt="{{ page.plugin.name }}" />
-                    {% else %}
-                        <img src="http://www.gravatar.com/avatar/{{ page.plugin.id }}?s=262&d=identicon&r=PG" class="image grayscale" alt="{{ page.plugin.name }}" />
-                    {% endif %}
+                    <object data="https://raw.githubusercontent.com/{{ site.plugins_org }}/{{ page.plugin.name }}/master/icon.png" class="image" width="262" height="262">
+                        <img src="http://www.gravatar.com/avatar/{{ page.plugin.id }}?s=253&d=identicon&r=PG" alt="{{ page.plugin.name }}" />
+                    </object>
                 </div>
             </div>
             <div class="widget">
@@ -87,7 +85,10 @@ layout: docs
                         <i class="pe-7s-star"></i>
                     </div>
                     <div class="number-wrapper">
-                        <span class="number-rotator js-animate-number" data-number="{{ page.plugin.stargazers_count }}">{{ page.plugin.stargazers_count }} <span class="number-description grey">stargazers</span></span>
+                        <span class="number-rotator js-animate-number" data-number="{{ page.plugin.stargazers_count }}">
+                            {{ page.plugin.stargazers_count }}
+                            <span class="number-description grey">stargazer{% if page.plugin.stargazers_count != 1 %}s{% endif %}</span>
+                        </span>
                     </div>
                 </div>
                 <div class="number-box">
@@ -95,7 +96,10 @@ layout: docs
                         <i class="pe-7s-look"></i>
                     </div>
                     <div class="number-wrapper">
-                        <span class="number-rotator js-animate-number" data-number="{{ page.plugin.watchers_count }}">{{ page.plugin.watchers_count }} <span class="number-description grey">watchers</span></span>
+                        <span class="number-rotator js-animate-number" data-number="{{ page.plugin.watchers_count }}">
+                            {{ page.plugin.watchers_count }}
+                            <span class="number-description grey">watcher{% if page.plugin.watchers_count != 1 %}s{% endif %}</span>
+                        </span>
                     </div>
                 </div>
             </div>
