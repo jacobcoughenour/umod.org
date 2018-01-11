@@ -1,4 +1,4 @@
 [context.deploy-preview.environment]
-    DISCOURSE_API_KEY = "not so secret"
-    JEKYLL_GITHUB_TOKEN = "not so secret"
-    PATREON_API_KEY = "not so secret"
+    DISCOURSE_API_KEY = ""
+    JEKYLL_GITHUB_TOKEN = ""
+    PATREON_API_KEY = ""

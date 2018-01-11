@@ -102,8 +102,7 @@ module Jekyll
       while true
         puts "Getting page #{page.to_s} of plugin repositories from GitHub..."
         url = 'https://api.github.com/orgs/' + plugins_org + '/repos?page=' + page.to_s
-        response = JSON.load(open(url, "Authorization" => "token " + token)) if !token.nil?
-        response = JSON.load(open(url)) if token.nil? # TODO: Handle this better ^
+        response = JSON.load(open(url, !token.nil? && !token.empty? ? { "Authorization" => "token " + token } : nil))
         break if response.size == 0
         response.each { |h| repos << h }
         puts "Found #{response.size.to_s} more plugins to generate pages for"
