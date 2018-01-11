@@ -55,24 +55,41 @@ module Jekyll
       self.data['description'] = Sanitize.clean(plugin['description']).chomp('.')
 
       # Set the additional information for this page
-      uri = URI.parse('https://raw.githubusercontent.com/umods/' + plugin['name'] + '/master/README.md')
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
-      request = Net::HTTP::Get.new(uri.request_uri)
-      response = http.request(request)
-      if response.code == '200' && !response.body.nil?
+      readme_url = 'https://raw.githubusercontent.com/umods/' + plugin['name'] + '/master/README.md'
+      readme_response = get_remote_file(readme_url)
+      if readme_response.code == '200' && !readme_response.body.nil?
         puts "Found README.md, setting page.more_info for plugin #{plugin['name']}"
+        self.data['more_info'] = Kramdown::Document.new(sanitize_readme(readme_response, plugin)).to_html
+      end
+
+      # Set the icon.png if it is available
+      icon_url = 'https://raw.githubusercontent.com/umods/' + plugin['name'] + '/master/icon.png'
+      icon_response = get_remote_file(icon_url)
+      if icon_response.code == '200'
+        puts "Found icon.png, setting page.icon_url for plugin #{plugin['name']}"
+        self.data['icon_url'] = icon_url
+      end
+    end
+
+    def sanitize_readme(input, plugin)
         # Remove redundant headings with plugin's name
-        more_info = response.body.gsub('# ' + plugin['name'], '') \
+        readme = input.body.gsub('# ' + plugin['name'], '') \
         # Remove redundant descriptions that match existing
         .gsub(self.data['description'], '') \
         # Remove any remote images or badges from description
         .gsub(/\[?\!\[[\w\s?]+\]?\(.*\)/, '') \
         # Remove any whitespace from start or end of string
         .strip
+        readme
+    end
 
-        self.data['more_info'] = Kramdown::Document.new(more_info).to_html
-      end
+    def get_remote_file(url)
+      uri = URI.parse(url)
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
+      request = Net::HTTP::Get.new(uri.request_uri)
+      response = http.request(request)
+      response
     end
 
     # Override so that we can control where the destination file goes
