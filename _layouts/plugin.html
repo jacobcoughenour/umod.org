@@ -25,8 +25,8 @@ layout: docs
         <div class="sidebar js-sidebar-fixed">
             <div class="widget">
                 <div class="box plugin-icon">
-                    {% if page.icon_url %}
-                        <img src="{{ page.icon_url }}" class="image" alt="{{ page.plugin.name }}" />
+                    {% if page.plugin.icon_url %}
+                        <img src="{{ page.plugin.icon_url }}" class="image" alt="{{ page.plugin.name }}" />
                     {% else %}
                         <img src="https://www.gravatar.com/avatar/{{ page.plugin.id }}?s=262.5&d=identicon&r=PG" class="image" alt="{{ page.plugin.name }}" />
                     {% endif %}

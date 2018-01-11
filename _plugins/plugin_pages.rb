@@ -66,8 +66,8 @@ module Jekyll
       icon_url = 'https://raw.githubusercontent.com/umods/' + plugin['name'] + '/master/icon.png'
       icon_response = get_remote_file(icon_url)
       if icon_response.code == '200'
-        puts "Found icon.png, setting page.icon_url for plugin #{plugin['name']}"
-        self.data['icon_url'] = icon_url
+        puts "Found icon.png, setting page.plugin.icon_url for plugin #{plugin['name']}"
+        self.data['plugin']['icon_url'] = icon_url
       end
     end
 
