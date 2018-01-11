@@ -4,33 +4,78 @@ description: Expand your server functionality with one or many plugins
 layout: docs
 ---
 
-<div class="grid-view js-grid-view plugins-list">
-    <div class="row">
-        {% for plugin in page.plugins %}
-            <div class="col-md-3">
-                <div class="grid-view-elem js-grid-view-elem plugin-card">
-                    <div class="plugin-icon-area">
-                        <a href="{{ plugin.name }}/">
-                            {% if plugin.icon_url %}
-                                <img src="{{ plugin.icon_url }}" class="image" alt="{{ plugin.name }}" />
-                            {% else %}
-                                <img src="https://www.gravatar.com/avatar/{{ plugin.id }}?s=262.5&d=identicon&r=PG" class="image" alt="{{ plugin.name }}" />
-                            {% endif %}
-                        </a>
-                    </div>
-                    <div class="plugin-info">
-                        <h3 class="grid-view-elem-title">
-                            <a href="{{ plugin.name }}/">{{ plugin.name | humanize }}</a>
-                        </h3>
-                        <p class="grid-view-elem-description">
-                            {{ plugin.description }}
-                        </p>
-                        {% if plugin.license != nil %}
-                            <img src="https://img.shields.io/github/license/{{ site.plugins_org }}/{{ plugin.name }}.svg?style=flat-square" class="badge" alt="{{ plugin.license.name }}" />
-                        {% endif %}
+<div class="row">
+    <div class="col-md-9">
+        <div class="header-back header-back-simple header-back-small">
+            <div class="header-back-container">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="page-info page-info-simple">
+                                <h1 class="page-title">{{ page.title }}</h1>
+                                <h2 class="page-description">{{ page.description }}</h2>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        {% endfor %}
+        </div>
+
+        <div id="content">
+            <div class="container plugins-index-header">
+                <div class="search">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input type="text" id="searchinput" placeholder="Search Plugins">
+                </div>
+                <div class="dropdown">
+                    <select name="sortby" class="dropdown-select">
+                        <option value="lastupdate">Last Update</option>
+                        <option value="newest">Newest</option>
+                        <option value="moststared">Most Stared</option>
+                        <option value="mostwatched">Most Watched</option>
+                        <option value="title">Title (A-Z)</option>
+                    </select>
+                </div>
+                <label class="gridtoggle">
+                    <input type="checkbox">
+                    <i class="gridicon fa fa-th-large" aria-hidden="true"></i>
+                    <i class="listicon fa fa-th-list" aria-hidden="true"></i>
+                </label>
+            </div>
+            <div class="plugins-index">
+                <div class="container">
+                    <div class="grid-view js-grid-view">
+                        <div class="row">
+                            {% for plugin in page.plugins %}
+                                <div class="col-md-3">
+                                    <div class="grid-view-elem js-grid-view-elem plugin-card">
+                                        <div class="plugin-icon-area">
+                                            <a href="{{ plugin.name }}/">
+                                                {% if plugin.icon_url %}
+                                                    <img src="{{ plugin.icon_url }}" class="image" alt="{{ plugin.name }}" />
+                                                {% else %}
+                                                    <img src="https://www.gravatar.com/avatar/{{ plugin.id }}?s=262.5&d=identicon&r=PG" class="image" alt="{{ plugin.name }}" />
+                                                {% endif %}
+                                            </a>
+                                        </div>
+                                        <div class="plugin-info">
+                                            <h3 class="grid-view-elem-title">
+                                                <a href="{{ plugin.name }}/">{{ plugin.name | humanize }}</a>
+                                            </h3>
+                                            <p class="grid-view-elem-description">
+                                                {{ plugin.description }}
+                                            </p>
+                                            {% if plugin.license != nil %}
+                                                <img src="https://img.shields.io/github/license/{{ site.plugins_org }}/{{ plugin.name }}.svg?style=flat-square" class="badge" alt="{{ plugin.license.name }}" />
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

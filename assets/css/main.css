@@ -18260,6 +18260,131 @@ input.changelog-input {
 /* ==========================================================================
      Plugins index
      ========================================================================== */
+#content .container.plugins-index-header {
+    height: 36px;
+    margin-bottom: 20px;
+    padding-bottom: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+}
+#content .container.plugins-index-header > * {
+    margin-left: 16px;
+}
+.plugins-index-header .search {
+    margin-bottom: 0;
+}
+.plugins-index-header .search > input {
+    border-width: 0;
+    padding: 8px 6px 6px 6px;
+    outline: none;
+    font-size: 16px;
+    border-bottom: 2px solid;
+    border-bottom-color: transparent;
+    -webkit-transition: border-bottom-color .05s ease-in-out;
+    transition: border-bottom-color .05s ease-in-out;
+}
+.plugins-index-header .search > input:focus {
+    border-bottom-color: #2288cc;
+}
+.plugins-index-header .gridtoggle {
+    display: block;
+    position: relative;
+    margin-bottom: 0;
+    height: 36px;
+    width: 36px;
+    cursor: pointer;
+    font-size: 24px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: #f6f7f8;
+}
+.plugins-index-header .gridtoggle > input {
+    /* position: absolute; */
+    opacity: 0;
+    cursor: pointer;
+}
+.plugins-index-header .gridtoggle > .gridicon,
+.plugins-index-header .gridtoggle > .listicon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    -webkit-transition: opacity .15s ease-in-out;
+    transition: opacity .15s ease-in-out;
+    font-size: 24px;
+}
+.plugins-index-header .gridtoggle > .listicon,
+.plugins-index-header .gridtoggle input:checked ~ .gridicon {
+    opacity: 0;
+}
+.plugins-index-header .gridtoggle > .gridicon,
+.plugins-index-header .gridtoggle input:checked ~ .listicon {
+    opacity: 1;
+}
+.plugins-index-header .dropdown {
+    margin: 0;
+    cursor: pointer;
+    vertical-align: top;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    width: 150px;
+    background: #f6f7f8;
+    border: none;
+    border-color: white #f7f7f7 whitesmoke;
+    border-radius: 3px;
+}
+.plugins-index-header .dropdown-select {
+    cursor: pointer;
+    position: relative;
+    width: 100%;
+    margin: 0;
+    padding: 6px 8px 6px 10px;
+    height: 100%;
+    line-height: 14px;
+    font-size: 16px;
+    color: #333333;
+    background: #f2f2f2; /* Fallback for IE 8 */
+    background: rgba(0, 0, 0, 0) !important; /* "transparent" doesn't work with Opera */
+    border: 0;
+    border-radius: 0;
+    -webkit-appearance: none;
+}
+.plugins-index-header .dropdown-select:focus {
+    z-index: 3;
+    width: 100%;
+    color: #394349;
+    outline: none;
+}
+.plugins-index-header .dropdown-select > option {
+    margin: 3px;
+    padding: 6px 8px;
+    text-shadow: none;
+    background: #fff;
+    border: 0;
+    border-radius: 3px;
+    cursor: pointer;
+}
+/* Fix for IE 8 putting the arrows behind the select element */
+.lt-ie9 .dropdown {
+    z-index: 1;
+}
+.lt-ie9 .dropdown-select {
+    z-index: -1;
+}
+.lt-ie9 .dropdown-select:focus {
+    z-index: 3;
+}
+.plugins-index {
+    background: #f6f7f8;
+    padding-top: 28px;
+}
 .grid-view-elem.plugin-card {
     background: #fff;
     padding: 0;
@@ -18281,14 +18406,26 @@ input.changelog-input {
     cursor: pointer;
     overflow: hidden;
 }
-.plugin-card .plugin-icon-area > a > img {
+.plugin-card .plugin-icon-area > a > img,
+.plugin-card .plugin-icon-area > a > img.image {
     position: absolute;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    margin: 0;
     width: 100%;
     height: auto;
     min-height: 150px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    -webkit-transition: opacity .05s ease-in-out;
+    transition: opacity .05s ease-in-out;
+    opacity: 0.8;
+}
+.plugin-card:hover .plugin-icon-area > a > img,
+.plugin-card:hover .plugin-icon-area > a > img.image {
+    opacity: 1;
 }
 .plugin-card .plugin-info {
     margin: 16px;
