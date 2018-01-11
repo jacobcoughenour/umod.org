@@ -58,8 +58,8 @@ module Jekyll
       readme_url = 'https://raw.githubusercontent.com/umods/' + plugin['name'] + '/master/README.md'
       readme_response = get_remote_file(readme_url)
       if readme_response.code == '200' && !readme_response.body.nil?
-        puts "Found README.md, setting page.more_info for plugin #{plugin['name']}"
-        self.data['more_info'] = Kramdown::Document.new(sanitize_readme(readme_response, plugin)).to_html
+        puts "Found README.md, setting page.plugin.readme for plugin #{plugin['name']}"
+        self.data['plugin']['readme'] = Kramdown::Document.new(sanitize_readme(readme_response, plugin)).to_html
       end
 
       # Set the icon.png if it is available

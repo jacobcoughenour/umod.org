@@ -5,10 +5,10 @@ layout: docs
 <div class="row">
     <div class="col-md-9">
         <div class="main-content">
-            {% if page.more_info %}
-                {% include toc.html html=page.more_info sanitize=true %}
+            {% if page.plugin.readme %}
+                {% include toc.html html=page.plugin.readme sanitize=true %}
 
-                {{ page.more_info }}
+                {{ page.plugin.readme }}
 
                 <!-- TODO: Inject anchors for headings
                 <a class="fragment-identifier js-fragment-identifier fragment-identifier-scroll" href="#{{ page.title | slugify }}">
