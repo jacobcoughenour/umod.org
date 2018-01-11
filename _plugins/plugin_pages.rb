@@ -41,55 +41,18 @@ module Jekyll
 
     # Attach our data to the global page variable. This allows pages to see this data
     # Use to set plugin. Also sets the page title
-    def set_plugin_data(plugin, prev_plugin, next_plugin)
+    def set_page_data(plugin, prev_plugin, next_plugin)
       # Set the plugin instances
       self.data['plugin'] = plugin
       self.data['plugin_prev'] = prev_plugin
       self.data['plugin_next'] = next_plugin
 
       # Set the humanized title for this page
-      self.data['title'] = plugin['name'].humanize
-      puts "Plugin page title set to: #{self.data['title']}"
+      self.data['title'] = plugin['title']
+      puts "Plugin page title set to: #{plugin['title']}"
 
       # Set the brief description for this page
-      self.data['description'] = Sanitize.clean(plugin['description']).chomp('.')
-
-      # Set the additional information for this page
-      readme_url = 'https://raw.githubusercontent.com/umods/' + plugin['name'] + '/master/README.md'
-      readme_response = get_remote_file(readme_url)
-      if readme_response.code == '200' && !readme_response.body.nil?
-        puts "Found README.md, setting page.plugin.readme for plugin #{plugin['name']}"
-        self.data['plugin']['readme'] = Kramdown::Document.new(sanitize_readme(readme_response, plugin)).to_html
-      end
-
-      # Set the icon.png if it is available
-      icon_url = 'https://raw.githubusercontent.com/umods/' + plugin['name'] + '/master/icon.png'
-      icon_response = get_remote_file(icon_url)
-      if icon_response.code == '200'
-        puts "Found icon.png, setting page.plugin.icon_url for plugin #{plugin['name']}"
-        self.data['plugin']['icon_url'] = icon_url
-      end
-    end
-
-    def sanitize_readme(input, plugin)
-        # Remove redundant headings with plugin's name
-        readme = input.body.gsub('# ' + plugin['name'], '') \
-        # Remove redundant descriptions that match existing
-        .gsub(self.data['description'], '') \
-        # Remove any remote images or badges from description
-        .gsub(/\[?\!\[[\w\s?]+\]?\(.*\)/, '') \
-        # Remove any whitespace from start or end of string
-        .strip
-        readme
-    end
-
-    def get_remote_file(url)
-      uri = URI.parse(url)
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
-      request = Net::HTTP::Get.new(uri.request_uri)
-      response = http.request(request)
-      response
+      self.data['description'] = plugin['description']
     end
 
     # Override so that we can control where the destination file goes
@@ -102,6 +65,27 @@ module Jekyll
 
   # The Site class is a built-in Jekyll class with access to global site config information
   class Site
+    def get_remote_file(url)
+      uri = URI.parse(url)
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
+      request = Net::HTTP::Get.new(uri.request_uri)
+      response = http.request(request)
+      response
+    end
+
+    def sanitize_readme(input, repo)
+        # Remove redundant headings with repo's name
+        readme = input.body.gsub('# ' + repo['name'], '') \
+        # Remove redundant descriptions that match existing
+        .gsub(repo['description'], '') \
+        # Remove any remote images or badges from description
+        .gsub(/\[?\!\[[\w\s?]+\]?\(.*\)/, '') \
+        # Remove any whitespace from start or end of string
+        .strip
+        readme
+    end
+
     # Creates instances of PluginPage, renders then, and writes the output to a file
     # Will create a page for the plugins index and each plugin
     def write_all_plugin_files
@@ -125,9 +109,30 @@ module Jekyll
         puts "Found #{response.size.to_s} more plugins to generate pages for"
         page += 1
       end
-
       repos = repos.select { |p| !p['language'].nil? }
       repos = repos.sort_by { |p| p['name'] }
+      repos.each do |repo|
+        # Set humanized title and clean description
+        repo['title'] = repo['name'].humanize
+        repo['description'] = Sanitize.clean(repo['description']).chomp('.')
+
+        # Set the readme variable, if available
+        readme_url = 'https://raw.githubusercontent.com/umods/' + repo['name'] + '/master/README.md'
+        readme_response = get_remote_file(readme_url)
+        if readme_response.code == '200' && !readme_response.body.nil?
+          puts "Found README.md, setting plugin.readme for plugin #{repo['name']}"
+          repo['readme'] = Kramdown::Document.new(sanitize_readme(readme_response, repo)).to_html
+        end
+
+        # Set the icon.png URL, if available
+        icon_url = 'https://raw.githubusercontent.com/umods/' + repo['name'] + '/master/icon.png'
+        icon_response = get_remote_file(icon_url)
+        if icon_response.code == '200'
+          puts "Found icon.png, setting plugin.icon_url for plugin #{repo['name']}"
+          repo['icon_url'] = icon_url
+        end
+      end
+
       # Write all of the plugin pages
       puts "Plugins data read: found #{repos.length} plugins"
       write_plugins_index(repos, 'plugins')
@@ -161,7 +166,7 @@ module Jekyll
       # Attach our plugin data to global site variable. This allows pages to see this plugin's data
       puts "Generating page for plugin #{plugin['name']} (#{plugin['id']})"
       page = PluginPage.new(self, self.source, File.join(dest_dir, plugin['name']), 'index.html', 'plugin')
-      page.set_plugin_data(plugin, prev_plugin, next_plugin)
+      page.set_page_data(plugin, prev_plugin, next_plugin)
       page.render(self.layouts, site_payload)
       page.write(self.dest)
       self.pages << page
