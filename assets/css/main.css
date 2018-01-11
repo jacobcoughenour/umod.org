@@ -18258,11 +18258,8 @@ input.changelog-input {
 }
 
 /* ==========================================================================
-     Plugins list
+     Plugins index
      ========================================================================== */
-.plugins-list {
-    background: #fafafa;
-}
 .grid-view-elem.plugin-card {
     background: #fff;
     padding: 0;
