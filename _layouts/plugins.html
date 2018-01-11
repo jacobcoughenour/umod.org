@@ -4,31 +4,33 @@ description: Expand your server functionality with one or many plugins
 layout: docs
 ---
 
-<div class="grid-view js-grid-view">
+<div class="grid-view js-grid-view plugins-list">
     <div class="row">
         {% for plugin in page.plugins %}
-            <div class="col-md-4">
-                <div class="grid-view-elem js-grid-view-elem">
-                    <h3 class="grid-view-elem-title">
-                        <a href="{{ plugin.name }}/">{{ plugin.name | humanize }}</a>
-                    </h3>
-                    <p class="grid-view-elem-description">
-                        {{ plugin.description }}<br />
+            <div class="col-md-3">
+                <div class="grid-view-elem js-grid-view-elem plugin-card">
+                    <div class="plugin-icon-area">
+                        <a href="{{ plugin.name }}/">
+                            {% if plugin.icon_url %}
+                                <img src="{{ plugin.icon_url }}" class="image" alt="{{ plugin.name }}" />
+                            {% else %}
+                                <img src="https://www.gravatar.com/avatar/{{ plugin.id }}?s=262.5&d=identicon&r=PG" class="image" alt="{{ plugin.name }}" />
+                            {% endif %}
+                        </a>
+                    </div>
+                    <div class="plugin-info">
+                        <h3 class="grid-view-elem-title">
+                            <a href="{{ plugin.name }}/">{{ plugin.name | humanize }}</a>
+                        </h3>
+                        <p class="grid-view-elem-description">
+                            {{ plugin.description }}
+                        </p>
                         {% if plugin.license != nil %}
-                            <!-- TODO: repository.license.url -->
-                            <img src="https://img.shields.io/badge/license-{{ plugin.license.spdx_id }}-lightgrey.svg?style=flat" alt="{{ plugin.license.name }}" />
+                            <img src="https://img.shields.io/github/license/{{ site.plugins_org }}/{{ plugin.name }}.svg?style=flat-square" class="badge" alt="{{ plugin.license.name }}" />
                         {% endif %}
-                    </p>
+                    </div>
                 </div>
             </div>
-        <!--<div class="col-md-3">
-            <div class="box box-image">
-                <a href="{{ site.url }}/plugins/{{ plugin.name }}" alt="{{ plugin.name }}">
-                    <img src="{{ plugin.owner.avatar_url }}" class="image" alt="box image">
-                    <h4 class="box-title">{{ plugin.name }}</h4>
-                </a>
-            </div>
-        </div>-->
         {% endfor %}
     </div>
 </div>
