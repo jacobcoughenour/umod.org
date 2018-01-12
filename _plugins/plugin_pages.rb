@@ -101,7 +101,7 @@ module Jekyll
       repos = []
       while true
         puts "Getting page #{page.to_s} of plugin repositories from GitHub..."
-        url = 'https://api.github.com/orgs/' + plugins_org + '/repos?page=' + page.to_s
+        url = 'https://api.github.com/orgs/' + plugins_org + '/repos?per_page=100&page=' + page.to_s
         response = JSON.load(open(url, !token.nil? && !token.empty? ? { "Authorization" => "token " + token } : nil))
         break if response.size == 0
         response.each { |h| repos << h }
