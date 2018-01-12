@@ -1516,7 +1516,7 @@ body {
     color: #333333;
 }
 #content {
-    padding: 37px 0 60px 0;
+    padding: 37px 0 155px 0;
 }
 #content.pt0 {
     padding-top: 0;
@@ -18253,7 +18253,6 @@ input.changelog-input {
     -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
     filter: grayscale(100%);
 }
-
 /* ==========================================================================
      Plugins index
      ========================================================================== */
