@@ -18260,7 +18260,7 @@ input.changelog-input {
 /* ==========================================================================
      Plugins index
      ========================================================================== */
-#content .container.plugins-index-header {
+#content .container .plugins-index-header {
     height: 36px;
     margin-bottom: 20px;
     padding-bottom: 0;
@@ -18269,7 +18269,7 @@ input.changelog-input {
     flex-wrap: nowrap;
     justify-content: flex-end;
 }
-#content .container.plugins-index-header > * {
+#content .container .plugins-index-header > * {
     margin-left: 16px;
 }
 .plugins-index-header .search {
@@ -18382,8 +18382,10 @@ input.changelog-input {
     z-index: 3;
 }
 .plugins-index {
-    background: #f6f7f8;
     padding-top: 28px;
+}
+.plugins-index .row {
+    margin-left: -30px;
 }
 .grid-view-elem.plugin-card {
     background: #fff;
