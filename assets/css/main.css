@@ -11559,9 +11559,6 @@ pre.line-numbers > code {
 .content {
     display: block;
 }
-#content .container {
-    padding-bottom: 80px;
-}
 /*
  *    Owl Carousel - Animate Plugin
  */
