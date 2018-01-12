@@ -3,10 +3,12 @@ source 'https://rubygems.org'
 require 'json'
 require 'open-uri'
 
+#gem 'discourse_api'
 gem 'github-pages'
 gem 'jekyll'
 gem 'kramdown'
 gem 'listen'
+#gem 'patreon'
 gem 'sanitize'
 gem 'wdm', '~> 0.1.0' if Gem.win_platform?
 

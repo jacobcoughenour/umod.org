@@ -1,8 +1,12 @@
+#require 'discourse_api'
 require 'json'
 require 'kramdown'
 require 'net/http'
 require 'open-uri'
+#require 'patreon'
 require 'sanitize'
+
+# TODO: Check if from Netlify and use WEBHOOK_BODY env to see what content to change
 
 module Jekyll
   # The PluginPage class creates a single ingredients, plugin, or plugins page
@@ -183,7 +187,41 @@ module Jekyll
           self.static_files << StaticFile.new(self, self.source, path, filename)
         end
       end
+
+      #create_forums_category(plugin)
     end
+=begin
+    def create_forums_category(plugin)
+      discourse = DiscourseApi::Client.new("https://forums.umod.org")
+      discourse.api_key = ENV['DISCOURSE_API_KEY']
+      discourse.api_username = "system"
+      discourse.ssl(verify: false)
+
+      plugin_name = plugin['name'].humanize
+
+      # TODO: Check if category exists before attempting to create
+      #categories = JSON.parse(discourse.categories(parent_category_id: 21))
+      #if !categories['name'].to_a.detect { |e| e['name'] == plugin_name }.nil? # TODO: Fix this code and check
+      #  return
+      #end
+
+      # Create new forum category for plugin
+      new_category = discourse.create_category(
+        name: plugin_name,
+        color: "AB9364",
+        text_color: "FFFFFF",
+        parent_category_id: 21 # Plugin Support category
+      )
+      puts "Created category: #{new_category}"
+
+      # Update new category with description
+      updated_category = discourse.update_category(
+        id: new_category['id'],
+        description: "Support and discussion for #{plugin['name']}. Visit the plugin's page at https://umod.org/plugins/#{plugin['name']}/."
+      )
+      puts "Updated category: #{updated_category}"
+    end
+=end
   end
 
   # Jekyll hook - the generate method is called by Jekyll, and generates all of the plugin pages
