@@ -297,7 +297,7 @@ module Jekyll
       # Download the plugin file to serve directly
       if !plugin['download_url'].nil? && !plugin['private']
         filename = plugin['name'] + $file_exts[plugin['language']]
-        puts "Downloading #{filename} from GitHub repository and writing to local file"
+        puts "Downloading #{filename} from GitHub repository"
         download = open(plugin['download_url']) { |f| f.read }
         if !download.nil?
           write_static_file(download, filename, File.join(File.join(dest_dir, plugin['name'])))

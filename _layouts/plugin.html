@@ -22,7 +22,7 @@ layout: docs
                     {% if page.plugin.icon_url %}
                         <img src="{{ page.plugin.icon_url }}" class="image" alt="{{ page.plugin.name }}" />
                     {% else %}
-                        <img src="https://www.gravatar.com/avatar/{{ page.plugin.id }}?s=262.5&d=identicon&r=PG" class="image" alt="{{ page.plugin.name }}" />
+                        <img src="https://www.gravatar.com/avatar/{{ page.plugin.id }}?s=262.5&d=identicon" class="image" alt="{{ page.plugin.name }}" />
                     {% endif %}
                 </div>
             </div>
@@ -50,8 +50,8 @@ layout: docs
                     </div>
                     <div class="number-wrapper">
                         <span class="number-rotator js-animate-number" data-number="{{ page.plugin.stargazers_count }}">
-                            {{ page.plugin.stargazers_count }}
-                            <span class="number-description grey">stargazer{% if page.plugin.stargazers_count != 1 %}s{% endif %}</span>
+                            {{ page.plugin.stargazers }}
+                            <span class="number-description grey">stargazer{% if page.plugin.stargazers != 1 %}s{% endif %}</span>
                         </span>
                     </div>
                 </div>
@@ -61,8 +61,8 @@ layout: docs
                     </div>
                     <div class="number-wrapper">
                         <span class="number-rotator js-animate-number" data-number="{{ page.plugin.watchers_count }}">
-                            {{ page.plugin.watchers_count }}
-                            <span class="number-description grey">watcher{% if page.plugin.watchers_count != 1 %}s{% endif %}</span>
+                            {{ page.plugin.watchers }}
+                            <span class="number-description grey">watcher{% if page.plugin.watchers != 1 %}s{% endif %}</span>
                         </span>
                     </div>
                 </div>
