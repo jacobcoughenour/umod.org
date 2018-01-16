@@ -259,7 +259,7 @@ module Jekyll
       self.pages << index
 
       # Write the plugins/index.json file
-      write_static_file(plugins.to_json, 'index.json', dest_dir)
+      write_static_file(plugins.to_json, 'plugins.json', dest_dir)
     end
 
     # Loops through the list of plugin and processes each one
@@ -271,7 +271,7 @@ module Jekyll
             write_plugin_page(plugin, dest_dir, (index > 0) ? plugins[index-1] : nil, plugins[index+1])
 
             # Write the individual plugin's .json file
-            write_static_file(plugin.to_json, plugin['name'] + '.json', File.join(dest_dir, plugin['name']))
+            write_static_file(plugin.to_json, plugin['name'] + '.json', dest_dir)
           end
         else
           throw "No 'plugin' layout found."
