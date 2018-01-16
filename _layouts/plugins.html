@@ -20,13 +20,13 @@ layout: docs
                     <option value="title">Title (A-Z)</option>
                 </select>
             </div>
-            <label class="gridtoggle">
-                <input type="checkbox">
+            <label id="gridtoggle">
+                <input type="checkbox" name="gridtoggle">
                 <i class="gridicon fa fa-th-large" aria-hidden="true"></i>
                 <i class="listicon fa fa-th-list" aria-hidden="true"></i>
             </label>
         </div>
-        <div class="plugins-index">
+        <div id="plugins-index">
             <div class="container">
                 <div class="grid-view js-grid-view">
                     <div class="row">
@@ -62,3 +62,37 @@ layout: docs
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        let index = $("#plugins-index");
+
+        let url = new URL(window.location);
+        let params = new URLSearchParams(url.search.slice(1));
+
+        $('input[name=gridtoggle]').click(function () {
+            $("#plugins-index").toggleClass("list-mode", $(this).is(":checked"));
+            UpdateGrid();
+            params.set('view', ($(this).is(":checked") ? "list" : "grid"));
+            UpdateUrl(params);
+        });
+
+        if (params.get('view') == "list") {
+            let toggle = $('input[name=gridtoggle]');
+            toggle.checked = true;
+            toggle.click();
+        }
+
+        index.animate({ opacity: "1" }, 160); // Fade in plugins index
+    });
+
+    function UpdateGrid() {
+        let index = $("#plugins-index");
+        index.css("opacity", "0"); // Hide plugins index
+        $(window).trigger('resize'); // Ipdate the responsive card height
+        index.animate({ opacity: "1" }, 160); // Fade in plugins index
+    }
+
+    function UpdateUrl(p) {
+        window.history.replaceState({}, '', window.location.pathname + '?' + p);
+    }
+</script>
