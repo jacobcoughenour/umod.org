@@ -18416,6 +18416,8 @@ input.changelog-input {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
     -webkit-transition: opacity .05s ease-in-out;
     transition: opacity .05s ease-in-out;
     opacity: 0.8;
