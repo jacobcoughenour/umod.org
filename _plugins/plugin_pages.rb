@@ -178,8 +178,8 @@ module Jekyll
 
     # Gets the URL for a specific file from a GitHub repository
     def get_contents_url(contents, filename)
-      puts "Getting content URL for #{filename}"
       contents.each do |content|
+        puts "Getting content URL for #{filename}"
         return content['download_url'] if content['filename'] == filename
       end
       nil
@@ -259,7 +259,7 @@ module Jekyll
       self.pages << index
 
       # Write the plugins/index.json file
-      write_static_file(plugins.to_json, 'plugins.json', dest_dir)
+      write_static_file(plugins.to_json, 'plugins.json', '')
     end
 
     # Loops through the list of plugin and processes each one
