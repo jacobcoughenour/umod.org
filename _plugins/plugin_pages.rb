@@ -114,7 +114,6 @@ module Jekyll
       response = JSON.load(open(url, !$token.nil? && !$token.empty? ? { "Authorization" => "token " + $token } : nil))
       response.each do |contributor|
         contributors << {
-          'id' => contributor['id'],
           'name' => contributor['login'],
           'avatar_url' => contributor['avatar_url'],
           'contributions' => contributor['contributions']
@@ -148,7 +147,6 @@ module Jekyll
       response.each do |release|
         next if release['draft']
         releases << {
-          'id' => release['id'],
           'version' => release['tag_name'],
           'author' => release['author']['login'],
           'prerelease' => release['prerelease'],
