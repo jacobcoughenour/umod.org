@@ -17223,37 +17223,37 @@ input.changelog-input {
     color: #99a3b1;
     margin-bottom: 20px;
 }
-.widget-recommended-products {
+.widget-contributors {
     margin: 0;
     margin-bottom: 20px;
     position: relative;
     padding: 0;
 }
-.widget-recommended-products:after {
+.widget-contributors:after {
     display: block;
     content: '';
     clear: both;
 }
-.widget-recommended-products:last-child {
+.widget-contributors:last-child {
     margin-bottom: 0;
 }
-.widget-recommended-product {
+.widget-contributor {
     margin: 0;
     padding: 0;
     margin-right: 20px;
     display: block;
     float: left;
 }
-.widget-recommended-product:last-child {
+.widget-contributor:last-child {
     margin-right: 0;
 }
-.widget-recommended-product:hover .widget-recommended-product-link {
+.widget-contributor:hover .widget-contributor-link {
     display: block;
 }
-.widget-recommended-product-img {
+.widget-contributor-img {
     display: block;
 }
-.widget-recommended-product-link {
+.widget-contributor-link {
     position: absolute;
     display: none;
     z-index: 3;
@@ -17266,33 +17266,33 @@ input.changelog-input {
     padding: 10px 10px 7px;
     text-decoration: none;
 }
-.widget-recommended-product-link:hover {
+.widget-contributor-link:hover {
     text-decoration: none;
 }
-.widget-recommended-product-link-title {
+.widget-contributor-link-title {
     font-size: 20px;
     font-weight: 300;
     margin-bottom: 7px;
     color: #2288cc;
 }
-.widget-recommended-product-link-title i {
+.widget-contributor-link-title i {
     font-size: 16px;
     margin-left: 5px;
 }
-.widget-recommended-product-link-description {
+.widget-contributor-link-description {
     font-size: 14px;
     font-weight: 300;
     color: #808488;
     margin-bottom: 0;
 }
 @media all and (max-width: 1200px) {
-    .widget-recommended-product {
+    .widget-contributor {
         margin-right: 10px;
     }
-    .widget-recommended-product-img {
+    .widget-contributor-img {
         width: 57px;
     }
-    .widget-recommended-product-link {
+    .widget-contributor-link {
         top: 50%;
         -webkit-transform: translateY(-50%);
         -moz-transform: translateY(-50%);

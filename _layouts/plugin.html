@@ -32,6 +32,16 @@ layout: docs
                 <a href="{{ page.plugin.html_url }}" class="button helper mb30 large full green">Contribute at GitHub</a>
             </div>
             <div class="widget">
+                <h3 class="widget-title">Contributors</h3>
+                <ul class="widget-contributors">
+                    {% for contributor in page.plugin.contributors %}
+                        <li class="widget-contributor">
+                            <a href="https://github.com/{{ contributor.name }}">
+                                <img class="avatar" src="{{ contributor.avatar_url }}&s=67" alt="{{ contributor.name }}" srcset="{{ contributor.avatar_url }}&s=67 1x, {{ contributor.avatar_url }}&s=134 2x, {{ contributor.avatar_url }}&s=201 3x, {{ contributor.avatar_url }}&s=268 4x" width="67" height="67" />
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
             <div class="widget">
                 <div class="number-box">
