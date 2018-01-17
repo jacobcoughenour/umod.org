@@ -67,20 +67,16 @@ layout: docs
                     </div>
                 </div>
             </div>
-            <!--<div class="widget">
+            <div class="widget">
                 <h3 class="widget-title">Tags</h3>
                 <ul class="tags">
-                    <li class="tag-item">
-                        <a href="#">admin</a>
-                    </li>
-                    <li class="tag-item">
-                        <a href="#">placeholder</a>
-                    </li>
-                    <li class="tag-item">
-                        <a href="#">universal</a>
-                    </li>
+                    {% for topic in page.plugin.topics %}
+                        <li class="tag-item">
+                            <a href="https://github.com/search?q=topic:{{ topic }}+org:{{ site.plugins_org }}">{{ topic }}</a>
+                        </li>
+                    {% endfor %}
                 </ul>
-            </div>-->
+            </div>
         </div>
     </div>
 </div>
