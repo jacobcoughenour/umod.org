@@ -12,15 +12,16 @@ layout: docs
                 <input type="text" id="searchinput" placeholder="Search Plugins">
             </div>
             <div class="dropdown">
-                <select name="sortby" class="dropdown-select">
-                    <option value="lastupdate">Last Update</option>
+                <label for="sortby">Sort by</label>
+                <select name="sortby" class="button small stroke blue dropdown-select">
+                    <option value="lastupdate">Last Updated</option>
                     <option value="newest">Newest</option>
                     <option value="moststared">Most Stared</option>
                     <option value="mostwatched">Most Watched</option>
                     <option value="title">Title (A-Z)</option>
                 </select>
             </div>
-            <label id="gridtoggle">
+            <label id="gridtoggle" class="button small stroke blue">
                 <input type="checkbox" name="gridtoggle">
                 <i class="gridicon fa fa-th-large" aria-hidden="true"></i>
                 <i class="listicon fa fa-th-list" aria-hidden="true"></i>
@@ -30,66 +31,231 @@ layout: docs
             <div class="container">
                 <div class="grid-view js-grid-view">
                     <div class="row">
-                        {% for plugin in page.plugins %}
-                            <div class="col-md-3">
-                                <div class="grid-view-elem js-grid-view-elem plugin-card">
-                                    <div class="plugin-icon-area">
-                                        <a href="{{ plugin.name }}/">
-                                            {% if plugin.icon_url %}
-                                                <img src="{{ plugin.icon_url }}" class="image" alt="{{ plugin.name }}" />
-                                            {% else %}
-                                                <img src="https://www.gravatar.com/avatar/{{ plugin.id }}?s=262.5&d=identicon" class="image" alt="{{ plugin.name }}" />
-                                            {% endif %}
-                                        </a>
-                                    </div>
-                                    <div class="plugin-info">
-                                        <h3 class="grid-view-elem-title">
-                                            <a href="{{ plugin.name }}/">{{ plugin.name | humanize }}</a>
-                                        </h3>
-                                        <p class="grid-view-elem-description">
-                                            {{ plugin.description }}
-                                        </p>
-                                        {% if plugin.license != nil %}
-                                            <img src="https://img.shields.io/github/license/{{ site.plugins_org }}/{{ plugin.name }}.svg?style=flat-square" class="badge" alt="{{ plugin.license.name }}" />
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
+        <div id="plugins-index-pagination" class="container">
+            <ul>
+                <li>
+                    <a id="firstbutton" class="button stroke small blue pagebutton">
+                        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a id="prevbutton" class="button stroke small blue pagebutton">
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="button stroke small blue pagebutton" data-id="0" value="">1</a>
+                </li>
+                <li>
+                    <a class="button stroke small blue pagebutton" data-id="1" value="">2</a>
+                </li>
+                <li>
+                    <a class="button stroke small blue pagebutton" data-id="2" value="">3</a>
+                </li>
+                <li>
+                    <a class="button stroke small blue pagebutton" data-id="3" value="">4</a>
+                </li>
+                <li>
+                    <a class="button stroke small blue pagebutton" data-id="4" value="">5</a>
+                </li>
+                <li>
+                    <a id="nextbutton" class="button stroke small blue pagebutton">
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a id="lastbutton" class="button stroke small blue pagebutton">
+                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
+
+{% include plugin-card.html %}
+
 <script type="text/javascript">
+    var cardtemplate;
+    var pluginsdata = {};
+    var rendered = false;
+
+    var itemsperpage = 12;
+    var currentpage = 0;
+
     $(document).ready(function () {
-        let index = $("#plugins-index");
 
-        let url = new URL(window.location);
-        let params = new URLSearchParams(url.search.slice(1));
+        cardtemplate = $("#plugin-card-template").html();
 
-        $('input[name=gridtoggle]').click(function () {
-            $("#plugins-index").toggleClass("list-mode", $(this).is(":checked"));
-            UpdateGrid();
-            params.set('view', ($(this).is(":checked") ? "list" : "grid"));
-            UpdateUrl(params);
+        $.getJSON('/plugins.json', function (data) {
+            pluginsdata = data;
+
+            let index = $("#plugins-index");
+
+            let url = new URL(window.location);
+            let params = new URLSearchParams(url.search.slice(1));
+
+            $('input[name=gridtoggle]').click(function () {
+                $("#plugins-index").toggleClass("list-mode", $(this).is(":checked"));
+                RenderIndexPage();
+                params.set('view', ($(this).is(":checked") ? "list" : "grid"));
+                UpdateUrl(params);
+
+                // TODO: Save to session storage https://www.w3schools.com/jsref/prop_win_sessionstorage.asp
+            });
+
+            // Pagination buttons
+
+            $('a#firstbutton').click(function () {
+                if (currentpage == 0)
+                    return;
+                currentpage = 0;
+                RenderIndexPage();
+                params.set('page', currentpage + 1);
+                UpdateUrl(params);
+            });
+
+            $('a#prevbutton').click(function () {
+                if (currentpage == 0)
+                    return;
+                currentpage -= 1;
+                RenderIndexPage();
+                params.set('page', currentpage + 1);
+                UpdateUrl(params);
+            });
+
+            $("a.pagebutton[value]").click(function (obj) {
+                let num = parseInt($(obj.target).attr("value")) - 1;
+                if (currentpage == num)
+                    return;
+                currentpage = num;
+                RenderIndexPage();
+                params.set('page', currentpage + 1);
+                UpdateUrl(params);
+            });
+
+            $('a#nextbutton').click(function () {
+                if ((currentpage + 1) * itemsperpage >= pluginsdata.length)
+                    return;
+                currentpage += 1;
+                RenderIndexPage();
+                params.set('page', currentpage + 1);
+                UpdateUrl(params);
+            });
+
+            $('a#lastbutton').click(function () {
+                if ((currentpage + 1) * itemsperpage >= pluginsdata.length)
+                    return;
+                currentpage = Math.ceil(pluginsdata.length / itemsperpage) - 1;
+                RenderIndexPage();
+                params.set('page', currentpage + 1);
+                UpdateUrl(params);
+            });
+
+            // URL params
+
+            if (params.has('page')) {
+                let num = parseInt(params.get('page')) - 1;
+                currentpage = Math.min(Math.max(num, 0), Math.ceil(pluginsdata.length / itemsperpage) - 1);
+                params.set('page', currentpage + 1);
+                UpdateUrl(params);
+            }
+
+            // TODO: Default to list view on mobile
+            if (params.get('view') == "list") {
+                let toggle = $('input[name=gridtoggle]');
+                toggle.checked = true;
+                toggle.click();
+            }
+
+            if (!rendered) // If not already rendered
+                RenderIndexPage();
         });
 
-        if (params.get('view') == "list") {
-            let toggle = $('input[name=gridtoggle]');
-            toggle.checked = true;
-            toggle.click();
-        }
-
-        index.animate({ opacity: "1" }, 160); // Fade in plugins index
     });
 
-    function UpdateGrid() {
+    function RenderIndexPage() {
+        rendered = true;
+
         let index = $("#plugins-index");
         index.css("opacity", "0"); // Hide plugins index
-        $(window).trigger('resize'); // Ipdate the responsive card height
-        index.animate({ opacity: "1" }, 160); // Fade in plugins index
+
+        let newhtml = "";
+
+        for (i = currentpage * itemsperpage; (i < (currentpage + 1) * itemsperpage && i < pluginsdata.length); i++) {
+            newhtml += CreatePluginCard(pluginsdata[i]);
+        }
+        $("#plugins-index .js-grid-view>.row").html(newhtml);
+
+        // Fade in each card separately with a delay
+        $("#plugins-index .js-grid-view>.row>.col-md-3").each(function (i, obj) {
+            setTimeout(function () {
+                $(obj).removeClass("hide");
+            }, i * 32);
+        });
+
+        index.css("opacity", "1"); // Show plugins index
+
+        // Update pagination
+
+        let lastpage = Math.ceil(pluginsdata.length / itemsperpage) - 1;
+
+        $("a.pagebutton[data-id]").each(function (i, obj) {
+            let pagenum;
+
+            // Offset the buttons near the first and last pages
+            if (currentpage < 3)
+                pagenum = i + 1;
+            else if (currentpage > lastpage - 3)
+                pagenum = i + lastpage - 3;
+            else
+                pagenum = i + currentpage - 1;
+
+            $(obj).attr("value", pagenum);
+            $(obj).html(pagenum);
+
+            if (pagenum == currentpage + 1) {
+                $(obj).toggleClass("stroke", false);
+                $(obj).toggleClass("small", false);
+                $(obj).toggleClass("currentpage", true);
+            } else {
+                $(obj).toggleClass("noleftborder", pagenum == currentpage + 2);
+                $(obj).toggleClass("stroke", true);
+                $(obj).toggleClass("small", true);
+                $(obj).toggleClass("currentpage", false);
+            }
+        });
+
+        if (currentpage <= 0) {
+            $('a#firstbutton').attr('disabled', true);
+            $('a#prevbutton').attr('disabled', true);
+            $('a#nextbutton').removeAttr('disabled');
+            $('a#lastbutton').removeAttr('disabled');
+        } else if (currentpage >= lastpage) {
+            $('a#firstbutton').removeAttr('disabled');
+            $('a#prevbutton').removeAttr('disabled');
+            $('a#nextbutton').attr('disabled', true);
+            $('a#lastbutton').attr('disabled', true);
+        } else {
+            $('a#firstbutton').removeAttr('disabled');
+            $('a#prevbutton').removeAttr('disabled');
+            $('a#nextbutton').removeAttr('disabled');
+            $('a#lastbutton').removeAttr('disabled');
+        }
+
+        $("#plugins-index-pagination").css("opacity", "1");
+    }
+
+    function CreatePluginCard(data) {
+        return cardtemplate
+            .replace(/\[\[name\]\]/g, data["name"])
+            .replace(/\[\[icon_url\]\]/g, data["icon_url"] || ("https://www.gravatar.com/avatar/" + data.id + "?s=262.5&d=identicon"))
+            .replace(/\[\[title\]\]/g, data["title"])
+            .replace(/\[\[description\]\]/g, data["description"]);
     }
 
     function UpdateUrl(p) {
