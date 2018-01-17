@@ -20,4 +20,4 @@ excerpt_separator: <!--more-->
 repository: theumod/umod.org
 plugins_org: umods
 client_id: 644edf81174f14822070
-exclude: ["js/dev", "js/preprod", "plugins", "vendor", .gitignore", "_test.sh", "Gemfile*", "README.md"]
+exclude: ["js/dev", "js/preprod", "plugins", "vendor", .gitignore", "*.sh", "*.ps1", "Gemfile*", "README.md", "gulpfile.js", "netlify.toml"]
