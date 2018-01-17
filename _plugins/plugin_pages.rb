@@ -83,16 +83,6 @@ module Jekyll
       'Python' => '.py'
     }
 
-    # Gets the response code and body for a remote file
-    def get_remote_file(url)
-      uri = URI.parse(url)
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
-      request = Net::HTTP::Get.new(uri.request_uri)
-      response = http.request(request)
-      response
-    end
-
     # Cleans and removes any redundant text and formatting from a README.md file
     def sanitize_readme(input, repo)
       # Remove redundant headings with repo's name
@@ -110,6 +100,28 @@ module Jekyll
     def sanitize_version(input)
       version = input.scan(/\d+/).join('.')
       version
+    end
+
+    # Gets the response code and body for a remote file
+    def get_remote_file(url)
+      uri = URI.parse(url)
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
+      request = Net::HTTP::Get.new(uri.request_uri)
+      response = http.request(request)
+      response
+    end
+
+    # Gets topic information for a GitHub repository
+    def get_repo_topics(repo)
+      puts "Getting topics for #{repo['name']} repository"
+      url = 'https://api.github.com/repos/' + $plugins_org + '/' + repo['name'] + '/topics'
+      headers = {
+        'Authorization' => 'token ' + $token, # TODO: Make optional
+        'Accept' => 'application/vnd.github.mercy-preview+json'
+      }
+      response = JSON.load(open(url, headers))
+      response['names']
     end
 
     # Gets contributor information for a GitHub repository
@@ -222,6 +234,7 @@ module Jekyll
           'title' => repo['name'].humanize,
           'description' => Sanitize.clean(repo['description']).chomp('.'),
           'language' => repo['language'],
+          'topics' => get_repo_topics(repo),
           'created_at' => repo['created_at'],
           'updated_at' => repo['pushed_at'],
           'github_url' => repo['html_url'],

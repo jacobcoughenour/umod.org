@@ -120,7 +120,7 @@ permalink: /
     $(document).ready(function() {
         var latestVersion = "Unknown";
         if (localStorage.getItem("latestVersion") == null) {
-    	    $.ajax({
+            $.ajax({
                 url: 'https://api.github.com/repos/oxidemod/oxide/releases/latest',
                 async: false,
                 dataType: 'json',
