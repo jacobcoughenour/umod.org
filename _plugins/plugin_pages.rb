@@ -106,6 +106,12 @@ module Jekyll
       readme
     end
 
+    # Cleans and remove any redundant text from a version number
+    def sanitize_version(input)
+      version = input.scan(/\d+/).join('.')
+      version
+    end
+
     # Gets contributor information for a GitHub repository
     def get_repo_contributors(repo)
       puts "Getting contributors for #{repo['name']} repository"
@@ -147,7 +153,7 @@ module Jekyll
       response.each do |release|
         next if release['draft']
         releases << {
-          'version' => release['tag_name'],
+          'version' => sanitize_version(release['tag_name']),
           'author' => release['author']['login'],
           'prerelease' => release['prerelease'],
           'date' => release['published_at'],
