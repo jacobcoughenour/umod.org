@@ -18398,6 +18398,7 @@ input.changelog-input {
     transform: translateY(25%);
 }
 .grid-view-elem.plugin-card {
+    display: block;
     height: 210px;
     background: #fff;
     padding: 0;
@@ -18405,6 +18406,7 @@ input.changelog-input {
     -webkit-box-shadow: 0 0 20px 0 rgba(0,0,0,.09);
     box-shadow: 0 0 20px 0 rgba(0,0,0,.09);
     overflow: hidden;
+    text-decoration: none;
 }
 .grid-view-elem.plugin-card:hover {
     -webkit-box-shadow: 0 4px 8px rgba(0,0,0,.1);
@@ -18425,8 +18427,7 @@ input.changelog-input {
     height: 0px;
     opacity: 0.5;
 }
-.plugin-card .plugin-icon-area > a > img,
-.plugin-card .plugin-icon-area > a > img.image {
+.plugin-card .plugin-icon-area img.image {
     position: absolute;
     padding: 0;
     border: none;
@@ -18449,9 +18450,11 @@ input.changelog-input {
 .plugin-card:hover .plugin-info .grid-view-elem-description {
     opacity: 1;
 }
-/* ==========================================================================
-     Plugins index list view
-     ========================================================================== */
+.plugin-card .plugin-info .grid-view-elem-title,
+.plugin-card .plugin-info .grid-view-elem-description {
+    color: #333333;
+    text-decoration: none;
+}
 .plugin-card .plugin-info {
     margin: 16px;
     padding-bottom: 12px;
@@ -18462,22 +18465,9 @@ input.changelog-input {
 .plugin-card .plugin-info .grid-view-elem-description {
     padding-bottom: 8px;
 }
-.plugin-card .plugin-info .grid-view-elem-title > a,
-.plugin-card .plugin-info .grid-view-elem-description > a {
-    color: #333333;
-    text-decoration: none;
-    font-size: inherit;
-}
-.plugin-card .plugin-info .grid-view-elem-title > a:hover,
-.plugin-card .plugin-info .grid-view-elem-title > a:active,
-.plugin-card .plugin-info .grid-view-elem-description > a:hover,
-.plugin-card .plugin-info .grid-view-elem-description > a:active {
-    text-decoration: none;
-}
-.plugin-card .plugin-info img.badge {
-    border: 0;
-    border-radius: 3px;
-}
+/* ==========================================================================
+     Plugins index list view
+     ========================================================================== */
 #plugins-index.list-mode .col-md-3 {
     width: 100%;
     height: 80px;
@@ -18509,8 +18499,7 @@ input.changelog-input {
     cursor: pointer;
     overflow: hidden;
 }
-.list-mode .plugin-card .plugin-icon-area > a > img,
-.list-mode .plugin-card .plugin-icon-area > a > img.image {
+.list-mode .plugin-card .plugin-icon-area img.image {
     min-height: 64px;
 }
 .list-mode .plugin-card .plugin-icon-area {
