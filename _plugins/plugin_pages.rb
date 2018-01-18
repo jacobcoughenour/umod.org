@@ -147,7 +147,7 @@ module Jekyll
     def get_repo_contributors(repo)
       contributors = []
       url = 'https://api.github.com/repos/' + $plugins_org + '/' + repo['name'] + '/contributors'
-      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? { "Authorization" => "token " + $token } : nil))
+      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {"Authorization" => "token " + $token} : nil))
       response.each do |contributor|
         contributors << {
           'name' => contributor['login'],
@@ -163,7 +163,7 @@ module Jekyll
     def get_repo_commits(repo, limit)
       commits = []
       url = 'https://api.github.com/repos/' + $plugins_org + '/' + repo['name'] + '/commits'
-      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? { "Authorization" => "token " + $token } : nil))
+      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {"Authorization" => "token " + $token} : nil))
       response.each do |commit|
         commits << {
           'sha' => commit['sha'],
@@ -179,7 +179,7 @@ module Jekyll
     def get_repo_releases(repo, limit)
       releases = []
       url = 'https://api.github.com/repos/' + $plugins_org + '/' + repo['name'] + '/releases'
-      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? { "Authorization" => "token " + $token } : nil))
+      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {"Authorization" => "token " + $token} : nil))
       response.each do |release|
         next if release['draft']
         releases << {
@@ -198,7 +198,7 @@ module Jekyll
     def get_repo_contents(repo)
       contents = []
       url = 'https://api.github.com/repos/' + $plugins_org + '/' + repo['name'] + '/contents'
-      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? { "Authorization" => "token " + $token } : nil))
+      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {"Authorization" => "token " + $token} : nil))
       response.each do |content|
         contents << {
           'filename' => content['name'],
@@ -228,17 +228,17 @@ module Jekyll
       repos = []
       while true
         url = 'https://api.github.com/orgs/' + $plugins_org + '/repos?per_page=100&page=' + page.to_s
-        response = JSON.load(open(url, !$token.nil? && !$token.empty? ? { "Authorization" => "token " + $token } : nil))
+        response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {"Authorization" => "token " + $token} : nil))
         break if response.size == 0
-        response.each { |h| repos << h }
+        response.each{|h| repos << h}
         page += 1
       end
 
       # Only keep non-empty repository information
-      repos = repos.select { |p| !p['language'].nil? }
+      repos = repos.select{|p| !p['language'].nil?}
 
       # Sort repository information A-Z by name
-      repos = repos.sort_by { |p| p['name'] }
+      repos = repos.sort_by{|p| p['name']}
 
       puts "Non-empty repositories found: #{repos.size.to_s}"
 
@@ -273,6 +273,18 @@ module Jekyll
 
       write_plugins_index(plugins, $plugins_dir)
       write_plugin_pages(plugins, $plugins_dir)
+
+      # Sort plugins and write the plugins.json file
+      merged = [
+        'all' => plugins,
+        'sort_by' => {
+          'last_updated' => plugins.sort_by{|p| p['updated_at']}.map{|p| p['id']},
+          'newest' => plugins.sort_by{|p| p['created_at']}.map{|p| p['id']},
+          'most_starred' => plugins.sort_by{|p| p['stargazers']}.map{|p| p['id']},
+          'most_watched' => plugins.sort_by{|p| p['watchers']}.map{|p| p['id']}
+        }
+      ]
+      write_static_file(merged.to_json, 'plugins.json', '/')
     end
 
     # Write a static file to specified directory under _site
@@ -292,9 +304,6 @@ module Jekyll
       index.render(self.layouts, site_payload)
       index.write(self.dest)
       self.pages << index
-
-      # Write the plugins/index.json file
-      write_static_file(plugins.to_json, 'plugins.json', '/')
     end
 
     # Loops through the list of plugin and processes each one
@@ -323,10 +332,10 @@ module Jekyll
       url = 'https://raw.githubusercontent.com/' + $plugins_org + '/' + plugin['name'] + '/master/README.md'
       response = get_remote_file(url)
       if response.code == '200' && !response.body.nil?
-        extensions = { autolink: true, fenced_code_blocks: true, lax_spacing: true, no_intra_emphasis: true, strikethrough: true, tables: true, underline: true, filter_html: true, hard_wrap: true, no_images: true, no_styles: true, safe_links_only: true, with_toc_data: true }
+        extensions = {autolink: true, fenced_code_blocks: true, lax_spacing: true, no_intra_emphasis: true, strikethrough: true, tables: true, underline: true, filter_html: true, hard_wrap: true, no_images: true, no_styles: true, safe_links_only: true, with_toc_data: true}
         markdown = Redcarpet::Markdown.new(CustomRender, extensions)
         plugin['readme'] = markdown.render(response.body)
-        puts " - README.md found, set plugin.readme liquid variable"
+        puts " - README.md found, set plugin.readme variable"
       end
 
       # Attach plugin data to global site variable. This allows pages to see this plugin's data
@@ -339,7 +348,7 @@ module Jekyll
       # Download the plugin file to serve directly
       if !plugin['download_url'].nil? && !plugin['private']
         filename = plugin['name'] + $file_exts[plugin['language']]
-        download = open(plugin['download_url']) { |f| f.read }
+        download = open(plugin['download_url']) {|f| f.read}
         if !download.nil?
           write_static_file(download, filename, File.join(File.join(dest_dir, plugin['name'])))
           puts " - Downloaded #{filename} from GitHub"
@@ -360,7 +369,7 @@ module Jekyll
 
       # TODO: Check if category exists before attempting to create
       #categories = JSON.parse(discourse.categories(parent_category_id: 21))
-      #if !categories['name'].to_a.detect { |e| e['name'] == plugin_name }.nil? # TODO: Fix this code and check
+      #if !categories['name'].to_a.detect{|e| e['name'] == plugin_name}.nil? # TODO: Fix this code and check
       #  return
       #end
 
