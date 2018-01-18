@@ -279,6 +279,7 @@ module Jekyll
       merged = {
         'all' => plugins,
         'sort_by' => {
+          'title'        => plugins.sort_by{|p| p['title']}.map{|p| p['id']},
           'last_updated' => plugins.sort_by{|p| p['updated_at']}.reverse.map{|p| p['id']},
           'newest'       => plugins.sort_by{|p| p['created_at']}.reverse.map{|p| p['id']},
           'most_starred' => plugins.sort_by{|p| p['stargazers']}.reverse.map{|p| p['id']},
