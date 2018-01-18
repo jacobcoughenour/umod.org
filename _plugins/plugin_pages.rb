@@ -55,7 +55,7 @@ module Jekyll
 
       # Set the humanized title for this page
       self.data['title'] = plugin['title']
-      puts "Plugin page title set to: #{plugin['title']}"
+      puts " - Plugin title set to: #{plugin['title']}"
 
       # Set the brief description for this page
       self.data['description'] = plugin['description']
@@ -114,19 +114,19 @@ module Jekyll
 
     # Gets topic information for a GitHub repository
     def get_repo_topics(repo)
-      puts "Getting topics for #{repo['name']} repository"
       url = 'https://api.github.com/repos/' + $plugins_org + '/' + repo['name'] + '/topics'
       headers = {
         'Authorization' => 'token ' + $token, # TODO: Make optional
         'Accept' => 'application/vnd.github.mercy-preview+json'
       }
       response = JSON.load(open(url, headers))
-      response['names']
+      topics = response['names']
+      puts " - Topics: #{topics.length}" if topics.length > 0
+      topics
     end
 
     # Gets contributor information for a GitHub repository
     def get_repo_contributors(repo)
-      puts "Getting contributors for #{repo['name']} repository"
       contributors = []
       url = 'https://api.github.com/repos/' + $plugins_org + '/' + repo['name'] + '/contributors'
       response = JSON.load(open(url, !$token.nil? && !$token.empty? ? { "Authorization" => "token " + $token } : nil))
@@ -137,12 +137,12 @@ module Jekyll
           'contributions' => contributor['contributions']
         }
       end
+      puts " - Contributors: #{contributors.length}" if contributors.length > 0
       contributors
     end
 
     # Gets commit information for a GitHub repository
     def get_repo_commits(repo, limit)
-      puts "Getting commits for #{repo['name']} repository"
       commits = []
       url = 'https://api.github.com/repos/' + $plugins_org + '/' + repo['name'] + '/commits'
       response = JSON.load(open(url, !$token.nil? && !$token.empty? ? { "Authorization" => "token " + $token } : nil))
@@ -153,12 +153,12 @@ module Jekyll
         }
         break if limit == 1
       end
+      puts " - Commits: #{commits.length}" if commits.length > 0
       commits
     end
 
     # Gets release information for a GitHub repository
     def get_repo_releases(repo, limit)
-      puts "Getting releases for #{repo['name']} repository"
       releases = []
       url = 'https://api.github.com/repos/' + $plugins_org + '/' + repo['name'] + '/releases'
       response = JSON.load(open(url, !$token.nil? && !$token.empty? ? { "Authorization" => "token " + $token } : nil))
@@ -172,12 +172,12 @@ module Jekyll
           'changes' => release['body']
         }
       end
+      puts " - Releases: #{releases.length}" if releases.length > 0
       releases
     end
 
     # Gets content information for a GitHub repository
     def get_repo_contents(repo)
-      puts "Getting contents for #{repo['name']} repository"
       contents = []
       url = 'https://api.github.com/repos/' + $plugins_org + '/' + repo['name'] + '/contents'
       response = JSON.load(open(url, !$token.nil? && !$token.empty? ? { "Authorization" => "token " + $token } : nil))
@@ -189,6 +189,7 @@ module Jekyll
           'download_url' => content['download_url']
         }
       end
+      puts " - Contents: #{contents.length}" if contents.length > 0
       contents
     end
 
@@ -221,12 +222,13 @@ module Jekyll
       # Sort repository information A-Z by name
       repos = repos.sort_by { |p| p['name'] }
 
-      puts "Found #{repos.size.to_s} plugin repositories to generate pages for"
+      puts "Non-empty repositories found: #{repos.size.to_s}"
 
       # Loop through remaining repository information and store
-      puts "Getting and setting basic information for each repository"
       plugins = []
       repos.each do |repo|
+        puts
+        puts "## Getting information for #{repo['name']}"
         contents = get_repo_contents(repo)
         plugins << {
           'id' => repo['id'],
@@ -251,7 +253,6 @@ module Jekyll
         }
       end
 
-      puts "Repository data read: found #{plugins.length} repositories"
       write_plugins_index(plugins, $plugins_dir)
       write_plugin_pages(plugins, $plugins_dir)
     end
@@ -297,16 +298,18 @@ module Jekyll
 
     # Write a plugins/plugin-name/index.html page
     def write_plugin_page(plugin, dest_dir, prev_plugin, next_plugin)
+      puts
+      puts "## Generating page for #{plugin['name']}"
+
       # Set the readme variable, if available
       readme_url = 'https://raw.githubusercontent.com/' + $plugins_org + '/' + plugin['name'] + '/master/README.md'
       readme_response = get_remote_file(readme_url)
       if readme_response.code == '200' && !readme_response.body.nil?
-        puts "Found README.md, setting plugin.readme for plugin #{plugin['name']}"
         plugin['readme'] = Kramdown::Document.new(sanitize_readme(readme_response, plugin)).to_html
+        puts " - README.md found, set plugin.readme liquid variable"
       end
 
       # Attach plugin data to global site variable. This allows pages to see this plugin's data
-      puts "Generating page for plugin #{plugin['name']} (#{plugin['id']})"
       page = PluginPage.new(self, self.source, File.join(dest_dir, plugin['name']), 'index.html', 'plugin')
       page.set_page_data(plugin, prev_plugin, next_plugin)
       page.render(self.layouts, site_payload)
@@ -316,10 +319,10 @@ module Jekyll
       # Download the plugin file to serve directly
       if !plugin['download_url'].nil? && !plugin['private']
         filename = plugin['name'] + $file_exts[plugin['language']]
-        puts "Downloading #{filename} from GitHub repository"
         download = open(plugin['download_url']) { |f| f.read }
         if !download.nil?
           write_static_file(download, filename, File.join(File.join(dest_dir, plugin['name'])))
+          puts " - Downloaded #{filename} from GitHub"
         end
       end
 
