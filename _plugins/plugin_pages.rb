@@ -275,8 +275,19 @@ module Jekyll
       write_plugins_index(plugins, $plugins_dir)
       write_plugin_pages(plugins, $plugins_dir)
 
-      # Sort plugins and write the plugins.json file
-      merged = {
+      # Create an array of plugin IDs by topic
+      topics = {}
+      plugins.each do |plugin|
+        plugin['topics'].each do |topic|
+          if !topics.key?(topic)
+            topics[topic] = []
+          end
+          topics[topic] << plugin['id']
+        end
+      end
+
+      # Create arrays of plugins IDs sorted
+      sorted = {
         'all' => plugins,
         'sort_by' => {
           'title'        => plugins.sort_by{|p| p['title']}.map{|p| p['id']},
@@ -284,9 +295,12 @@ module Jekyll
           'newest'       => plugins.sort_by{|p| p['created_at']}.reverse.map{|p| p['id']},
           'most_starred' => plugins.sort_by{|p| p['stargazers']}.reverse.map{|p| p['id']},
           'most_watched' => plugins.sort_by{|p| p['watchers']}.reverse.map{|p| p['id']}
-        }
+        },
+        'topics' => topics
       }
-      write_static_file(merged.to_json, 'plugins.json', '/')
+
+      # Write the plugins.json file
+      write_static_file(sorted.to_json, 'plugins.json', '/')
     end
 
     # Write a static file to specified directory under _site
