@@ -9,10 +9,9 @@ twitter: https://twitter.com/theumod
 patreon: https://www.patreon.com/oxidemod
 
 # Building
-markdown: kramdown
-kramdown:
-  auto_ids: true
-  input: GFM
+markdown: redcarpet
+redcarpet:
+  extensions: ["autolink", "filter_html", "hard_wrap", "no_images", "prettify", "strikethrough", "tables", "with_toc_data", "xhtml"]
 permalink: /:title/
 excerpt_separator: <!--more-->
 

@@ -1,9 +1,9 @@
 #require 'discourse_api'
 require 'json'
-require 'kramdown'
 require 'net/http'
 require 'open-uri'
 #require 'patreon'
+require 'redcarpet'
 require 'sanitize'
 
 # TODO: Check if from Netlify and use WEBHOOK_BODY env to see what content to change
@@ -11,6 +11,26 @@ require 'sanitize'
 # TODO: Check GitHub API calls for 403 code (rate limit excited or unauthorized)
 
 module Jekyll
+  # Create a custom Markdown renderer for Redcarpet
+  class CustomRender < Redcarpet::Render::XHTML
+    def block_code(code, language)
+      %(
+        <div class="tabs js-tabs code-highlight-tabs">
+            <div class="tab-content">
+                <div class="code-highlight" data-label="">
+                    <span class="js-copy-to-clipboard copy-code">copy</span>
+                    <pre class="language-#{language}">
+                        <code class="js-code ghostIn language-#{language}">
+                            #{code}
+                        </code>
+                    </pre>
+                </div>
+            </div>
+        </div>
+      )
+    end
+  end
+
   # The PluginPage class creates a single ingredients, plugin, or plugins page
   class PluginPage < Page
     # The resultant relative URL of where the published file will end up
@@ -302,10 +322,12 @@ module Jekyll
       puts "## Generating page for #{plugin['name']}"
 
       # Set the readme variable, if available
-      readme_url = 'https://raw.githubusercontent.com/' + $plugins_org + '/' + plugin['name'] + '/master/README.md'
-      readme_response = get_remote_file(readme_url)
-      if readme_response.code == '200' && !readme_response.body.nil?
-        plugin['readme'] = Kramdown::Document.new(sanitize_readme(readme_response, plugin)).to_html
+      url = 'https://raw.githubusercontent.com/' + $plugins_org + '/' + plugin['name'] + '/master/README.md'
+      response = get_remote_file(url)
+      if response.code == '200' && !response.body.nil?
+        extensions = { autolink: true, fenced_code_blocks: true, lax_spacing: true, no_intra_emphasis: true, strikethrough: true, tables: true, underline: true, filter_html: true, hard_wrap: true, no_images: true, no_styles: true, safe_links_only: true, with_toc_data: true }
+        markdown = Redcarpet::Markdown.new(CustomRender, extensions)
+        plugin['readme'] = markdown.render(response.body)
         puts " - README.md found, set plugin.readme liquid variable"
       end
 
