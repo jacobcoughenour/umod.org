@@ -19,7 +19,9 @@ module Jekyll
           <div class="code-highlight" data-label="">
             <span class="js-copy-to-clipboard copy-code">copy</span>
             <pre class="language-#{language}">
-              <code class="js-code ghostIn language-#{language}">#{code}</code>
+              <code class="js-code ghostIn language-#{language}">
+#{code}
+              </code>
             </pre>
           </div>
         </div>
