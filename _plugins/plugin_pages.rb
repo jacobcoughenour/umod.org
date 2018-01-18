@@ -271,11 +271,12 @@ module Jekyll
         }
       end
 
+      # Write Jekyll pages and individual plugin files
       write_plugins_index(plugins, $plugins_dir)
       write_plugin_pages(plugins, $plugins_dir)
 
       # Sort plugins and write the plugins.json file
-      merged = [
+      merged = {
         'all' => plugins,
         'sort_by' => {
           'last_updated' => plugins.sort_by{|p| p['updated_at']}.map{|p| p['id']},
@@ -283,7 +284,7 @@ module Jekyll
           'most_starred' => plugins.sort_by{|p| p['stargazers']}.map{|p| p['id']},
           'most_watched' => plugins.sort_by{|p| p['watchers']}.map{|p| p['id']}
         }
-      ]
+      }
       write_static_file(merged.to_json, 'plugins.json', '/')
     end
 
