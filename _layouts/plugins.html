@@ -14,10 +14,10 @@ layout: docs
             <div class="dropdown">
                 <label for="sortby">Sort by</label>
                 <select name="sortby" class="button small stroke blue dropdown-select">
-                    <option value="lastupdate">Last Updated</option>
+                    <option value="last_updated">Last Updated</option>
                     <option value="newest">Newest</option>
-                    <option value="moststared">Most Stared</option>
-                    <option value="mostwatched">Most Watched</option>
+                    <option value="most_starred">Most Stared</option>
+                    <option value="most_watched">Most Watched</option>
                     <option value="title">Title (A-Z)</option>
                 </select>
             </div>
@@ -82,8 +82,10 @@ layout: docs
 <script type="text/javascript">
     var cardtemplate;
     var pluginsdata = {};
+    var currentdata = [];
     var rendered = false;
 
+    var sortby = "last_updated";
     var itemsperpage = 12;
     var currentpage = 0;
 
@@ -92,12 +94,56 @@ layout: docs
         cardtemplate = $("#plugin-card-template").html();
 
         $.getJSON('/plugins.json', function (data) {
-            pluginsdata = data.all;
+            pluginsdata = data;
+            currentdata = pluginsdata.sort_by.last_updated;
 
             let index = $("#plugins-index");
 
+            // URL params
+
             let url = new URL(window.location);
             let params = new URLSearchParams(url.search.slice(1));
+
+            if (params.has('sortby')) {
+                let val = params.get('sortby');
+                if (val != sortby && (val === "title" || val in pluginsdata.sort_by)) {
+                    sortby = val;
+                    $('select[name=sortby]').val(val);
+                } else {
+                    params.set('sortby', sortby);
+                    UpdateUrl(params);
+                }
+            }
+
+            // TODO: Default to list view on mobile
+            if (params.get('view') == "list") {
+                let toggle = $('input[name=gridtoggle]');
+                toggle.checked = true;
+            }
+
+            if (params.has('page')) {
+                let num = parseInt(params.get('page')) - 1;
+                currentpage = Math.min(Math.max(num, 0), Math.ceil(currentdata.length / itemsperpage) - 1);
+                params.set('page', currentpage + 1);
+                UpdateUrl(params);
+            }
+
+            // Event listeners
+
+            $('select[name=sortby]').change(function () {
+
+                let val = $(this).val();
+                if (val == sortby || !(val === "title" || val in pluginsdata.sort_by))
+                    return;
+
+                sortby = val;
+                currentpage = 0;
+                RenderIndexPage();
+                params.set('sortby', sortby);
+                UpdateUrl(params);
+
+                // TODO: Save to session storage https://www.w3schools.com/jsref/prop_win_sessionstorage.asp
+            });
 
             $('input[name=gridtoggle]').click(function () {
                 $("#plugins-index").toggleClass("list-mode", $(this).is(":checked"));
@@ -139,7 +185,7 @@ layout: docs
             });
 
             $('a#nextbutton').click(function () {
-                if ((currentpage + 1) * itemsperpage >= pluginsdata.length)
+                if ((currentpage + 1) * itemsperpage >= currentdata.length)
                     return;
                 currentpage += 1;
                 RenderIndexPage();
@@ -148,29 +194,14 @@ layout: docs
             });
 
             $('a#lastbutton').click(function () {
-                if ((currentpage + 1) * itemsperpage >= pluginsdata.length)
+                if ((currentpage + 1) * itemsperpage >= currentdata.length)
                     return;
-                currentpage = Math.ceil(pluginsdata.length / itemsperpage) - 1;
+                currentpage = Math.ceil(currentdata.length / itemsperpage) - 1;
                 RenderIndexPage();
                 params.set('page', currentpage + 1);
                 UpdateUrl(params);
             });
 
-            // URL params
-
-            if (params.has('page')) {
-                let num = parseInt(params.get('page')) - 1;
-                currentpage = Math.min(Math.max(num, 0), Math.ceil(pluginsdata.length / itemsperpage) - 1);
-                params.set('page', currentpage + 1);
-                UpdateUrl(params);
-            }
-
-            // TODO: Default to list view on mobile
-            if (params.get('view') == "list") {
-                let toggle = $('input[name=gridtoggle]');
-                toggle.checked = true;
-                toggle.click();
-            }
 
             if (!rendered) // If not already rendered
                 RenderIndexPage();
@@ -184,10 +215,19 @@ layout: docs
         let index = $("#plugins-index");
         index.css("opacity", "0"); // Hide plugins index
 
+        if (sortby == "title")
+            currentdata = pluginsdata.all;
+        else if (sortby in pluginsdata.sort_by) {
+            currentdata = [];
+            pluginsdata.sort_by[sortby].forEach(e => {
+                currentdata.push(GetPluginFromID(e));
+            });
+        }
+
         let newhtml = "";
 
-        for (i = currentpage * itemsperpage; (i < (currentpage + 1) * itemsperpage && i < pluginsdata.length); i++) {
-            newhtml += CreatePluginCard(pluginsdata[i]);
+        for (i = currentpage * itemsperpage; (i < (currentpage + 1) * itemsperpage && i < currentdata.length); i++) {
+            newhtml += CreatePluginCard(currentdata[i]);
         }
         $("#plugins-index .js-grid-view>.row").html(newhtml);
 
@@ -202,7 +242,7 @@ layout: docs
 
         // Update pagination
 
-        let lastpage = Math.ceil(pluginsdata.length / itemsperpage) - 1;
+        let lastpage = Math.ceil(currentdata.length / itemsperpage) - 1;
 
         $("a.pagebutton[data-id]").each(function (i, obj) {
             let pagenum;
@@ -256,6 +296,10 @@ layout: docs
             .replace(/\[\[icon_url\]\]/g, data["icon_url"] || ("https://www.gravatar.com/avatar/" + data.id + "?s=262.5&d=identicon"))
             .replace(/\[\[title\]\]/g, data["title"])
             .replace(/\[\[description\]\]/g, data["description"]);
+    }
+
+    function GetPluginFromID(id) {
+        return $.grep(pluginsdata.all, function (obj) { return obj.id === id; })[0];
     }
 
     function UpdateUrl(p) {
