@@ -14,20 +14,16 @@ module Jekyll
   # Create a custom Markdown renderer for Redcarpet
   class CustomRender < Redcarpet::Render::XHTML
     def block_code(code, language)
-      %(
-        <div class="tabs js-tabs code-highlight-tabs">
-            <div class="tab-content">
-                <div class="code-highlight" data-label="">
-                    <span class="js-copy-to-clipboard copy-code">copy</span>
-                    <pre class="language-#{language}">
-                        <code class="js-code ghostIn language-#{language}">
-                            #{code}
-                        </code>
-                    </pre>
-                </div>
-            </div>
+      %(<div class="tabs js-tabs code-highlight-tabs">
+        <div class="tab-content">
+          <div class="code-highlight" data-label="">
+            <span class="js-copy-to-clipboard copy-code">copy</span>
+            <pre class="language-#{language}">
+              <code class="js-code ghostIn language-#{language}">#{code}</code>
+            </pre>
+          </div>
         </div>
-      )
+      </div>)
     end
   end
 
