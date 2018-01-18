@@ -18,3 +18,4 @@ pkg/
 plugins/
 tmp/
 vendor/
+plugins.json
