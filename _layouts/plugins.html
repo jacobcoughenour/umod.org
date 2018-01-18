@@ -92,7 +92,7 @@ layout: docs
         cardtemplate = $("#plugin-card-template").html();
 
         $.getJSON('/plugins.json', function (data) {
-            pluginsdata = data;
+            pluginsdata = data.all;
 
             let index = $("#plugins-index");
 
