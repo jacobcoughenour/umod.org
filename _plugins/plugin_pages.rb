@@ -288,13 +288,13 @@ module Jekyll
 
       # Create arrays of plugins IDs sorted
       sorted = {
-        'all' => plugins,
+        'all' => Hash[plugins.collect{|p| [p['id'], p.reject{|key, value| key == 'id'}]}],
         'sort_by' => {
           'title'        => plugins.sort_by{|p| p['title']}.map{|p| p['id']},
-          'last_updated' => plugins.sort_by{|p| p['updated_at']}.reverse.map{|p| p['id']},
-          'newest'       => plugins.sort_by{|p| p['created_at']}.reverse.map{|p| p['id']},
-          'most_starred' => plugins.sort_by{|p| p['stargazers']}.reverse.map{|p| p['id']},
-          'most_watched' => plugins.sort_by{|p| p['watchers']}.reverse.map{|p| p['id']}
+          'last_updated' => plugins.sort_by{|p| p['updated_at']}.map{|p| p['id']}.reverse,
+          'newest'       => plugins.sort_by{|p| p['created_at']}.map{|p| p['id']}.reverse,
+          'most_starred' => plugins.sort_by{|p| p['stargazers']}.map{|p| p['id']}.reverse,
+          'most_watched' => plugins.sort_by{|p| p['watchers']}.map{|p| p['id']}.reverse
         },
         'topics' => topics
       }
