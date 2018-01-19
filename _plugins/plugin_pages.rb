@@ -12,7 +12,7 @@ require 'sanitize'
 
 module Jekyll
   # Create a custom Markdown renderer for Redcarpet
-  class CustomRender < Redcarpet::Render::XHTML
+  class CustomRenderer < Redcarpet::Render::XHTML
     def block_code(code, language)
       %(<div class="tabs js-tabs code-highlight-tabs">
         <div class="tab-content">
@@ -67,7 +67,7 @@ module Jekyll
     # Use to set plugin. Also sets the page title
     def set_page_data(plugin, prev_plugin, next_plugin)
       # Set the plugin instances
-      self.data['plugin'] = plugin
+      self.data['plugin']      = plugin
       self.data['plugin_prev'] = prev_plugin
       self.data['plugin_next'] = next_plugin
 
@@ -94,17 +94,17 @@ module Jekyll
     $plugins_org = Jekyll.configuration({})['plugin_org'] || 'umods'
     $plugins_dir = 'plugins'
     $file_exts = {
-      'C#' => '.cs',
+      'C#'           => '.cs',
       'CoffeeScript' => '.coffee',
-      'JavaScript' => '.js',
-      'Lua' => '.lua',
-      'Python' => '.py'
+      'JavaScript'   => '.js',
+      'Lua'          => '.lua',
+      'Python'       => '.py'
     }
 
     # Cleans and removes any redundant text and formatting from a README.md file
     def sanitize_readme(input, repo)
       # Remove redundant headings with repo's name
-      readme = input.body.gsub('# ' + repo['name'], '') \
+      readme = input.gsub('# ' + repo['name'], '') \
       # Remove redundant descriptions that match existing
       .gsub(repo['description'], '') \
       # Remove any remote images or badges from description
@@ -118,6 +118,29 @@ module Jekyll
     def sanitize_version(input)
       version = input.scan(/\d+/).join('.')
       version
+    end
+
+    # Handles Markdown parsing and formatting
+    def to_markdown(input)
+      options = {
+        filter_html:       true,
+        hard_wrap:         true,
+        no_images:         true,
+        no_styles:         true,
+        safe_links_only:   true,
+        with_toc_data:     true
+      }
+      renderer = CustomRenderer.new(options)
+      extensions = {
+        autolink:           true,
+        fenced_code_blocks: true,
+        lax_spacing:        true,
+        no_intra_emphasis:  true,
+        strikethrough:      true,
+        tables:             true,
+        underline:          true
+      }
+      Redcarpet::Markdown.new(renderer, extensions).render(input)
     end
 
     # Gets the response code and body for a remote file
@@ -150,8 +173,8 @@ module Jekyll
       response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {"Authorization" => "token " + $token} : nil))
       response.each do |contributor|
         contributors << {
-          'name' => contributor['login'],
-          'avatar_url' => contributor['avatar_url'],
+          'name'          => contributor['login'],
+          'avatar_url'    => contributor['avatar_url'],
           'contributions' => contributor['contributions']
         }
       end
@@ -166,7 +189,7 @@ module Jekyll
       response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {"Authorization" => "token " + $token} : nil))
       response.each do |commit|
         commits << {
-          'sha' => commit['sha'],
+          'sha'  => commit['sha'],
           'date' => commit['commit']['author']['date'],
         }
         break if limit == 1
@@ -183,11 +206,11 @@ module Jekyll
       response.each do |release|
         next if release['draft']
         releases << {
-          'version' => sanitize_version(release['tag_name']),
-          'author' => release['author']['login'],
+          'version'    => sanitize_version(release['tag_name']),
+          'author'     => release['author']['login'],
           'prerelease' => release['prerelease'],
-          'date' => release['published_at'],
-          'changes' => release['body']
+          'date'       => release['published_at'],
+          'changes'    => release['body']
         }
       end
       puts " - Releases: #{releases.length}" if releases.length > 0
@@ -201,9 +224,9 @@ module Jekyll
       response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {"Authorization" => "token " + $token} : nil))
       response.each do |content|
         contents << {
-          'filename' => content['name'],
-          'sha' => content['sha'],
-          'size' => content['size'],
+          'filename'     => content['name'],
+          'sha'          => content['sha'],
+          'size'         => content['size'],
           'download_url' => content['download_url']
         }
       end
@@ -249,24 +272,24 @@ module Jekyll
         puts "## Getting information for #{repo['name']}"
         contents = get_repo_contents(repo)
         plugins << {
-          'id' => repo['id'],
-          'name' => repo['name'],
-          'title' => repo['name'].humanize,
-          'description' => Sanitize.clean(repo['description']).chomp('.'),
-          'language' => repo['language'],
-          'topics' => get_repo_topics(repo),
-          'created_at' => repo['created_at'],
-          'updated_at' => repo['pushed_at'],
-          'github_url' => repo['html_url'],
-          'icon_url' => get_contents_url(contents, 'icon.png'),
-          'download_url' => get_contents_url(contents, repo['name'] + $file_exts[repo['language']]),
-          'private' => repo['private'],
-          'stargazers' => repo['stargazers_count'],
-          'watchers' => repo['watchers_count'],
-          'license_id' => !repo['license'].nil? ? repo['license']['spdx_id'] : nil,
-          'license_name' => !repo['license'].nil? ? repo['license']['name'] : nil,
-          'contributors' => get_repo_contributors(repo),
-          'latest_commit' => get_repo_commits(repo, 1).first,
+          'id'             => repo['id'],
+          'name'           => repo['name'],
+          'title'          => repo['name'].humanize,
+          'description'    => Sanitize.clean(repo['description']).chomp('.'),
+          'language'       => repo['language'],
+          'topics'         => get_repo_topics(repo),
+          'created_at'     => repo['created_at'],
+          'updated_at'     => repo['pushed_at'],
+          'github_url'     => repo['html_url'],
+          'icon_url'       => get_contents_url(contents, 'icon.png'),
+          'download_url'   => get_contents_url(contents, repo['name'] + $file_exts[repo['language']]),
+          'private'        => repo['private'],
+          'stargazers'     => repo['stargazers_count'],
+          'watchers'       => repo['watchers_count'],
+          'license_id'     => !repo['license'].nil? ? repo['license']['spdx_id'] : nil,
+          'license_name'   => !repo['license'].nil? ? repo['license']['name'] : nil,
+          'contributors'   => get_repo_contributors(repo),
+          'latest_commit'  => get_repo_commits(repo, 1).first,
           'latest_release' => get_repo_releases(repo, 1).first,
         }
       end
@@ -348,9 +371,7 @@ module Jekyll
       url = 'https://raw.githubusercontent.com/' + $plugins_org + '/' + plugin['name'] + '/master/README.md'
       response = get_remote_file(url)
       if response.code == '200' && !response.body.nil?
-        extensions = {autolink: true, fenced_code_blocks: true, lax_spacing: true, no_intra_emphasis: true, strikethrough: true, tables: true, underline: true, filter_html: true, hard_wrap: true, no_images: true, no_styles: true, safe_links_only: true, with_toc_data: true}
-        markdown = Redcarpet::Markdown.new(CustomRender, extensions)
-        plugin['readme'] = markdown.render(response.body)
+        plugin['readme'] = to_markdown(sanitize_readme(response.body, plugin))
         puts " - README.md found, set plugin.readme variable"
       end
 
