@@ -125,7 +125,6 @@ layout: docs
             // Event listeners
 
             $('select[name=sortby]').change(function () {
-
                 let val = $(this).val();
                 if (val == sortby || !(val === "title" || val in pluginsdata.sort_by))
                     return;
@@ -133,6 +132,7 @@ layout: docs
                 sortby = val;
                 currentpage = 0;
                 RenderIndexPage();
+                params.delete('page');
                 params.set('sortby', sortby);
                 UpdateUrl(params);
 
