@@ -115,12 +115,6 @@ layout: docs
                 }
             }
 
-            // TODO: Default to list view on mobile
-            if (params.get('view') == "list") {
-                let toggle = $('input[name=gridtoggle]');
-                toggle.checked = true;
-            }
-
             if (params.has('page')) {
                 let num = parseInt(params.get('page')) - 1;
                 currentpage = Math.min(Math.max(num, 0), Math.ceil(currentids.length / itemsperpage) - 1);
@@ -201,6 +195,13 @@ layout: docs
                 params.set('page', currentpage + 1);
                 UpdateUrl(params);
             });
+
+            // TODO: Default to list view on mobile
+            if (params.get('view') == "list") {
+                let toggle = $('input[name=gridtoggle]');
+                toggle.checked = true;
+                toggle.click();
+            }
 
 
             if (!rendered) // If not already rendered
