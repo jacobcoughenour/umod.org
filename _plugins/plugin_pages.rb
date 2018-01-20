@@ -361,7 +361,7 @@ module Jekyll
           most_starred: plugins.sort_by {|_, plugin| plugin['stargazers']}.map {|key, _| key}.uniq.reverse,
           most_watched: plugins.sort_by {|_, plugin| plugin['watchers']}.map {|key, _| key}.uniq.reverse
         },
-        topics: topics.uniq
+        topics: topics
       }
 
       # Write Jekyll pages and individual plugin files
