@@ -324,6 +324,7 @@ module Jekyll
 
         # Check if webhook repo is already in plugins.json
         repo = get_org_repo($plugins_org, repo_name)
+        plugins.delete(repo['id'])
         plugins[repo['id']] = create_repo_hash(repo) unless repo.nil?
       else
         # Get all GitHub repositories for org
@@ -352,15 +353,15 @@ module Jekyll
 
       # Create arrays of plugin IDs sorted
       sorted = {
-        all: plugins.sort_by {|_, plugin| plugin['name']}.to_h,
+        all: plugins.sort_by {|_, plugin| plugin['name']}.uniq.to_h,
         sort_by: {
-          title: plugins.sort_by {|_, plugin| plugin['title']}.map {|key, _| key},
-          last_updated: plugins.sort_by {|_, plugin| plugin['updated_at']}.map {|key, _| key}.reverse,
-          newest: plugins.sort_by {|_, plugin| plugin['created_at']}.map {|key, _| key}.reverse,
-          most_starred: plugins.sort_by {|_, plugin| plugin['stargazers']}.map {|key, _| key}.reverse,
-          most_watched: plugins.sort_by {|_, plugin| plugin['watchers']}.map {|key, _| key}.reverse
+          title: plugins.sort_by {|_, plugin| plugin['title']}.map {|key, _| key}.uniq,
+          last_updated: plugins.sort_by {|_, plugin| plugin['updated_at']}.map {|key, _| key}.uniq.reverse,
+          newest: plugins.sort_by {|_, plugin| plugin['created_at']}.map {|key, _| key}.uniq.reverse,
+          most_starred: plugins.sort_by {|_, plugin| plugin['stargazers']}.map {|key, _| key}.uniq.reverse,
+          most_watched: plugins.sort_by {|_, plugin| plugin['watchers']}.map {|key, _| key}.uniq.reverse
         },
-        topics: topics
+        topics: topics.uniq
       }
 
       # Write Jekyll pages and individual plugin files
