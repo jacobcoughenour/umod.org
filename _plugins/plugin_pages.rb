@@ -324,8 +324,8 @@ module Jekyll
 
         # Check if webhook repo is already in plugins.json
         repo = get_org_repo($plugins_org, repo_name)
-        plugins.delete(repo['id'])
-        plugins[repo['id']] = create_repo_hash(repo) unless repo.nil?
+        plugins.delete_if {|id, _| id == repo['id']}
+        plugins[repo['id']] = create_repo_hash(repo)
       else
         # Get all GitHub repositories for org
         repos = get_org_repos($plugins_org)
