@@ -237,10 +237,10 @@ module Jekyll
       contents = []
       response.each do |content|
         contents << {
-          filename: content['name'],
-          sha: content['sha'],
-          size: content['size'],
-          download_url: content['download_url']
+          'filename' => content['name'],
+          'sha' => content['sha'],
+          'size' => content['size'],
+          'download_url' => content['download_url']
         }
       end
       puts " - Contents: #{contents.length}" if contents.length > 0
@@ -262,7 +262,7 @@ module Jekyll
       repos = []
       while true
         url = "https://api.github.com/orgs/#{org}/repos?per_page=#{per_page}&page=#{page}"
-        response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {"Authorization" => "token #{$token}"} : nil))
+        response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {'Authorization' => "token #{$token}"} : nil))
         break if response.size == 0
         response.each {|h| repos << h}
         page += 1
@@ -274,7 +274,7 @@ module Jekyll
     def get_org_repo(org, repo_name)
       puts "## Getting repository information from GitHub"
       url = "https://api.github.com/repos/#{org}/#{repo_name}"
-      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {"Authorization" => "token #{$token}"} : nil))
+      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {'Authorization' => "token #{$token}"} : nil))
       return nil if response.size == 0
       response
     end
