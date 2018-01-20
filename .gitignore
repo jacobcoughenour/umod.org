@@ -5,6 +5,7 @@
 .bundle/
 .byebug_history
 .DS_Store
+.idea/
 .jekyll-metadata
 .ruby-gemset
 .ruby-version

@@ -6,11 +6,23 @@ require 'open-uri'
 require 'redcarpet'
 require 'sanitize'
 
-# TODO: Check if from Netlify and use WEBHOOK_BODY env to see what content to change
 # TODO: Might be good to add some additional error handling and checks
 # TODO: Check GitHub API calls for 403 code (rate limit excited or unauthorized)
 
 module Jekyll
+  # Define global variables
+  $plugins_org = Jekyll.configuration({})['plugin_org'] || 'umods'
+  $token = ENV['JEKYLL_GITHUB_TOKEN'] || ENV['GITHUB_TOKEN']
+  $webhook_body = ENV['WEBHOOK_BODY']
+  $plugins_dir = 'plugins'
+  $file_exts = {
+    'C#' => '.cs',
+    'CoffeeScript' => '.coffee',
+    'JavaScript' => '.js',
+    'Lua' => '.lua',
+    'Python' => '.py'
+  }
+
   # Create a custom Markdown renderer for Redcarpet
   class CustomRenderer < Redcarpet::Render::XHTML
     def block_code(code, language)
@@ -19,9 +31,7 @@ module Jekyll
           <div class="code-highlight" data-label="">
             <span class="js-copy-to-clipboard copy-code">copy</span>
             <pre class="language-#{language}">
-              <code class="js-code ghostIn language-#{language}">
-#{code}
-              </code>
+              <code class="js-code ghostIn language-#{language}">#{code}</code>
             </pre>
           </div>
         </div>
@@ -44,7 +54,7 @@ module Jekyll
     def initialize(site, base, dest_dir, dest_name, src_name)
       @site = site
       @base = base
-      @dir  = dest_dir
+      @dir = dest_dir
       @dest_dir = dest_dir
       @dest_name = dest_name
       @dest_url = File.join('/', dest_dir)
@@ -67,7 +77,7 @@ module Jekyll
     # Use to set plugin. Also sets the page title
     def set_page_data(plugin, prev_plugin, next_plugin)
       # Set the plugin instances
-      self.data['plugin']      = plugin
+      self.data['plugin'] = plugin
       self.data['plugin_prev'] = prev_plugin
       self.data['plugin_next'] = next_plugin
 
@@ -77,69 +87,67 @@ module Jekyll
 
       # Set the brief description for this page
       self.data['description'] = plugin['description']
+
+      # Set the readme, if available
+      url = "https://raw.githubusercontent.com/#{$plugins_org}/#{plugin['name']}/master/README.md"
+      response = site.get_remote_file(url)
+      if response.code == '200' && !response.body.nil?
+        self.data['more_info'] = site.to_markdown(site.sanitize_readme(response.body, plugin))
+        puts " - README.md found, set page.more_info"
+      end
     end
 
     # Override so that we can control where the destination file goes
     def destination(dest)
       # The URL needs to be unescaped in order to preserve the correct filename
-      path = File.join(dest, @dest_dir, @dest_name)
-      path
+      File.join(dest, @dest_dir, @dest_name)
     end
   end
 
   # The Site class is a built-in Jekyll class with access to global site config information
   class Site
-    # Define global variables
-    $token = ENV['JEKYLL_GITHUB_TOKEN'] || ENV['GITHUB_TOKEN']
-    $plugins_org = Jekyll.configuration({})['plugin_org'] || 'umods'
-    $plugins_dir = 'plugins'
-    $file_exts = {
-      'C#'           => '.cs',
-      'CoffeeScript' => '.coffee',
-      'JavaScript'   => '.js',
-      'Lua'          => '.lua',
-      'Python'       => '.py'
-    }
-
     # Cleans and removes any redundant text and formatting from a README.md file
-    def sanitize_readme(input, repo)
+    def sanitize_readme(input, plugin)
       # Remove redundant headings with repo's name
-      readme = input.gsub('# ' + repo['name'], '') \
+      input.gsub('# ' + plugin['name'], '') \
       # Remove redundant descriptions that match existing
-      .gsub(repo['description'], '') \
+        .gsub(plugin['description'], '') \
       # Remove any remote images or badges from description
-      .gsub(/\[?\!\[[\w\s?]+\]?\(.*\)/, '') \
+        .gsub(/\[?!\[[\w\s?]+\]?\(.*\)/, '') \
       # Remove any whitespace from start or end of string
-      .strip
-      readme
+        .strip
     end
 
     # Cleans and remove any redundant text from a version number
     def sanitize_version(input)
-      version = input.scan(/\d+/).join('.')
-      version
+      input.scan(/\d+/).join('.')
     end
 
     # Handles Markdown parsing and formatting
     def to_markdown(input)
+      # Set options for XHTML renderer
       options = {
-        filter_html:       true,
-        hard_wrap:         true,
-        no_images:         true,
-        no_styles:         true,
-        safe_links_only:   true,
-        with_toc_data:     true
+        filter_html: true,
+        hard_wrap: true,
+        no_images: true,
+        no_styles: true,
+        safe_links_only: true,
+        with_toc_data: true
       }
-      renderer = CustomRenderer.new(options)
+
+      # Set extensions to use with renderer
       extensions = {
-        autolink:           true,
+        autolink: true,
         fenced_code_blocks: true,
-        lax_spacing:        true,
-        no_intra_emphasis:  true,
-        strikethrough:      true,
-        tables:             true,
-        underline:          true
+        lax_spacing: true,
+        no_intra_emphasis: true,
+        strikethrough: true,
+        tables: true,
+        underline: true
       }
+
+      # Render and return input
+      renderer = CustomRenderer.new(options)
       Redcarpet::Markdown.new(renderer, extensions).render(input)
     end
 
@@ -149,18 +157,18 @@ module Jekyll
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
       request = Net::HTTP::Get.new(uri.request_uri)
-      response = http.request(request)
-      response
+      http.request(request)
     end
 
     # Gets topic information for a GitHub repository
     def get_repo_topics(repo)
-      url = 'https://api.github.com/repos/' + $plugins_org + '/' + repo['name'] + '/topics'
+      url = "https://api.github.com/repos/#{$plugins_org}/#{repo['name']}/topics"
       headers = {
-        'Authorization' => 'token ' + $token, # TODO: Make optional
+        'Authorization' => "token #{$token}", # TODO: Make optional
         'Accept' => 'application/vnd.github.mercy-preview+json'
       }
       response = JSON.load(open(url, headers))
+      # TODO: Check if response is valid?
       topics = response['names']
       puts " - Topics: #{topics.length}" if topics.length > 0
       topics
@@ -168,13 +176,14 @@ module Jekyll
 
     # Gets contributor information for a GitHub repository
     def get_repo_contributors(repo)
+      url = "https://api.github.com/repos/#{$plugins_org}/#{repo['name']}/contributors"
+      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {'Authorization' => "token #{$token}"} : nil))
+
       contributors = []
-      url = 'https://api.github.com/repos/' + $plugins_org + '/' + repo['name'] + '/contributors'
-      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {"Authorization" => "token " + $token} : nil))
       response.each do |contributor|
         contributors << {
-          'name'          => contributor['login'],
-          'avatar_url'    => contributor['avatar_url'],
+          'name' => contributor['login'],
+          'avatar_url' => contributor['avatar_url'],
           'contributions' => contributor['contributions']
         }
       end
@@ -184,12 +193,13 @@ module Jekyll
 
     # Gets commit information for a GitHub repository
     def get_repo_commits(repo, limit)
+      url = "https://api.github.com/repos/#{$plugins_org}/#{repo['name']}/commits"
+      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {'Authorization' => "token #{$token}"} : nil))
+
       commits = []
-      url = 'https://api.github.com/repos/' + $plugins_org + '/' + repo['name'] + '/commits'
-      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {"Authorization" => "token " + $token} : nil))
       response.each do |commit|
         commits << {
-          'sha'  => commit['sha'],
+          'sha' => commit['sha'],
           'date' => commit['commit']['author']['date'],
         }
         break if limit == 1
@@ -200,18 +210,20 @@ module Jekyll
 
     # Gets release information for a GitHub repository
     def get_repo_releases(repo, limit)
+      url = "https://api.github.com/repos/#{$plugins_org}/#{repo['name']}/releases"
+      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {'Authorization' => "token #{$token}"} : nil))
+
       releases = []
-      url = 'https://api.github.com/repos/' + $plugins_org + '/' + repo['name'] + '/releases'
-      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {"Authorization" => "token " + $token} : nil))
       response.each do |release|
         next if release['draft']
         releases << {
-          'version'    => sanitize_version(release['tag_name']),
-          'author'     => release['author']['login'],
+          'version' => sanitize_version(release['tag_name']),
+          'author' => release['author']['login'],
           'prerelease' => release['prerelease'],
-          'date'       => release['published_at'],
-          'changes'    => release['body']
+          'date' => release['published_at'],
+          'changes' => release['body']
         }
+        break if limit == 1
       end
       puts " - Releases: #{releases.length}" if releases.length > 0
       releases
@@ -219,15 +231,16 @@ module Jekyll
 
     # Gets content information for a GitHub repository
     def get_repo_contents(repo)
+      url = "https://api.github.com/repos/#{$plugins_org}/#{repo['name']}/contents"
+      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {'Authorization' => "token #{$token}"} : nil))
+
       contents = []
-      url = 'https://api.github.com/repos/' + $plugins_org + '/' + repo['name'] + '/contents'
-      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {"Authorization" => "token " + $token} : nil))
       response.each do |content|
         contents << {
-          'filename'     => content['name'],
-          'sha'          => content['sha'],
-          'size'         => content['size'],
-          'download_url' => content['download_url']
+          filename: content['name'],
+          sha: content['sha'],
+          size: content['size'],
+          download_url: content['download_url']
         }
       end
       puts " - Contents: #{contents.length}" if contents.length > 0
@@ -242,85 +255,119 @@ module Jekyll
       nil
     end
 
-    # Creates instances of PluginPage, renders then, and writes the output to a file
-    # Will create a page for the plugins index and each plugin
-    def write_all_plugin_files
-      # Checks GitHub API for repository information and converts it to a custom format
-      puts "Getting repository information from GitHub"
+    # Gets all repository information for an organization using the GitHub API
+    def get_org_repos(org, per_page = 100)
+      puts "## Getting all repository information from GitHub"
       page = 1
       repos = []
       while true
-        url = 'https://api.github.com/orgs/' + $plugins_org + '/repos?per_page=100&page=' + page.to_s
-        response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {"Authorization" => "token " + $token} : nil))
+        url = "https://api.github.com/orgs/#{org}/repos?per_page=#{per_page}&page=#{page}"
+        response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {"Authorization" => "token #{$token}"} : nil))
         break if response.size == 0
-        response.each{|h| repos << h}
+        response.each {|h| repos << h}
         page += 1
       end
+      repos
+    end
 
-      # Only keep non-empty repository information
-      repos = repos.select{|p| !p['language'].nil?}
+    # Gets repository information for a single repository using the GitHub API
+    def get_org_repo(org, repo_name)
+      puts "## Getting repository information from GitHub"
+      url = "https://api.github.com/repos/#{org}/#{repo_name}"
+      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {"Authorization" => "token #{$token}"} : nil))
+      return nil if response.size == 0
+      response
+    end
 
-      # Sort repository information A-Z by name
-      repos = repos.sort_by{|p| p['name']}
+    # Creates a combined hash with specific repository information
+    def create_repo_hash(repo)
+      puts "## Getting information for #{repo['name']}"
+      contents = get_repo_contents(repo)
+      {
+        'name' => repo['name'],
+        'title' => repo['name'].humanize,
+        'description' => Sanitize.clean(repo['description']).chomp('.'),
+        'language' => repo['language'],
+        'topics' => get_repo_topics(repo),
+        'created_at' => repo['created_at'],
+        'updated_at' => repo['pushed_at'],
+        'github_url' => repo['html_url'],
+        'icon_url' => get_contents_url(contents, 'icon.png'),
+        'download_url' => get_contents_url(contents, repo['name'] + $file_exts[repo['language']]),
+        'private' => repo['private'],
+        'stargazers' => repo['stargazers_count'],
+        'watchers' => repo['watchers_count'],
+        'license_id' => !repo['license'].nil? ? repo['license']['spdx_id'] : nil,
+        'license_name' => !repo['license'].nil? ? repo['license']['name'] : nil,
+        'contributors' => get_repo_contributors(repo),
+        'latest_commit' => get_repo_commits(repo, 1).first,
+        'latest_release' => get_repo_releases(repo, 1).first,
+      }
+    end
 
-      puts "Non-empty repositories found: #{repos.size.to_s}"
+    # Creates instances of PluginPage, renders then, and writes the output to a file
+    # Will create a page for the plugins index and each plugin
+    def write_all_plugin_files
+      plugins = {}
 
-      # Loop through remaining repository information and store
-      plugins = []
-      repos.each do |repo|
-        puts
-        puts "## Getting information for #{repo['name']}"
-        contents = get_repo_contents(repo)
-        plugins << {
-          'id'             => repo['id'],
-          'name'           => repo['name'],
-          'title'          => repo['name'].humanize,
-          'description'    => Sanitize.clean(repo['description']).chomp('.'),
-          'language'       => repo['language'],
-          'topics'         => get_repo_topics(repo),
-          'created_at'     => repo['created_at'],
-          'updated_at'     => repo['pushed_at'],
-          'github_url'     => repo['html_url'],
-          'icon_url'       => get_contents_url(contents, 'icon.png'),
-          'download_url'   => get_contents_url(contents, repo['name'] + $file_exts[repo['language']]),
-          'private'        => repo['private'],
-          'stargazers'     => repo['stargazers_count'],
-          'watchers'       => repo['watchers_count'],
-          'license_id'     => !repo['license'].nil? ? repo['license']['spdx_id'] : nil,
-          'license_name'   => !repo['license'].nil? ? repo['license']['name'] : nil,
-          'contributors'   => get_repo_contributors(repo),
-          'latest_commit'  => get_repo_commits(repo, 1).first,
-          'latest_release' => get_repo_releases(repo, 1).first,
-        }
-      end
+      # Check if WEBHOOK_BODY env is set
+      if !$webhook_body.nil?
+        # Check WEBHOOK_BODY env to see what repo to rebuild
+        webhook = JSON.parse($webhook_body)
+        repo_name = webhook['repository']['name'] if !webhook.nil? && !webhook.empty?
+        # TODO: Check for and show repo name
 
-      # Write Jekyll pages and individual plugin files
-      write_plugins_index(plugins, $plugins_dir)
-      write_plugin_pages(plugins, $plugins_dir)
+        # Load existing plugins.json to check and add to
+        json = JSON.load(open('https://umod.org/plugins.json'))
+        # TODO: Make sure a response is valid, if json.size == 0
+        plugins = json['all']
 
-      # Create an array of plugin IDs by topic
-      topics = {}
-      plugins.each do |plugin|
-        plugin['topics'].each do |topic|
-          if !topics.key?(topic)
-            topics[topic] = []
-          end
-          topics[topic] << plugin['id']
+        # Check if webhook repo is already in plugins.json
+        unless plugins.any? {|id, plugin| plugin['name'] == repo_name}
+          repo = get_org_repo($plugins_org, repo_name)
+          plugins[id] = create_repo_hash(repo) unless repo.nil?
+        end
+      else
+        # Get all GitHub repositories for org
+        repos = get_org_repos($plugins_org)
+
+        # Only keep non-empty repository information and sort A-Z by name
+        repos = repos.select {|repo| !repo['language'].nil?}.sort_by {|repo| repo['name']}
+        puts "Non-empty repositories found: #{repos.size.to_s}"
+
+        # Loop through remaining repository information and store
+        repos.each do |repo|
+          plugins[repo['id']] = create_repo_hash(repo)
         end
       end
 
-      # Create arrays of plugins IDs sorted
+      # Create an array of plugin IDs by topic
+      topics = {}
+      plugins.each do |key, plugin|
+        plugin['topics'].each do |topic|
+          unless topics.key?(topic)
+            topics[topic] = []
+          end
+          topics[topic] << key
+        end
+      end
+
+      # Create arrays of plugin IDs sorted
       sorted = {
-        'all' => Hash[plugins.collect{|p| [p['id'], p.reject{|key, value| key == 'id'}]}],
-        'sort_by' => {
-          'title'        => plugins.sort_by{|p| p['title']}.map{|p| p['id']},
-          'last_updated' => plugins.sort_by{|p| p['updated_at']}.map{|p| p['id']}.reverse,
-          'newest'       => plugins.sort_by{|p| p['created_at']}.map{|p| p['id']}.reverse,
-          'most_starred' => plugins.sort_by{|p| p['stargazers']}.map{|p| p['id']}.reverse,
-          'most_watched' => plugins.sort_by{|p| p['watchers']}.map{|p| p['id']}.reverse
+        all: plugins.sort_by {|_, plugin| plugin['name']}.to_h,
+        sort_by: {
+          title: plugins.sort_by {|_, plugin| plugin['title']}.map {|key, _| key},
+          last_updated: plugins.sort_by {|_, plugin| plugin['updated_at']}.map {|key, _| key}.reverse,
+          newest: plugins.sort_by {|_, plugin| plugin['created_at']}.map {|key, _| key}.reverse,
+          most_starred: plugins.sort_by {|_, plugin| plugin['stargazers']}.map {|key, _| key}.reverse,
+          most_watched: plugins.sort_by {|_, plugin| plugin['watchers']}.map {|key, _| key}.reverse
         },
-        'topics' => topics
+        topics: topics
       }
+
+      # Write Jekyll pages and individual plugin files
+      write_plugins_index(plugins.values, $plugins_dir)
+      write_plugin_pages(plugins.values, $plugins_dir)
 
       # Write the plugins.json file
       write_static_file(sorted.to_json, 'plugins.json', '/')
@@ -328,11 +375,11 @@ module Jekyll
 
     # Write a static file to specified directory under _site
     def write_static_file(contents, filename, dest_dir)
-        unless File.directory?(File.join(self.source, dest_dir))
-          FileUtils.mkdir_p(File.join(self.source, dest_dir))
-        end
-        File.write(File.join(self.source, File.join(dest_dir, filename)), contents)
-        self.static_files << StaticFile.new(self, self.source, dest_dir, filename)
+      unless File.directory?(File.join(self.source, dest_dir))
+        FileUtils.mkdir_p(File.join(self.source, dest_dir))
+      end
+      File.write(File.join(self.source, File.join(dest_dir, filename)), contents)
+      self.static_files << StaticFile.new(self, self.source, dest_dir, filename)
     end
 
     # Write the plugins index files
@@ -351,10 +398,10 @@ module Jekyll
         if self.layouts.key? 'plugin'
           plugins.each_with_index do |plugin, index|
             # Write the individual plugin's page
-            write_plugin_page(plugin, dest_dir, (index > 0) ? plugins[index-1] : nil, plugins[index+1])
+            write_plugin_page(plugin, dest_dir, (index > 0) ? plugins[index - 1] : nil, plugins[index + 1])
 
             # Write the individual plugin's .json file
-            write_static_file(plugin.to_json, plugin['name'] + '.json', dest_dir)
+            write_static_file(plugin.to_json, "#{plugin['name']}.json", dest_dir)
           end
         else
           throw "No 'plugin' layout found."
@@ -364,16 +411,7 @@ module Jekyll
 
     # Write a plugins/plugin-name/index.html page
     def write_plugin_page(plugin, dest_dir, prev_plugin, next_plugin)
-      puts
       puts "## Generating page for #{plugin['name']}"
-
-      # Set the readme variable, if available
-      url = 'https://raw.githubusercontent.com/' + $plugins_org + '/' + plugin['name'] + '/master/README.md'
-      response = get_remote_file(url)
-      if response.code == '200' && !response.body.nil?
-        plugin['readme'] = to_markdown(sanitize_readme(response.body, plugin))
-        puts " - README.md found, set plugin.readme variable"
-      end
 
       # Attach plugin data to global site variable. This allows pages to see this plugin's data
       page = PluginPage.new(self, self.source, File.join(dest_dir, plugin['name']), 'index.html', 'plugin')
@@ -386,7 +424,7 @@ module Jekyll
       if !plugin['download_url'].nil? && !plugin['private']
         filename = plugin['name'] + $file_exts[plugin['language']]
         download = open(plugin['download_url']) {|f| f.read}
-        if !download.nil?
+        unless download.nil?
           write_static_file(download, filename, File.join(File.join(dest_dir, plugin['name'])))
           puts " - Downloaded #{filename} from GitHub"
         end
@@ -406,7 +444,7 @@ module Jekyll
 
       # TODO: Check if category exists before attempting to create
       #categories = JSON.parse(discourse.categories(parent_category_id: 21))
-      #if !categories['name'].to_a.detect{|e| e['name'] == plugin_name}.nil? # TODO: Fix this code and check
+      #if !categories[:name].to_a.detect{|e| e[:name] == plugin_name}.nil? # TODO: Fix this code and check
       #  return
       #end
 

@@ -5,9 +5,9 @@ layout: docs
 <div class="row">
     <div class="col-md-9">
         <div class="main-content">
-            {% if page.plugin.readme %}
-                {% include toc.html html=page.plugin.readme sanitize=true %}
-                {{ page.plugin.readme }}
+            {% if page.more_info %}
+                {% include toc.html html=page.more_info sanitize=true %}
+                {{ page.more_info }}
             {% else %}
                 <p>
                     This plugin has no additional information about it. Please let the author know or feel free to contribute a <a href="{{ page.plugin.github_url }}/new/master?readme=1">README.md</a> via GitHub or <a href="{{ page.plugin.github_url }}/issues/new?title=Plugin+page+is+lacking+additional+information&body=Please+add+a+README.md+file+to+provide+additional+information+at+{{ site.url }}/plugins/{{ page.plugin.name | downcase }}">open an issue</a> to request more information.
