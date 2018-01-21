@@ -2,13 +2,15 @@ General:
   icon: "&#xe64a"
   questions:
     - question: "What is uMod?"
-      answer: "uMod is essentially Oxide 3.0 (the previous name); an extended universal API, support for additional games, advanced self-patching, more extensive documentation, a new home, and more to come."
+      answer: "uMod is essentially Oxide *(the previous name)* 3.0; advanced self-patching, an extended universal API, more extensive documentation, support for additional games, a new home, and more to come."
     - question: "Where can I get plugins?"
-      answer: "You can find all of the previous plugins for Oxide at oxidemod.org; these will eventually be updated for uMod along with a standalone site and repository. For new plugins, check out the Plugins section."
+      answer: "You can find all of the existing plugins for Oxide at oxidemod.org; these will eventually be updated for uMod along with a standalone site and repository. For new plugins, check out the Plugins section."
     - question: "When will X game be supported?"
       answer: "A game being supported depends on if it's written in a compatible programming language and isn't jumbled up. Feel free to post a request on our forums or issue tracker and we'll take a look!"
     - question: "When will an update be available for X game?"
       answer: "If support for a game is somehow outdated, we've either ran into an issue with the update or we haven't been able to get to it. Rest assured it'll be available ASAP!"
+    - question: "How do I submit a plugin I made?"
+      answer: "Currently we are not accepting new plugins until the existing plugins have been migrated from oxidemod.org. Once that is done, we'll have information about submitting new plugins."
     - question: "Why do some plugin hooks not work after updating?"
       answer: "If you updated to a newer game update and not all uMod features are working, that's likely because there were changes that affected it and would need to be reviewed by a team member and a patch be pushed out."
 
