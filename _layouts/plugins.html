@@ -80,6 +80,8 @@ layout: docs
 {% include plugin-card.html %}
 
 <script type="text/javascript">
+    var supportedgames = [{% for game in site.data.games %}"{{ game.name | slugify }}", {% endfor %}];
+
     var cardtemplate;
     var pluginsdata = {};
     var currentids = [];
@@ -90,7 +92,6 @@ layout: docs
     var currentpage = 0;
 
     $(document).ready(function () {
-
         cardtemplate = $("#plugin-card-template").html();
 
         $.getJSON('/plugins.json', function (data) {
@@ -203,11 +204,9 @@ layout: docs
                 toggle.click();
             }
 
-
             if (!rendered) // If not already rendered
                 RenderIndexPage();
         });
-
     });
 
     function RenderIndexPage() {
@@ -286,11 +285,28 @@ layout: docs
     }
 
     function CreatePluginCard(id, data) {
+        let topicbadges = "";
+        let support = "";
+
+        // TODO this could be handled better...
+        data.topics.sort(function (a, b) {
+            if (a == "universal" || a == "oxide")
+                return 0;
+            return 1;
+        }).forEach(t => {
+            if ($.inArray(t, supportedgames) != -1) {
+                support += "<li><img src='/assets/images/topics/" + t + ".png' class='game'/></li>";
+            } else
+                topicbadges += "<li><a><span>" + t + "</span></a></li>";
+        });
+
         return cardtemplate
             .replace(/\[\[name\]\]/g, data["name"])
             .replace(/\[\[icon_url\]\]/g, data["icon_url"] || ("https://www.gravatar.com/avatar/" + id + "?s=262.5&d=identicon"))
             .replace(/\[\[title\]\]/g, data["title"])
-            .replace(/\[\[description\]\]/g, data["description"]);
+            .replace(/\[\[description\]\]/g, data["description"])
+            .replace(/\[\[topics\]\]/g, topicbadges)
+            .replace(/\[\[gamesupport\]\]/g, support != "" ? '<ul class="gamesupport">' + support + '</ul>' : "");
     }
 
     function UpdateUrl(p) {

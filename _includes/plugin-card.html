@@ -1,13 +1,17 @@
 <script id="plugin-card-template" type="text/template">
     <div class="col-md-3 hide">
-        <a href="[[name]]/" class="grid-view-elem js-grid-view-elem plugin-card">
+        <div class="grid-view-elem js-grid-view-elem plugin-card">
             <div class="plugin-icon-area">
+                [[gamesupport]]
                 <img src="[[icon_url]]" class="image" alt="[[name]]" />
             </div>
             <div class="plugin-info">
-                <h3 class="grid-view-elem-title">[[title]]</h3>
-                <p class="grid-view-elem-description">[[description]]</p>
+                <a href="[[name]]/">
+                    <h3 class="title">[[title]]</h3>
+                    <p class="description">[[description]]</p>
+                </a>
+                <ul class="topics">[[topics]]</ul>
             </div>
-        </a>
+        </div>
     </div>
 </script>
