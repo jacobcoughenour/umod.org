@@ -252,7 +252,7 @@ module Jekyll
 
     #
     def get_github_api(repo, type)
-      url = "https://api.github.com/repos/#{github_org}/#{repo['name']}/#{type}"
+      url = "https://api.github.com/repos/#{$github_org}/#{repo['name']}/#{type}"
       get_github_response(url)
     end
 
