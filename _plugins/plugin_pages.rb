@@ -11,8 +11,8 @@ require 'sanitize'
 
 module Jekyll
   # Define global variables
-  $plugins_org = Jekyll.configuration({})['plugin_org'] || 'umods'
-  $token = ENV['JEKYLL_GITHUB_TOKEN'] || ENV['GITHUB_TOKEN']
+  $github_org = Jekyll.configuration({})['plugin_org'] || 'umods'
+  $github_token = ENV['JEKYLL_GITHUB_TOKEN'] || ENV['GITHUB_TOKEN']
   $webhook_body = ENV['WEBHOOK_BODY']
   $plugins_dir = 'plugins'
   $file_exts = {
@@ -89,7 +89,7 @@ module Jekyll
       self.data['description'] = plugin['description']
 
       # Set the readme, if available
-      url = "https://raw.githubusercontent.com/#{$plugins_org}/#{plugin['name']}/master/README.md"
+      url = "https://raw.githubusercontent.com/#{$github_org}/#{plugin['name']}/master/README.md"
       response = site.get_remote_file(url)
       if response.code == '200' && !response.body.nil?
         self.data['more_info'] = site.to_markdown(site.sanitize_readme(response.body, plugin))
@@ -110,8 +110,6 @@ module Jekyll
     def sanitize_readme(input, plugin)
       # Remove redundant headings with repo's name
       input.gsub('# ' + plugin['name'], '') \
-      # Remove redundant descriptions that match existing
-        .gsub(plugin['description'], '') \
       # Remove any remote images or badges from description
         .gsub(/\[?!\[[\w\s?]+\]?\(.*\)/, '') \
       # Remove any whitespace from start or end of string
@@ -162,9 +160,9 @@ module Jekyll
 
     # Gets topic information for a GitHub repository
     def get_repo_topics(repo)
-      url = "https://api.github.com/repos/#{$plugins_org}/#{repo['name']}/topics"
+      url = "https://api.github.com/repos/#{$github_org}/#{repo['name']}/topics"
       headers = {
-        'Authorization' => "token #{$token}", # TODO: Make optional
+        'Authorization' => "token #{$github_token}", # TODO: Make optional
         'Accept' => 'application/vnd.github.mercy-preview+json'
       }
       response = JSON.load(open(url, headers))
@@ -176,10 +174,8 @@ module Jekyll
 
     # Gets contributor information for a GitHub repository
     def get_repo_contributors(repo)
-      url = "https://api.github.com/repos/#{$plugins_org}/#{repo['name']}/contributors"
-      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {'Authorization' => "token #{$token}"} : nil))
-
       contributors = []
+      response = get_github_api(repo, 'contributors')
       response.each do |contributor|
         contributors << {
           'name' => contributor['login'],
@@ -193,10 +189,8 @@ module Jekyll
 
     # Gets commit information for a GitHub repository
     def get_repo_commits(repo, limit)
-      url = "https://api.github.com/repos/#{$plugins_org}/#{repo['name']}/commits"
-      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {'Authorization' => "token #{$token}"} : nil))
-
       commits = []
+      response = get_github_api(repo, 'commits')
       response.each do |commit|
         commits << {
           'sha' => commit['sha'],
@@ -210,10 +204,8 @@ module Jekyll
 
     # Gets release information for a GitHub repository
     def get_repo_releases(repo, limit)
-      url = "https://api.github.com/repos/#{$plugins_org}/#{repo['name']}/releases"
-      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {'Authorization' => "token #{$token}"} : nil))
-
       releases = []
+      response = get_github_api(repo, 'releases')
       response.each do |release|
         next if release['draft']
         releases << {
@@ -231,10 +223,8 @@ module Jekyll
 
     # Gets content information for a GitHub repository
     def get_repo_contents(repo)
-      url = "https://api.github.com/repos/#{$plugins_org}/#{repo['name']}/contents"
-      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {'Authorization' => "token #{$token}"} : nil))
-
       contents = []
+      response = get_github_api(repo, 'contents')
       response.each do |content|
         contents << {
           'filename' => content['name'],
@@ -255,14 +245,24 @@ module Jekyll
       nil
     end
 
+    # Gets an authenticated API response from GitHub
+    def get_github_response(url)
+      JSON.load(open(url, !$github_token.nil? && !$github_token.empty? ? {'Authorization' => "token #{$github_token}"} : nil))
+    end
+
+    #
+    def get_github_api(repo, type)
+      url = "https://api.github.com/repos/#{github_org}/#{repo['name']}/#{type}"
+      get_github_response(url)
+    end
+
     # Gets all repository information for an organization using the GitHub API
     def get_org_repos(org, per_page = 100)
       puts "## Getting all repository information from GitHub"
       page = 1
       repos = []
       while true
-        url = "https://api.github.com/orgs/#{org}/repos?per_page=#{per_page}&page=#{page}"
-        response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {'Authorization' => "token #{$token}"} : nil))
+        response = get_github_response("https://api.github.com/orgs/#{org}/repos?per_page=#{per_page}&page=#{page}")
         break if response.size == 0
         response.each {|h| repos << h}
         page += 1
@@ -273,16 +273,13 @@ module Jekyll
     # Gets repository information for a single repository using the GitHub API
     def get_org_repo(org, repo_name)
       puts "## Getting repository information from GitHub"
-      url = "https://api.github.com/repos/#{org}/#{repo_name}"
-      response = JSON.load(open(url, !$token.nil? && !$token.empty? ? {'Authorization' => "token #{$token}"} : nil))
-      return nil if response.size == 0
-      response
+      get_github_response("https://api.github.com/repos/#{org}/#{repo_name}")
     end
 
     # Creates a combined hash with specific repository information
     def create_repo_hash(repo)
       puts "## Getting information for #{repo['name']}"
-      contents = get_repo_contents(repo)
+      get_repo_contents(repo)
       {
         'name' => repo['name'],
         'title' => repo['name'].humanize,
@@ -311,24 +308,26 @@ module Jekyll
       plugins = {}
 
       # Check if WEBHOOK_BODY env is set
-      if !$webhook_body.nil?
-        # Check WEBHOOK_BODY env to see what repo to rebuild
-        webhook = JSON.parse($webhook_body)
-        repo_name = webhook['repository']['name'] if !webhook.nil? && !webhook.empty?
-        # TODO: Check for and show repo name
-
+      if !$webhook_body.nil? || File.exist?('plugins.json')
         # Load existing plugins.json to check and add to
         json = JSON.load(open('https://umod.org/plugins.json'))
         # TODO: Make sure a response is valid, if json.size == 0
+        json = JSON.load('plugins.json') if json.size == 0
         plugins = json['all']
 
-        # Check if webhook repo is already in plugins.json
-        repo = get_org_repo($plugins_org, repo_name)
-        plugins.delete_if {|id, _| id == repo['id']}
-        plugins[repo['id']] = create_repo_hash(repo)
+        unless $webhook_body.nil?
+          # Check WEBHOOK_BODY env to see what repo to rebuild
+          webhook = JSON.parse($webhook_body)
+          repo_name = webhook['repository']['name']
+
+          # Check if webhook repo is already in plugins.json
+          repo = get_org_repo($github_org, repo_name)
+          plugins.delete_if {|id, _| id == repo['id']}
+          plugins[repo['id']] = create_repo_hash(repo)
+        end
       else
         # Get all GitHub repositories for org
-        repos = get_org_repos($plugins_org)
+        repos = get_org_repos($github_org)
 
         # Only keep non-empty repository information and sort A-Z by name
         repos = repos.select {|repo| !repo['language'].nil?}.sort_by {|repo| repo['name']}
@@ -425,7 +424,7 @@ module Jekyll
         download = open(plugin['download_url']) {|f| f.read}
         unless download.nil?
           write_static_file(download, filename, File.join(File.join(dest_dir, plugin['name'])))
-          puts " - Downloaded #{filename} from GitHub"
+          puts " - Downloaded file #{filename}"
         end
       end
 
