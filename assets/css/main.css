@@ -18547,7 +18547,7 @@ input.changelog-input {
     width: 43px;
     padding-left: 0;
     padding-right: 0;
-    text-align: center;  
+    text-align: center;
 }
 #plugins-index-pagination a.pagebutton.currentpage {
     border-radius: 3px;
@@ -18589,5 +18589,16 @@ input.changelog-input {
 }
 #plugins-index-pagination a.pagebutton[disabled]:active {
     bottom: 0px;
-    opacity: 0.5;    
+    opacity: 0.5;
+}
+/* ==========================================================================
+     Plugin page
+     ========================================================================== */
+.plugin-download-button {
+    white-space: normal;
+    width: 100%;
+}
+.plugin-support-button {
+    margin-right: 10px;
+    width: 47%;
 }
