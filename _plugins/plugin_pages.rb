@@ -279,7 +279,7 @@ module Jekyll
     # Creates a combined hash with specific repository information
     def create_repo_hash(repo)
       puts "## Getting information for #{repo['name']}"
-      get_repo_contents(repo)
+      contents = get_repo_contents(repo)
       {
         'name' => repo['name'],
         'title' => repo['name'].humanize,
