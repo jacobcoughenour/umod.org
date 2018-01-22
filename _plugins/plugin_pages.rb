@@ -1,4 +1,4 @@
-#require 'discourse_api'
+require 'discourse_api'
 require 'json'
 require 'net/http'
 require 'open-uri'
@@ -22,6 +22,8 @@ module Jekyll
     'Lua' => '.lua',
     'Python' => '.py'
   }
+  $discourse = DiscourseApi::Client
+  $discourse_categories = []
 
   # Create a custom Markdown renderer for Redcarpet
   class CustomRenderer < Redcarpet::Render::XHTML
@@ -363,6 +365,15 @@ module Jekyll
         topics: topics
       }
 
+      # Setup connection to Discourse
+      unless ENV['DISCOURSE_API_KEY'].nil?
+        $discourse = DiscourseApi::Client.new(self.config['forums'])
+        $discourse.api_key = ENV['DISCOURSE_API_KEY']
+        $discourse.api_username = "system"
+        $discourse.ssl(verify: false)
+        $discourse_categories = $discourse.categories(parent_category_id: 21)
+      end
+
       # Write Jekyll pages and individual plugin files
       write_plugins_index(plugins.values, $plugins_dir)
       write_plugin_pages(plugins.values, $plugins_dir)
@@ -428,41 +439,26 @@ module Jekyll
         end
       end
 
-      #create_forums_category(plugin)
+      create_forums_category(plugin) unless ENV['DISCOURSE_API_KEY'].nil?
     end
 
-=begin
+    # Create Discourse forums category for plugin
     def create_forums_category(plugin)
-      discourse = DiscourseApi::Client.new(Jekyll.configuration({})['forums'])
-      discourse.api_key = ENV['DISCOURSE_API_KEY']
-      discourse.api_username = "system"
-      discourse.ssl(verify: false)
-
-      plugin_name = plugin['name'].humanize
-
-      # TODO: Check if category exists before attempting to create
-      #categories = JSON.parse(discourse.categories(parent_category_id: 21))
-      #if !categories[:name].to_a.detect{|e| e[:name] == plugin_name}.nil? # TODO: Fix this code and check
-      #  return
-      #end
+      # Check if category exists before attempting to create
+      $discourse_categories.each do |category|
+        return if category['name'] == plugin['title']
+      end
 
       # Create new forum category for plugin
-      new_category = discourse.create_category(
-        name: plugin_name,
-        color: "AB9364",
+      new_category = $discourse.create_category(
+        name: plugin['title'],
+        color: "25AAE2",
         text_color: "FFFFFF",
-        parent_category_id: 21 # Plugin Support category
+        parent_category_id: 21, # Plugin Support category
+        description: "Support and discussion for #{plugin['name']}. Visit the plugin's page at #{self.config['home']}/plugins/#{plugin['name']}/." # Not working with Discourse yet
       )
-      puts "Created category: #{new_category}"
-
-      # Update new category with description
-      updated_category = discourse.update_category(
-        id: new_category['id'],
-        description: "Support and discussion for #{plugin['name']}. Visit the plugin's page at #{Jekyll.configuration({})['url']}/plugins/#{plugin['name']}/."
-      )
-      puts "Updated category: #{updated_category}"
+      puts " - Created Discourse category: #{new_category['name']}"
     end
-=end
   end
 
   # Jekyll hook - the generate method is called by Jekyll, and generates all of the plugin pages

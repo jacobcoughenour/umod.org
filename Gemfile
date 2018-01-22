@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 require 'json'
 require 'open-uri'
 
-#gem 'discourse_api'
+gem 'discourse_api'
 gem 'github-pages'
 gem 'jekyll'
 gem 'listen'
