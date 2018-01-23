@@ -1,8 +1,10 @@
 General:
   icon: "&#xe64a"
   questions:
-    - question: "What is uMod?"
-      answer: "uMod is essentially Oxide 3.0; advanced self-patching, an extended universal API, more extensive documentation, support for additional games, a new home, and more to come."
+    - question: "What is the uMod project?"
+      answer: "uMod is essentially what Oxide was planned to be: advanced self-patching (no bundles), an extended universal API, extensive documentation, support for additional games, a new home, and more."
+    - question: "What is the Oxide mod?"
+      answer: "Oxide is a mod project that started in late 2013, which was originally only for Rust. Basic support was later added for other Unity and .NET games as well as support for other programming languages."
     - question: "Where can I get plugins?"
       answer: "You can find all of the existing plugins for Oxide at oxidemod.org; these will eventually be updated for uMod along with a standalone site and repository. For new plugins, check out the Plugins section."
     - question: "When will X game be supported?"
