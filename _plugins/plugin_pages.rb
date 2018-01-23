@@ -358,21 +358,21 @@ module Jekyll
       plugins.each do |key, plugin|
         plugin['topics'].each do |topic|
           unless topics.key?(topic)
-            topics[topic] = []
+            topics[topic] = {}
           end
-          topics[topic] << key
+          topics[topic] = key.to_i
         end
       end
 
       # Create arrays of plugin IDs sorted
       sorted = {
-        all: plugins.sort_by {|_, plugin| plugin['name']}.uniq.to_h,
+        all: Hash[plugins.keys.map(&:to_i).zip(plugins.values)],
         sort_by: {
-          title: plugins.sort_by {|_, plugin| plugin['title']}.map {|key, _| key}.uniq,
-          last_updated: plugins.sort_by {|_, plugin| plugin['updated_at']}.map {|key, _| key}.uniq.reverse,
-          newest: plugins.sort_by {|_, plugin| plugin['created_at']}.map {|key, _| key}.uniq.reverse,
-          most_starred: plugins.sort_by {|_, plugin| plugin['stargazers']}.map {|key, _| key}.uniq.reverse,
-          most_watched: plugins.sort_by {|_, plugin| plugin['watchers']}.map {|key, _| key}.uniq.reverse
+          title: plugins.sort_by {|_, plugin| plugin['title']}.map {|key, _| key.to_i}.uniq,
+          last_updated: plugins.sort_by {|_, plugin| plugin['updated_at']}.map {|key, _| key.to_i}.reverse.uniq,
+          newest: plugins.sort_by {|_, plugin| plugin['created_at']}.map {|key, _| key.to_i}.reverse.uniq,
+          most_starred: plugins.sort_by {|_, plugin| plugin['stargazers']}.map {|key, _| key.to_i}.reverse.uniq,
+          most_watched: plugins.sort_by {|_, plugin| plugin['watchers']}.map {|key, _| key.to_i}.reverse.uniq
         },
         topics: topics
       }
