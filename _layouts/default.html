@@ -27,7 +27,11 @@
 
     <meta property="og:title" content="{{ site.title }}{% if page.title %} - {{ page.title }}{% endif %}" />
     <meta property="og:description" content="{{ page.description }}" />
-    <meta property="og:image" content="{{ "/assets/images/favicons/favicon-96x96.png" | prepend: site.baseurl }}" />
+    {% if page.plugin.icon_url %} 
+        <meta property="og:image" content="{{ page.plugin.icon_url }}" />
+    {% else %}
+        <meta property="og:image" content="{{ "/assets/images/favicons/favicon-96x96.png" | prepend: site.baseurl }}" />
+    {% endif %}
     <meta property="og:url" content="{{ page.url | prepend: site.url }}" />
     <meta property="og:site_name" content="{{ site.title }}" />
 
