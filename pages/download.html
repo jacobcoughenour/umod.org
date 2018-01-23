@@ -6,14 +6,25 @@ permalink: /download/
 redirect_from: /downloads/
 ---
 
-<div class="row">
+<div class="row downloads">
     {% for game in site.data.games %}
-        <div class="col-md-1">
-            <a href="https://github.com/OxideMod/Oxide.{{ game.extension }}/releases">
-                <img src="{{ "/assets/images/games/" | prepend: site.baseurl }}{{ game.name | slugify }}.png" class="download-image" alt="">
-            </a>
+        <div class="col-md-4">
+            <div class="grid-view-elem js-grid-view-elem">
+                <img src="{{ "/assets/images/games/" | prepend: site.baseurl }}{{ game.name | slugify }}.png" class="download-image" alt="{{ game.name }}"/>
+                <h3 class="grid-view-elem-title">
+                    Oxide for {{ game.name }}
+                </h3>
+                <p class="grid-view-elem-description">
+                    <a href="https://github.com/OxideMod/Oxide.{{ game.extension }}/releases">Download</a> | <a href="{{ game.name | slugify }}">Details</a>
+                </p>
+            </div>
         </div>
     {% endfor %}
+    <!--<div class="col-md-3">
+        <a href="https://github.com/OxideMod/Oxide.{{ game.extension }}/releases">
+            <img src="{{ " /assets/images/games/ " | prepend: site.baseurl }}{{ game.name | slugify }}.png" class="download-image" alt="">
+        </a>
+    </div>-->
 </div>
 
 <hr/>

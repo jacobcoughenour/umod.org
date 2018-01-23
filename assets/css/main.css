@@ -18209,10 +18209,22 @@ input.changelog-input {
     overflow: hidden;
     max-height: 280px;
 }
+@media (min-width: 992px) {
+    .downloads > .col-md-4 {
+        width: 50%;
+    }
+}
+@media (min-width: 1200px) {
+    .downloads > .col-md-4 {
+        width: 33.33333333%;
+    }
+}
 .download-image {
-    width: 83px;
-    height: 83px;
-    border-radius: 50px;
+    float: left;
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    margin: -16px 16px 16px -16px;
     position: relative;
     overflow: hidden;
 }
