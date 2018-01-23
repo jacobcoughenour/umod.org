@@ -18492,6 +18492,7 @@ ul.topics {
     height: 30px;
     width: 30px;
     border-radius: 3px;
+    background: #fff;
 }
 .plugin-card .plugin-info {
     display: flex;
