@@ -27,17 +27,40 @@ module Jekyll
 
   # Create a custom Markdown renderer for Redcarpet
   class CustomRenderer < Redcarpet::Render::XHTML
+    # Set extensions for XHTML renderer
+    def initialize(extensions = {}) # TODO: Figure out why these don't seem to be working
+      super extensions.merge({
+         escape_html: true,
+         hard_wrap: true,
+         safe_links_only: true,
+         with_toc_data: true
+      })
+    end
+
+    # Override default syntax highlighting to support Prism
     def block_code(code, language)
       %(<div class="tabs js-tabs code-highlight-tabs">
         <div class="tab-content">
           <div class="code-highlight" data-label="">
             <span class="js-copy-to-clipboard copy-code">copy</span>
             <pre class="language-#{language}">
-              <code class="js-code ghostIn language-#{language}">#{code}</code>
+              <code class="js-code ghostIn language-#{language}">#{html_escape(code)}</code>
             </pre>
           </div>
         </div>
       </div>)
+    end
+
+    # Escape code so that it doesn't affect the HTML
+    def html_escape(string)
+      string.gsub(/['&\"<>\/]/, {
+        '&' => '&amp;',
+        '<' => '&lt;',
+        '>' => '&gt;',
+        '"' => '&quot;',
+        "'" => '&#x27;',
+        "/" => '&#x2F;',
+      })
     end
   end
 
@@ -125,16 +148,6 @@ module Jekyll
 
     # Handles Markdown parsing and formatting
     def to_markdown(input)
-      # Set options for XHTML renderer
-      options = {
-        filter_html: true,
-        hard_wrap: true,
-        no_images: true,
-        no_styles: true,
-        safe_links_only: true,
-        with_toc_data: true
-      }
-
       # Set extensions to use with renderer
       extensions = {
         autolink: true,
@@ -147,8 +160,7 @@ module Jekyll
       }
 
       # Render and return input
-      renderer = CustomRenderer.new(options)
-      Redcarpet::Markdown.new(renderer, extensions).render(input)
+      Redcarpet::Markdown.new(CustomRenderer, extensions).render(input)
     end
 
     # Gets the response code and body for a remote file
