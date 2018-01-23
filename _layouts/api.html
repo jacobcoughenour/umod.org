@@ -6,13 +6,13 @@ layout: default
     <div class="one-page-sidebar">
         <div class="one-page-sidebar-header">
             <div class="one-page-logo">
-                <a href="{% link api.html %}" class="logo-image ">
+                <a href="{% link pages/api.html %}" class="logo-image ">
                     <img src="{{ "/assets/images/logos/umod-gray.png" | absolute_url }}" alt="">
                 </a>
             </div>
             <div class="one-page-meta">
                 <ul class="one-page-meta-list">
-                    <li><a href="{% link index.html %}"><i class="one-page-meta-list-icon fa fa-home"></i>Home</a></li>
+                    <li><a href="{% link pages/index.html %}"><i class="one-page-meta-list-icon fa fa-home"></i>Home</a></li>
                     <li><a href="{{ site.github.owner_url }}"><i class="one-page-meta-list-icon fa fa-github-alt"></i>GitHub</a></li>
                     <li><a href="{{ site.forums }}"><i class="one-page-meta-list-icon fa fa-support"></i>Forums</a></li>
                 </ul>
@@ -45,7 +45,7 @@ layout: default
                 <div class="row">
                     <div class="col-md-3 col-sm-6 col-xs-5">
                         <div class="visible-sm-block visible-xs-block">
-                            <a href="{% link api.html %}" class="logo-image">
+                            <a href="{% link pages/api.html %}" class="logo-image">
                                 <img src="{{ "/assets/images/logos/umod-gray.png" | absolute_url }}" alt="logo">
                             </a>
                         </div>
@@ -53,12 +53,12 @@ layout: default
                     <div class="col-md-9 col-sm-6 col-xs-7">
                         <nav class="right helper">
                             <ul class="menu sf-menu js-menu">
-                                <li><a href="{% link index.html %}">Home</a></li>
-                                <li><a href="{% link download.html %}">Download</a></li>
+                                <li><a href="{% link pages/index.html %}">Home</a></li>
+                                <li><a href="{% link pages/download.html %}">Download</a></li>
                                 <li><a href="/plugins/">Plugins</a></li>
-                                <li><a href="{% link faq.html %}">FAQ</a></li>
-                                <!--<li><a href="{% link changelog.html %}">Changelog</a></li>-->
-                                <li><a href="{% link api.html %}">API</a></li>
+                                <li><a href="{% link pages/faq.html %}">FAQ</a></li>
+                                <!--<li><a href="{% link pages/changelog.html %}">Changelog</a></li>-->
+                                <li><a href="{% link pages/api.html %}">API</a></li>
                                 <li><a href="{{ site.forums }}">Forums</a></li>
                             </ul>
                         </nav>

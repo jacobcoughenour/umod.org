@@ -7,7 +7,7 @@ url: https://umod.org
 home: https://umod.org
 forums: https://forums.umod.org
 twitter: https://twitter.com/theumod
-patreon: https://www.patreon.com/oxidemod
+patreon: https://www.patreon.com/umod
 
 # Building
 markdown: redcarpet
@@ -17,7 +17,6 @@ permalink: /:title/
 excerpt_separator: <!--more-->
 
 # GitHub
-repository: theumod/umod.org
+github: https://github.com/theumod
 plugins_org: umods
-client_id: 644edf81174f14822070
 exclude: ["js/dev", "js/preprod", "plugins", "vendor", .gitignore", "*.sh", "*.ps1", "Gemfile*", "README.md", "gulpfile.js", "netlify.toml"]

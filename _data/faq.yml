@@ -2,7 +2,7 @@ General:
   icon: "&#xe64a"
   questions:
     - question: "What is uMod?"
-      answer: "uMod is essentially Oxide *(the previous name)* 3.0; advanced self-patching, an extended universal API, more extensive documentation, support for additional games, a new home, and more to come."
+      answer: "uMod is essentially Oxide 3.0; advanced self-patching, an extended universal API, more extensive documentation, support for additional games, a new home, and more to come."
     - question: "Where can I get plugins?"
       answer: "You can find all of the existing plugins for Oxide at oxidemod.org; these will eventually be updated for uMod along with a standalone site and repository. For new plugins, check out the Plugins section."
     - question: "When will X game be supported?"
