@@ -4,8 +4,6 @@ description: Expand your server functionality with one or many plugins
 layout: docs
 ---
 
-<!-- TODO: Update "many" in front matter description with plugins count -->
-
 <div class="row">
     <div class="col-md-12">
         <div class="container plugins-index-header">
@@ -101,6 +99,10 @@ layout: docs
             currentids = pluginsdata.sort_by[sortby];
 
             let index = $("#plugins-index");
+
+            $(".page-description").each(function (i, obj) {
+                $(obj).html("{{ page.description }}".replace("many", Object.keys(data.all).length));
+            });
 
             // URL params
 
