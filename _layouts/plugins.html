@@ -260,12 +260,17 @@ layout: docs
                 $(obj).toggleClass("stroke", false);
                 $(obj).toggleClass("small", false);
                 $(obj).toggleClass("currentpage", true);
+                $(obj).toggleClass("helper hide", false);
+            } else if (pagenum > lastpage + 1 || pagenum < 1) {
+                $(obj).toggleClass("helper hide", true);
             } else {
                 $(obj).toggleClass("noleftborder", pagenum == currentpage + 2);
                 $(obj).toggleClass("stroke", true);
                 $(obj).toggleClass("small", true);
                 $(obj).toggleClass("currentpage", false);
+                $(obj).toggleClass("helper hide", false);
             }
+            $(obj).toggleClass("last", pagenum == lastpage + 1 || i == 4);
         });
 
         if (currentpage <= 0) {

@@ -18671,7 +18671,7 @@ ul.topics {
     opacity: 0.5;
     cursor: default;
 }
-#plugins-index-pagination a.pagebutton[data-id="4"] {
+#plugins-index-pagination a.pagebutton.last {
     border-right-width: 1px;
 }
 #plugins-index-pagination a#nextbutton,
