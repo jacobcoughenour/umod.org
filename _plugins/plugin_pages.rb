@@ -39,16 +39,28 @@ module Jekyll
 
     # Override default syntax highlighting to support Prism
     def block_code(code, language)
-      %(<div class="tabs js-tabs code-highlight-tabs">
-        <div class="tab-content">
-          <div class="code-highlight" data-label="">
-            <span class="js-copy-to-clipboard copy-code">copy</span>
-            <pre class="language-#{language}">
-              <code class="js-code ghostIn language-#{language}">#{html_escape(code)}</code>
-            </pre>
+      %(
+        <div class="tabs js-tabs code-highlight-tabs">
+          <div class="tab-content">
+            <div class="code-highlight" data-label="">
+              <span class="js-copy-to-clipboard copy-code">copy</span>
+              <pre class="language-#{language}">
+                <code class="js-code ghostIn language-#{language}">#{html_escape(code)}</code>
+              </pre>
+            </div>
           </div>
         </div>
-      </div>)
+      )
+    end
+
+    # Override default header styling
+    def header(text, header_level)
+      return %{<h#{header_level}>#{text}</h#{header_level}>} if header_level > 2
+
+      %{
+        <div class="separator"></div>
+        <h#{header_level}>#{text}</h#{header_level}>
+      }
     end
 
     # Escape code so that it doesn't affect the HTML
