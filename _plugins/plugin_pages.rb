@@ -358,9 +358,9 @@ module Jekyll
       plugins.each do |key, plugin|
         plugin['topics'].each do |topic|
           unless topics.key?(topic)
-            topics[topic] = {}
+            topics[topic] = []
           end
-          topics[topic] = key.to_i
+          topics[topic] << key.to_i
         end
       end
 
