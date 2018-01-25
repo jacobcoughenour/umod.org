@@ -11,6 +11,9 @@ layout: docs
                 <i class="fa fa-search" aria-hidden="true"></i>
                 <input type="text" id="searchinput" placeholder="Search Plugins">
             </div>
+            <div id="game-topics" class="topics scroll">
+                <ul></ul>
+            </div>
             <div class="dropdown">
                 <label for="sortby">Sort by</label>
                 <select name="sortby" class="button small stroke blue dropdown-select">
@@ -26,6 +29,14 @@ layout: docs
                 <i class="gridicon fa fa-th-large" aria-hidden="true"></i>
                 <i class="listicon fa fa-th-list" aria-hidden="true"></i>
             </label>
+            <div id="topics-search">
+                <div id="all-topics-selected" class="topics scroll">
+                    <ul></ul>
+                </div>
+                <div id="all-topics" class="topics scroll">
+                    <ul></ul>
+                </div>
+            </div>
         </div>
         <div id="plugins-index">
             <div class="container">
@@ -85,8 +96,11 @@ layout: docs
     var cardtemplate;
     var pluginsdata = {};
     var currentids = [];
+    var sortedtopics = {};
     var rendered = false;
+    var params;
 
+    var currenttopics = [];
     var sortby = "title";
     var itemsperpage = 12;
     var currentpage = 0;
@@ -97,6 +111,7 @@ layout: docs
         $.getJSON('/plugins.json', function (data) {
             pluginsdata = data;
             currentids = pluginsdata.sort_by[sortby];
+            sortedtopics = Object.keys(pluginsdata.topics).sort((a, b) => pluginsdata.topics[b].length - pluginsdata.topics[a].length);
 
             let index = $("#plugins-index");
 
@@ -107,7 +122,14 @@ layout: docs
             // URL params
 
             let url = new URL(window.location);
-            let params = new URLSearchParams(url.search.slice(1));
+            params = new URLSearchParams(url.search.slice(1));
+
+            if (params.has('page')) {
+                let num = parseInt(params.get('page')) - 1;
+                currentpage = Math.min(Math.max(num, 0), Math.ceil(currentids.length / itemsperpage) - 1);
+                params.set('page', currentpage + 1);
+                UpdateUrl(params);
+            }
 
             if (params.has('sortby')) {
                 let val = params.get('sortby');
@@ -120,10 +142,15 @@ layout: docs
                 }
             }
 
-            if (params.has('page')) {
-                let num = parseInt(params.get('page')) - 1;
-                currentpage = Math.min(Math.max(num, 0), Math.ceil(currentids.length / itemsperpage) - 1);
-                params.set('page', currentpage + 1);
+            if (params.has('topics')) {
+                params.get('topics').split(" ").forEach(i => {
+                    if (pluginsdata.topics.hasOwnProperty(i)) // Make sure topic exists
+                        currenttopics.push(i);
+                });
+                if (currenttopics.length === 0)
+                    params.delete('topics');
+                else
+                    params.set('topics', currenttopics.join(" "));
                 UpdateUrl(params);
             }
 
@@ -210,8 +237,102 @@ layout: docs
 
             if (!rendered) // If not already rendered
                 RenderIndexPage();
+
+            UpdateTopics();
         });
     });
+
+    function TopicBadge(e) {
+        let val = $(e).attr("data-topic");
+        let i = currenttopics.indexOf(val);
+        if (i === -1)
+            currenttopics.push(val);
+        else
+            currenttopics.splice(i, 1);
+
+        currentpage = 0; // Reset to first page
+        RenderIndexPage();
+        UpdateTopics();
+        params.delete('page');
+        if (currenttopics.length === 0)
+            params.delete('topics');
+        else
+            params.set('topics', currenttopics.join(" "));
+        UpdateUrl(params);
+    }
+
+    function UpdateTopics() {
+
+        let availabletopics = [];
+        let topiccounts = {};
+
+        if (currenttopics.length > 0) {
+            currentids.forEach(id => {
+                pluginsdata.all[id].topics.forEach(t => {
+                    if (!topiccounts.hasOwnProperty(t))
+                        topiccounts[t] = 0;
+                    topiccounts[t]++;
+                });
+            });
+            availabletopics = Object.keys(topiccounts);
+        } else
+            availabletopics = sortedtopics;
+
+        let gametopicshtml = "";
+        let activegametopicshtml = "";
+        let alltopicshtml = "";
+        let activealltopicshtml = "";
+
+        availabletopics.forEach(t => {
+            let count = Object.keys(topiccounts).length > 0 ? topiccounts[t] : pluginsdata.topics[t].length;
+
+            if (isgame = $.inArray(t, supportedgames) !== -1 || t === "universal")
+                if ($.inArray(t, currenttopics) !== -1)
+                    activegametopicshtml += CreateTopicBadge(t, true, true, count);
+                else
+                    gametopicshtml += CreateTopicBadge(t, true, false, count);
+            else {
+                if ($.inArray(t, currenttopics) !== -1)
+                    activealltopicshtml += CreateTopicBadge(t, false, true, count);
+                else
+                    alltopicshtml += CreateTopicBadge(t, false, false, count);
+            }
+        });
+
+        $("#game-topics>ul").html(activegametopicshtml + gametopicshtml);
+        $("#all-topics-selected>ul").html(activealltopicshtml);
+        $("#all-topics>ul").html(alltopicshtml);
+
+        $("#game-topics>ul").trigger("UpdateShadows");
+        $("#all-topics-selected>ul").trigger("UpdateShadows");
+        $("#all-topics>ul").trigger("UpdateShadows");
+    }
+
+    function CreateTopicBadge(name, hasicon, isactive, count = 0) {
+        if (hasicon) {
+            return "<li><a " + (isactive ? "class='active' " : "") + "onclick='TopicBadge(this)' data-topic=" + name + "><img src='/assets/images/topics/" + name + ".png' class='icon'/><span class='name'>" + name + "</span>" + (count === 0 ? "" : ("<span class='count'> " + count + "</span>")) + "</a></li>";
+        } else {
+            return "<li><a " + (isactive ? "class='active' " : "") + "onclick='TopicBadge(this)' data-topic=" + name + "><span class='name'>" + name + "</span>" + (count === 0 ? "" : ("<span class='count'> " + count + "</span>")) + "</a></li>";
+        }
+    }
+
+    function TopicsFilter() {
+        if (currenttopics.length > 1) {
+            let ids = [];
+
+            pluginsdata.topics[
+                // Sort currenttopics to get the shortest
+                currenttopics.sort((a, b) => pluginsdata.topics[a].length - pluginsdata.topics[b].length)[0]
+            ].forEach(id => {  // For each plugin in shortest topic
+                // if plugin contains all current topics
+                if (!currenttopics.some(t => $.inArray(t, pluginsdata.all[id].topics) == -1))
+                    ids.push(id);
+            });
+
+            return ids;
+        }
+        return pluginsdata.topics[currenttopics[0]];
+    }
 
     function RenderIndexPage() {
         rendered = true;
@@ -219,8 +340,14 @@ layout: docs
         let index = $("#plugins-index");
         index.css("opacity", "0"); // Hide plugins index
 
-        if (sortby in pluginsdata.sort_by)
+        if (currenttopics.length > 0) {
+            currentids = TopicsFilter();
+            currentids.sort(function (a, b) {
+                return pluginsdata.sort_by[sortby].indexOf(a) - pluginsdata.sort_by[sortby].indexOf(b);
+            });
+        } else {
             currentids = pluginsdata.sort_by[sortby];
+        }
 
         let newhtml = "";
 
@@ -231,6 +358,7 @@ layout: docs
 
         // Fade in each card separately with a delay
         $("#plugins-index .js-grid-view>.row>.col-md-3").each(function (i, obj) {
+            AttachHorizontalScroll($('.topics.scroll', this));
             setTimeout(function () {
                 $(obj).removeClass("hide");
             }, i * 32);
@@ -241,6 +369,11 @@ layout: docs
         // Update pagination
 
         let lastpage = Math.ceil(currentids.length / itemsperpage) - 1;
+
+        if (currentids.length - itemsperpage < 1) {
+            $("#plugins-index-pagination").css("opacity", "0");
+            return;
+        }
 
         $("a.pagebutton[data-id]").each(function (i, obj) {
             let pagenum;
@@ -306,7 +439,7 @@ layout: docs
             if ($.inArray(t, supportedgames) != -1) {
                 support += "<li><img src='/assets/images/topics/" + t + ".png' class='game'/></li>";
             } else
-                topicbadges += "<li><a><span>" + t + "</span></a></li>";
+                topicbadges += CreateTopicBadge(t, false, false);
         });
 
         return cardtemplate

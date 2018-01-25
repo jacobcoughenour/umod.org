@@ -18268,56 +18268,120 @@ input.changelog-input {
 /* ==========================================================================
      Plugins index
      ========================================================================== */
-ul.topics {
-    display: inline-block;
+.topics {
+    display: inline-flex;
     margin: 0;
     opacity: 1;
+    overflow: hidden;
+    height: 32px;
+}
+.topics > ul {
+    margin: 0;
+    display: inline-flex;
     line-height: 0;
 }
-.topics > li {
+.topics > ul > li {
     display: inline-block;
     margin: 2px;
 }
-.topics > li > a {
-    display: block;
-    height: 30px;
-    cursor: pointer;
-    margin-bottom: 0;
-    overflow: hidden;
-    text-decoration: none;    
-}
-.topics > li > a > span {
-    display: block;
+.topics > ul > li > a {
+    display: inline-flex;
     height: 30px;    
     color: #808488;
     background-color: #f6f7f8;
     border-radius: 3px;
-    border: 1px solid #e4e8ed;    
-    line-height: 30px;
+    border: 1px solid #e4e8ed;
+    margin-bottom: 0;
+    overflow: hidden;
+    cursor: pointer;
+    text-decoration: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.topics ul.dragging,
+.topics ul.dragging > li {
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+    cursor: grabbing;
+}
+.topics ul.dragging > li > a,
+.topics ul.dragging > li > a > * {
+    pointer-events: none;
+}
+.topics > ul > li > a > span {
+    display: inline-block;
+    line-height: 29px;
     font-size: .75em;
     font-weight: 500;    
     text-align: center;  
     padding: 0 12px;
 }
-#content .container .plugins-index-header {
+.topics > ul > li > a > img.icon {
+    float: left;
+    height: 30px;
+    width: 30px;
+}
+.topics > ul > li > a > .count {
+    background: rgba(0,0,0,.05);
+    padding: 0 8px;
+}
+.topics > ul > li > a.active {
+    color: #fff;
+    background-color: #2288cc;
+    border: 1px solid #2288cc;
+}
+.topics > ul > li > a.active::after {
+    content: '\f00d';
+    font-family: FontAwesome;
+    color: #fff;
+    display: inline-block;
+    position: relative;
+    font-size: 0.75em;
+    padding-right: 10px;
+    pointer-events: none;
+    line-height: 29px;    
+}
+.topics > ul > li > a.active > .count {
+    display: none;
+}
+.scroll-shadow-left,
+.scroll-shadow-right {
     height: 32px;
+    width: 0px;
+    position: absolute;
+    pointer-events: none;
+    -webkit-transition: width .05s ease-in-out;
+    transition: width .05s ease-in-out;
+}
+.scroll-shadow-left {
+    background-image: linear-gradient(to right, #fff, transparent);
+}
+.scroll-shadow-right {
+    background-image: linear-gradient(to left, #fff, transparent);
+    right: 0;
+}
+#content .container .plugins-index-header {
+    height: auto;
     margin-bottom: 20px;
     padding-bottom: 0;
     padding-left: 0;
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
     justify-content: flex-end;
+    flex-flow: row wrap;
 }
 #content .container .plugins-index-header > * {
     margin-left: 16px;
+    height: 32px;
 }
-#content .container .plugins-index-header > *:first-child {
+#content .container .plugins-index-header > *:first-child,
+#content .container .plugins-index-header > #topics-search {
     margin-left: 0;
 }
 .plugins-index-header .search {
     margin-bottom: 0;
-    flex-grow: 1;
 }
 .plugins-index-header .search i {
     padding-left: 8px;
@@ -18335,10 +18399,27 @@ ul.topics {
 .plugins-index-header .search > input:focus {
     border-bottom-color: #2288cc;
 }
+#game-topics.topics {
+    flex-grow: 1;
+}
+#topics-search {
+    margin-top: 10px;  
+    flex-grow: 1;
+    overflow: hidden;
+    display: flex;
+    width: 100%;
+}
+#all-topics-selected {
+    overflow: visible;
+}
 .plugins-index-header .dropdown {
     display: inline-block;
     position: relative;
     border: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 .plugins-index-header .dropdown::before {
     content: '\f078';
@@ -18401,6 +18482,7 @@ ul.topics {
     user-select: none;
     font-size: 20px;
     padding: 6px 12px;
+    width: 38px;
 }
 #gridtoggle > input {
     opacity: 0;
@@ -18409,8 +18491,8 @@ ul.topics {
 #gridtoggle > .gridicon,
 #gridtoggle > .listicon {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 16px;
+    left: 18.5px;
     -webkit-transform: translate(-50%,-50%);
     transform: translate(-50%,-50%);
     -webkit-transition: opacity .15s ease-in-out;
@@ -18499,6 +18581,10 @@ ul.topics {
 .plugin-card .plugin-icon-area > .gamesupport > li {
     display: inline-block;
     margin: 0 4px 4px 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 .plugin-card .plugin-icon-area > .gamesupport > li > img {
     height: 30px;
@@ -18540,9 +18626,11 @@ ul.topics {
     opacity: 1;
 }
 .plugin-card .plugin-info .topics {
-    padding: 8px;
+    margin: 8px;
+    height: 32px;    
     opacity: 0;
-    overflow-y: auto;
+    overflow: hidden;
+    display: flex;
     -webkit-transition: opacity .15s ease-in-out;
     transition: opacity .15s ease-in-out;
     -webkit-transition-delay: .05s;
@@ -18550,6 +18638,9 @@ ul.topics {
 }
 .plugin-card:hover .plugin-info .topics {
     opacity: 1;
+}
+.plugin-card .plugin-info .topics .scroll-shadow-right {
+    right: 22px;
 }
 .plugin-card .plugin-info > a > .title,
 .plugin-card .plugin-info > a > .description, {
@@ -18625,8 +18716,8 @@ ul.topics {
 #plugins-index-pagination {
     text-align: center;
     opacity: 0;
-    -webkit-transition: opacity .3s ease-in;
-    transition: opacity .3s ease-in;
+    -webkit-transition: opacity .15s ease-in;
+    transition: opacity .15s ease-in;
 }
 #plugins-index-pagination ul {
     display: inline-block;
