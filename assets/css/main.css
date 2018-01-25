@@ -18320,8 +18320,7 @@ input.changelog-input {
 }
 .topics > ul > li > a > img.icon {
     float: left;
-    height: 30px;
-    width: 30px;
+    height: 100%;
 }
 .topics > ul > li > a > .count {
     background: rgba(0,0,0,.05);
