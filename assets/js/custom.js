@@ -9,14 +9,12 @@ $(document).ready(function() {
 });
 
 function AttachHorizontalScroll(element) {
-    let shadowLeft = $("<div>").addClass("scroll-shadow-left").insertBefore($("ul", element));
-    let shadowRight = $("<div>").addClass("scroll-shadow-right").insertAfter($("ul", element));
-
     $("ul", element)
-        .data('shadowLeft', shadowLeft)
-        .data('shadowRight', shadowRight)
+        .data('shadowLeft', $("<div>").addClass("scroll-shadow-left").insertBefore($("ul", element)))
+        .data('shadowRight', $("<div>").addClass("scroll-shadow-right").insertAfter($("ul", element)))
     .mousedown(function (e) {
-        $(this).data('down', true).data('x', e.clientX).data('scrollLeft', this.scrollLeft);
+        if (this.scrollWidth > this.offsetWidth)
+            $(this).data('down', true).data('x', e.clientX).data('scrollLeft', this.scrollLeft);
         return false;
     }).mouseup(function (e) {
         $(this).data('down', false).removeClass("dragging");
@@ -36,9 +34,7 @@ function AttachHorizontalScroll(element) {
             return false;
         }
     }).on("UpdateShadows", e => {
-        if (e.target.offsetWidth === 0) {
-            $(e.target).data('shadowRight').css("width", '50px');
-        } else if (e.target.scrollWidth > e.target.offsetWidth) {
+        if (e.target.scrollWidth > e.target.offsetWidth) {
             $(e.target).data('shadowLeft').css("width", Math.min(e.target.scrollLeft, 50) + 'px');
             $(e.target).data('shadowRight').css("width", Math.min(e.target.scrollWidth - e.target.scrollLeft - e.target.offsetWidth, 50) + 'px');
         } else {
@@ -46,5 +42,4 @@ function AttachHorizontalScroll(element) {
             $(e.target).data('shadowRight').css("width", '0px');
         }
     }).css({ "overflow": "hidden" }).trigger("UpdateShadows");
-
 }
