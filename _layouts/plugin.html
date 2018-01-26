@@ -80,6 +80,7 @@ layout: docs
                     </div>
                 </div>
             </div>
+            {% if page.plugin.topics.size > 0 %}
             <div class="widget">
                 <h3 class="widget-title">Tags</h3>
                 <ul class="tags">
@@ -90,6 +91,7 @@ layout: docs
                     {% endfor %}
                 </ul>
             </div>
+            {% endif %}
         </div>
     </div>
 </div>
