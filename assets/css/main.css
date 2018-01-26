@@ -18355,10 +18355,22 @@ a.scroll-shadow-right {
     transition: width .05s ease-in-out;
 }
 .scroll-shadow-left {
-    background-image: linear-gradient(to right, #ffffff 20px, transparent);
+    background: rgba(255,255,255,.5);
+    background: linear-gradient(left, #ffffff 20px, transparent);
+    background: -webkit-linear-gradient(left, #ffffff 20px, transparent);
+	background: -moz-linear-gradient(left, #ffffff 20px, transparent);
+	background: -o-linear-gradient(left, #ffffff 20px, transparent);
+	background: -ms-linear-gradient(left, #ffffff 20px, transparent);
+	background: linear-gradient(left, #ffffff 20px, transparent);
 }
 .scroll-shadow-right {
-    background-image: linear-gradient(to left, #ffffff 20px, transparent);
+    background: rgba(255,255,255,.5);
+    background: linear-gradient(right, #ffffff 20px, transparent);
+    background: -webkit-linear-gradient(right, #ffffff 20px, transparent);
+	background: -moz-linear-gradient(right, #ffffff 20px, transparent);
+	background: -o-linear-gradient(right, #ffffff 20px, transparent);
+	background: -ms-linear-gradient(right, #ffffff 20px, transparent);
+	background: linear-gradient(right, #ffffff 20px, transparent);
     right: 0;
 }
 a.scroll-shadow-left > i,
