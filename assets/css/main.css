@@ -18345,21 +18345,32 @@ input.changelog-input {
 .topics > ul > li > a.active > .count {
     display: none;
 }
-.scroll-shadow-left,
-.scroll-shadow-right {
+a.scroll-shadow-left,
+a.scroll-shadow-right {
     height: 32px;
     width: 0px;
     position: absolute;
-    pointer-events: none;
+    overflow: hidden;
     -webkit-transition: width .05s ease-in-out;
     transition: width .05s ease-in-out;
 }
 .scroll-shadow-left {
-    background-image: linear-gradient(to right, #fff, transparent);
+    background-image: linear-gradient(to right, #ffffff 20px, transparent);
 }
 .scroll-shadow-right {
-    background-image: linear-gradient(to left, #fff, transparent);
+    background-image: linear-gradient(to left, #ffffff 20px, transparent);
     right: 0;
+}
+a.scroll-shadow-left > i,
+a.scroll-shadow-right > i {
+    text-align: center;
+    line-height: 33px;
+    height: 100%;
+    width: 20px;
+    cursor: pointer;
+}
+a.scroll-shadow-right > i {
+    float: right;
 }
 #content .container .plugins-index-header {
     height: auto;
