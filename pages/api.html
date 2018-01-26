@@ -18,13 +18,13 @@ permalink: /api/
 {% for row in site.data.api.overview.points limit: 3 %}
     <div class="row">
         {% for point in row[1] %}
-        	<div class="col-md-4">
-        		<div class="box box-small-icon">
-        			<i class="box-icon fa fa-{{ point.icon }} fa-2x" alt="box icon"></i>
-        			<h4 class="box-title">{{ point.title }}</h4>
-        			<p class="box-description">{{ point.content }}</p>
-        		</div>
-        	</div>
-    	{% endfor %}
+            <div class="col-md-4">
+                <div class="box box-small-icon">
+                    <i class="box-icon fa fa-{{ point.icon }} fa-2x" alt="box icon"></i>
+                    <h4 class="box-title">{{ point.title }}</h4>
+                    <p class="box-description">{{ point.content }}</p>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 {% endfor %}

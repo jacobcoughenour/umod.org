@@ -24,16 +24,12 @@ menu-weight: 15
             {{ topic.title }}
         </h4>
         <p class="category-content">{{ topic.summary }}</p>
-        <div class="tabs js-tabs code-highlight-tabs">
-            <div class="tab-content">
-                <div class="code-highlight" data-label="">
-                    <span class="js-copy-to-clipboard copy-code">copy</span>
-                    <pre><code class="language-csharp js-code ghostIn">
+        <div class="code-highlight" data-label="">
+            <span class="js-copy-to-clipboard copy-code">copy</span>
+            <pre><code class="language-csharp js-code ghostIn">
 {% assign filename = topic.title | slugify %}
 {% include snippets/timers-{{ filename }}.html %}
-                    </code></pre>
-                </div>
-            </div>
+            </code></pre>
         </div>
     {% endfor %}
 </div>

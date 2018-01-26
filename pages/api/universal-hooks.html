@@ -24,15 +24,11 @@ menu-weight: 20
                 {{ hook.name }}
             </h4>
             <p class="category-content">{{ hook.summary }}<br/><b>Return behavior:</b> {{ hook.return }}</p>
-            <div class="tabs js-tabs code-highlight-tabs">
-                <div class="tab-content">
-                    <div class="code-highlight" data-label="">
-                        <span class="js-copy-to-clipboard copy-code">copy</span>
-                        <pre><code class="language-csharp js-code ghostIn">
+            <div class="code-highlight" data-label="">
+                <span class="js-copy-to-clipboard copy-code">copy</span>
+                <pre><code class="language-csharp js-code ghostIn">
 {% include snippets/hooks/{{ hook.name | downcase }}.html %}
-                        </code></pre>
-                    </div>
-                </div>
+                </code></pre>
             </div>
         {% endfor %}
     </div>

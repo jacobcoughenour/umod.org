@@ -40,15 +40,11 @@ module Jekyll
     # Override default syntax highlighting to support Prism
     def block_code(code, language)
       %(
-        <div class="tabs js-tabs code-highlight-tabs">
-          <div class="tab-content">
-            <div class="code-highlight" data-label="">
-              <span class="js-copy-to-clipboard copy-code">copy</span>
-              <pre class="language-#{language}">
-                <code class="js-code ghostIn language-#{language}">#{html_escape(code)}</code>
-              </pre>
-            </div>
-          </div>
+        <div class="code-highlight" data-label="">
+          <span class="js-copy-to-clipboard copy-code">copy</span>
+          <pre class="language-#{language}">
+            <code class="js-code ghostIn language-#{language}">#{html_escape(code)}</code>
+          </pre>
         </div>
       )
     end

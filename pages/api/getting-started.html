@@ -8,51 +8,47 @@ menu-weight: 5
 ---
 
 <div class="row">
-	<div class="col-md-12">
-	    <div class="category-info helper pt0" id="{{ page.title | slugify }}">
-	        <h3 class="category-title">
-	            <a class="fragment-identifier js-fragment-identifier fragment-identifier-scroll" href="#{{ page.title | slugify }}">
-	                <i class="fa fa-link"></i>
-	            </a>
-	            {{ page.title }}
-	        </h3>
+    <div class="col-md-12">
+        <div class="category-info helper pt0" id="{{ page.title | slugify }}">
+            <h3 class="category-title">
+                <a class="fragment-identifier js-fragment-identifier fragment-identifier-scroll" href="#{{ page.title | slugify }}">
+                    <i class="fa fa-link"></i>
+                </a>
+                {{ page.title }}
+            </h3>
             <hr/>
-	    </div>
-	</div>
-	<div class="col-md-6">
-	    <ul class="visual-guide-steps">
-	        <li class="visual-guide-step">
-	            <span class="visual-guide-step-number">1</span>
-	            <h4 class="visual-guide-step-title">Title</h4>
-	            <p class="visual-guide-step-description">The Title variable <i>(first part of Info attribute)</i> is what defines your plugin. This should be a unique name or codename related to the purpose of the plugin.</p>
-	        </li>
-	        <li class="visual-guide-step">
-	            <span class="visual-guide-step-number">2</span>
-	            <h4 class="visual-guide-step-title">Author</h4>
-	            <p class="visual-guide-step-description">The Author variable <i>(second part of Info attribute)</i> is used to show who made or currently maintains the plugin. This should match your <a href="{{ site.forums }}" target="_blank">community forums</a> username if releasing.</p>
-	        </li>
-	        <li class="visual-guide-step">
-	            <span class="visual-guide-step-number">3</span>
-	            <h4 class="visual-guide-step-title">Version</h4>
-	            <p class="visual-guide-step-description">The Version variable <i>(third part of Info attribute)</i> is used to tell if the plugin is outdated or not and should be incremented with each release. <a href="http://semver.org/" target="_blank">Semantic Versioning</a> recommended.</p>
-	        </li>
-	        <li class="visual-guide-step">
-	            <span class="visual-guide-step-number">4</span>
-	            <h4 class="visual-guide-step-title">Description</h4>
-	            <p class="visual-guide-step-description">The optional Description variable <i>(standalone Description attribute)</i> helps explain to users what your plugin does, in case the title isn't enough. Make it good, but not too long!</p>
-	        </li>
-	    </ul>
-	</div>
-	<div class="col-md-6">
-	    <div class="tabs js-tabs code-highlight-tabs">
-	        <div class="tab-content">
-	            <div class="code-highlight" data-label="">
-	                <span class="js-copy-to-clipboard copy-code">copy</span>
-	                <pre><code class="language-csharp js-code ghostIn">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <ul class="visual-guide-steps">
+            <li class="visual-guide-step">
+                <span class="visual-guide-step-number">1</span>
+                <h4 class="visual-guide-step-title">Title</h4>
+                <p class="visual-guide-step-description">The Title variable <i>(first part of Info attribute)</i> is what defines your plugin. This should be a unique name or codename related to the purpose of the plugin.</p>
+            </li>
+            <li class="visual-guide-step">
+                <span class="visual-guide-step-number">2</span>
+                <h4 class="visual-guide-step-title">Author</h4>
+                <p class="visual-guide-step-description">The Author variable <i>(second part of Info attribute)</i> is used to show who made or currently maintains the plugin. This should match your <a href="{{ site.forums }}" target="_blank">community forums</a> username if releasing.</p>
+            </li>
+            <li class="visual-guide-step">
+                <span class="visual-guide-step-number">3</span>
+                <h4 class="visual-guide-step-title">Version</h4>
+                <p class="visual-guide-step-description">The Version variable <i>(third part of Info attribute)</i> is used to tell if the plugin is outdated or not and should be incremented with each release. <a href="http://semver.org/" target="_blank">Semantic Versioning</a> recommended.</p>
+            </li>
+            <li class="visual-guide-step">
+                <span class="visual-guide-step-number">4</span>
+                <h4 class="visual-guide-step-title">Description</h4>
+                <p class="visual-guide-step-description">The optional Description variable <i>(standalone Description attribute)</i> helps explain to users what your plugin does, in case the title isn't enough. Make it good, but not too long!</p>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <div class="code-highlight" data-label="">
+            <span class="js-copy-to-clipboard copy-code">copy</span>
+            <pre><code class="language-csharp js-code ghostIn">
 {% include snippets/plugin-basics.html %}
-	                </code></pre>
-	            </div>
-	        </div>
-	    </div>
-	</div>
+            </code></pre>
+        </div>
+    </div>
 </div>

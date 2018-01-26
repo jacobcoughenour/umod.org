@@ -28,7 +28,7 @@ menu-weight: 30
         PLACEHOLDER SQLITE LOGO HERE
         <h3>SQLite</h3>
     </div>
-    
+
     <div class="col-md-12">
         {% for topic in site.data.api.database.topics %}
             <h4 class="category-description">
@@ -38,20 +38,16 @@ menu-weight: 30
                 {{ topic.title }}
             </h4>
             <p class="category-content">{{ topic.summary }}</p>
-            <div class="tabs js-tabs code-highlight-tabs">
-                <div class="tab-content">
-                    <div class="code-highlight" data-label="">
-                        <span class="js-copy-to-clipboard copy-code">copy</span>
-                        <pre><code class="language-csharp js-code ghostIn">
+            <div class="code-highlight" data-label="">
+                <span class="js-copy-to-clipboard copy-code">copy</span>
+                <pre><code class="language-csharp js-code ghostIn">
 {% assign filename = topic.title | slugify %}
 {% include snippets/database-{{ filename }}.html %}
-                        </code></pre>
-                    </div>
-                </div>
+                </code></pre>
             </div>
         {% endfor %}
     </div>
-    
+
     <div class="col-md-12">
         <div class="category-info helper pt0" id="{{ "SQL injections" | slugify }}">
             <h3 class="category-title">
@@ -60,7 +56,7 @@ menu-weight: 30
                 </a>
                 SQL injections
             </h3>
-            
+
             <p class="category-content">
                 An SQL injection is a type of attack used to attack databases. This attack is executed by making use of malicious user input and often allows clients to manipulate a database at will.
 

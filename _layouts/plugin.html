@@ -2,96 +2,100 @@
 layout: docs
 ---
 
-<div class="row">
-    <div class="col-md-9">
-        <div class="main-content">
-            {% if page.more_info %}
-                {% include toc.html html=page.more_info sanitize=true %}
-                {{ page.more_info }}
-            {% else %}
-                <p>
-                    This plugin has no additional information about it. Please let the author know or feel free to contribute a <a href="{{ page.plugin.github_url }}/new/master?readme=1">README.md</a> via GitHub or <a href="{{ page.plugin.github_url }}/issues/new?title=Plugin+page+is+lacking+additional+information&body=Please+add+a+README.md+file+to+provide+additional+information+at+{{ site.url }}/plugins/{{ page.plugin.name | downcase }}">open an issue</a> to request more information.
-                </p>
-            {% endif %}
+<div class="layout with-right-sidebar js-layout">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="main-content">
+                {% if page.more_info %}
+                    {% include toc.html html=page.more_info sanitize=true %}
+                    {{ page.more_info }}
+                {% else %}
+                    <p>
+                        This plugin has no additional information about it. Please let the author know or feel free to contribute a <a href="{{ page.plugin.github_url }}/new/master?readme=1">README.md</a> via GitHub or <a href="{{ page.plugin.github_url }}/issues/new?title=Plugin+page+is+lacking+additional+information&body=Please+add+a+README.md+file+to+provide+additional+information+at+{{ site.url }}/plugins/{{ page.plugin.name | downcase }}">open an issue</a> to request more information.
+                    </p>
+                {% endif %}
+            </div>
         </div>
-    </div>
-    <div class="col-md-3 hidden-sm hidden-xs">
-        <div class="sidebar js-sidebar-fixed">
-            <div class="widget">
-                <div class="box plugin-icon">
-                    {% if page.plugin.icon_url %}
-                        <img src="{{ page.plugin.icon_url }}" class="image" alt="{{ page.plugin.name }}" />
-                    {% else %}
-                        <img src="https://www.gravatar.com/avatar/{{ page.plugin.id }}?s=262.5&d=identicon" class="image" alt="{{ page.plugin.name }}" />
+        <div class="col-md-3 hidden-sm hidden-xs">
+            <div class="js-sidebar-wrapper">
+                <div class="sidebar js-sidebar-fixed">
+                    <div class="widget">
+                        <div class="box plugin-icon">
+                            {% if page.plugin.icon_url %}
+                                <img src="{{ page.plugin.icon_url }}" class="image" alt="{{ page.plugin.name }}" />
+                            {% else %}
+                                <img src="https://www.gravatar.com/avatar/{{ page.plugin.id }}?s=262.5&d=identicon" class="image" alt="{{ page.plugin.name }}" />
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="widget">
+                        <div class="button-list helper center">
+                            <a href="{{ page.plugin.name }}.cs" class="button button-icon large blue plugin-download-button" download="{{ page.plugin.name }}.cs">
+                                <i class="fa fa-cloud-download fa-2x pull-left"></i>Download Now
+                                {% if page.plugin.latest_release %}
+                                    Version: {{ page.plugin.latest_release.version }}
+                                {% else %}
+                                    Commit: {{ page.plugin.latest_commit.sha | truncate: 7, "" }}
+                                {% endif %}
+                            </a>
+                            <a href="{{ site.forums }}/c/plugin-support/{{ page.title | slugify }}" class="button button-icon orange plugin-support-button">
+                                <span class="fa fa-life-ring fa-2x"></span>
+                            </a>
+                            <a href="{{ page.plugin.github_url }}" class="button button-icon green plugin-support-button">
+                                <span class="fa fa-github fa-2x"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget">
+                        <h3 class="widget-title">Contributors</h3>
+                        <ul class="widget-contributors">
+                            {% for contributor in page.plugin.contributors %}
+                                <li class="widget-contributor">
+                                    <a href="https://github.com/{{ contributor.name }}">
+                                        <img class="avatar" src="{{ contributor.avatar_url }}&s=67" alt="{{ contributor.name }}" srcset="{{ contributor.avatar_url }}&s=67 1x, {{ contributor.avatar_url }}&s=134 2x, {{ contributor.avatar_url }}&s=201 3x, {{ contributor.avatar_url }}&s=268 4x" width="67" height="67" />
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="widget">
+                        <div class="number-box">
+                            <div class="number-icon">
+                                <i class="pe-7s-star"></i>
+                            </div>
+                            <div class="number-wrapper">
+                                <span class="number-rotator js-animate-number" data-number="{{ page.plugin.stargazers_count }}">
+                                    {{ page.plugin.stargazers }}
+                                    <span class="number-description grey">stargazer{% if page.plugin.stargazers != 1 %}s{% endif %}</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="number-box">
+                            <div class="number-icon">
+                                <i class="pe-7s-look"></i>
+                            </div>
+                            <div class="number-wrapper">
+                                <span class="number-rotator js-animate-number" data-number="{{ page.plugin.watchers_count }}">
+                                    {{ page.plugin.watchers }}
+                                    <span class="number-description grey">watcher{% if page.plugin.watchers != 1 %}s{% endif %}</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    {% if page.plugin.topics.size > 0 %}
+                    <div class="widget">
+                        <h3 class="widget-title">Tags</h3>
+                        <ul class="tags">
+                            {% for topic in page.plugin.topics %}
+                                <li class="tag-item">
+                                    <a href="https://github.com/search?q=topic:{{ topic }}+org:{{ site.plugins_org }}">{{ topic }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                     {% endif %}
                 </div>
             </div>
-            <div class="widget">
-                <div class="button-list helper center">
-                    <a href="{{ page.plugin.name }}.cs" class="button button-icon large blue plugin-download-button" download="{{ page.plugin.name }}.cs">
-                        <i class="fa fa-cloud-download fa-2x pull-left"></i>Download Now
-                        {% if page.plugin.latest_release %}
-                            Version: {{ page.plugin.latest_release.version }}
-                        {% else %}
-                            Commit: {{ page.plugin.latest_commit.sha | truncate: 7, "" }}
-                        {% endif %}
-                    </a>
-                    <a href="{{ site.forums }}/c/plugin-support/{{ page.title | slugify }}" class="button button-icon orange plugin-support-button">
-                        <span class="fa fa-life-ring fa-2x"></span>
-                    </a>
-                    <a href="{{ page.plugin.github_url }}" class="button button-icon green plugin-support-button">
-                        <span class="fa fa-github fa-2x"></span>
-                    </a>
-                </div>
-            </div>
-            <div class="widget">
-                <h3 class="widget-title">Contributors</h3>
-                <ul class="widget-contributors">
-                    {% for contributor in page.plugin.contributors %}
-                        <li class="widget-contributor">
-                            <a href="https://github.com/{{ contributor.name }}">
-                                <img class="avatar" src="{{ contributor.avatar_url }}&s=67" alt="{{ contributor.name }}" srcset="{{ contributor.avatar_url }}&s=67 1x, {{ contributor.avatar_url }}&s=134 2x, {{ contributor.avatar_url }}&s=201 3x, {{ contributor.avatar_url }}&s=268 4x" width="67" height="67" />
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div class="widget">
-                <div class="number-box">
-                    <div class="number-icon">
-                        <i class="pe-7s-star"></i>
-                    </div>
-                    <div class="number-wrapper">
-                        <span class="number-rotator js-animate-number" data-number="{{ page.plugin.stargazers_count }}">
-                            {{ page.plugin.stargazers }}
-                            <span class="number-description grey">stargazer{% if page.plugin.stargazers != 1 %}s{% endif %}</span>
-                        </span>
-                    </div>
-                </div>
-                <div class="number-box">
-                    <div class="number-icon">
-                        <i class="pe-7s-look"></i>
-                    </div>
-                    <div class="number-wrapper">
-                        <span class="number-rotator js-animate-number" data-number="{{ page.plugin.watchers_count }}">
-                            {{ page.plugin.watchers }}
-                            <span class="number-description grey">watcher{% if page.plugin.watchers != 1 %}s{% endif %}</span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-            {% if page.plugin.topics.size > 0 %}
-            <div class="widget">
-                <h3 class="widget-title">Tags</h3>
-                <ul class="tags">
-                    {% for topic in page.plugin.topics %}
-                        <li class="tag-item">
-                            <a href="https://github.com/search?q=topic:{{ topic }}+org:{{ site.plugins_org }}">{{ topic }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endif %}
         </div>
     </div>
 </div>
