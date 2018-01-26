@@ -1,0 +1,10 @@
+<div class="note js-note {{ include.color | default: "blue" }}">
+    {% if include.title %}
+        <h4 class="note-title">
+            {{ include.title }}
+        </h4>
+    {% endif %}
+    <p class="note-description">
+        {{ include.body }}
+    </p>
+</div>
