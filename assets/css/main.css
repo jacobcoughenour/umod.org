@@ -18655,11 +18655,19 @@ a.scroll-shadow-right > i {
     display: flex;
     -webkit-transition: opacity .15s ease-in-out;
     transition: opacity .15s ease-in-out;
+    -webkit-transition-delay: 0;
+    transition-delay: 0;
+}
+.plugin-card:hover .plugin-info .topics .scroll-shadow-left,
+.plugin-card:hover .plugin-info .topics .scroll-shadow-right,
+.plugin-card:hover .plugin-info .topics {
     -webkit-transition-delay: .05s;
     transition-delay: .05s;
-}
-.plugin-card:hover .plugin-info .topics {
     opacity: 1;
+}
+.plugin-card .plugin-info .topics .scroll-shadow-left,
+.plugin-card .plugin-info .topics .scroll-shadow-right {
+    opacity: 0;
 }
 .plugin-card .plugin-info .topics .scroll-shadow-right {
     right: 22px;
