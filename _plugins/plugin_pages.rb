@@ -55,11 +55,13 @@ module Jekyll
 
     # Override default header styling
     def header(text, header_level)
-      return %{<h#{header_level}>#{text}</h#{header_level}>} if header_level > 2
+      id = text.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
+
+      return %{<h#{header_level} id="#{id}">#{text}</h#{header_level}>} if header_level > 2
 
       %{
         <div class="separator"></div>
-        <h#{header_level}>#{text}</h#{header_level}>
+        <h#{header_level} id="#{id}">#{text}</h#{header_level}>
       }
     end
 
