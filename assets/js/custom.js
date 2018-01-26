@@ -21,13 +21,23 @@ function AttachHorizontalScroll(element) {
         .mousedown(function (e) {
             if (this.scrollWidth > this.offsetWidth)
                 $(this).data('down', true).data('x', e.clientX).data('scrollLeft', this.scrollLeft);
-            return false;
-        }).mouseup(function (e) {
+            return false;            
+        }).on('touchstart', function (e) {
+            if (this.scrollWidth > this.offsetWidth)
+                $(this).data('down', true).data('x', e.originalEvent.touches[0].clientX).data('scrollLeft', this.scrollLeft);
+        }).on('touchend mouseup', function (e) {
             $(this).data('down', false).removeClass("dragging");
         }).mouseleave(function (e) {
             $(this).data('down', false).removeClass("dragging");
         }).mousemove(function (e) {
             let dist = $(this).data('x') - e.clientX;
+            if ($(this).data('down') == true && (Math.abs(dist) > 16 || $(this).hasClass("dragging"))) {
+                $(this).toggleClass("dragging", true);
+                this.scrollLeft = $(this).data('scrollLeft') + dist;
+                $(this).trigger("UpdateShadows");
+            }
+        }).on('touchmove', function (e) {
+            let dist = $(this).data('x') - e.originalEvent.touches[0].clientX;
             if ($(this).data('down') == true && (Math.abs(dist) > 16 || $(this).hasClass("dragging"))) {
                 $(this).toggleClass("dragging", true);
                 this.scrollLeft = $(this).data('scrollLeft') + dist;
