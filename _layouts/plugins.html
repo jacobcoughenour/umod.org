@@ -235,6 +235,15 @@ layout: docs
                 toggle.click();
             }
 
+            $(window).resize(function () {
+                let changetolist = $(window).width() < 992;
+                if ($("#plugins-index").hasClass("list-mode") !== changetolist) {
+                    $("#plugins-index").toggleClass("list-mode", changetolist);
+                    $('#gridtoggle').toggle(!changetolist);
+                    RenderIndexPage();
+                }
+            }).trigger("resize");
+
             if (!rendered) // If not already rendered
                 RenderIndexPage();
 
