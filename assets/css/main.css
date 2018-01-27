@@ -18658,15 +18658,29 @@ a.scroll-shadow-right > i {
     -webkit-transition-delay: 0;
     transition-delay: 0;
 }
-.plugin-card:hover .plugin-info .topics .scroll-shadow-left,
-.plugin-card:hover .plugin-info .topics .scroll-shadow-right,
 .plugin-card:hover .plugin-info .topics {
     -webkit-transition-delay: .05s;
     transition-delay: .05s;
     opacity: 1;
 }
+.plugin-card:hover .plugin-info .topics .scroll-shadow-left,
+.plugin-card:hover .plugin-info .topics .scroll-shadow-right,
+.plugin-card:hover .plugin-info .topics .scroll-shadow-left > i,
+.plugin-card:hover .plugin-info .topics .scroll-shadow-right > i {
+    -webkit-transition: opacity .25s ease-in-out;
+    transition: opacity .25s ease-in-out;
+    -webkit-transition-delay: .1s;
+    transition-delay: .1s;
+    opacity: 1;
+}
 .plugin-card .plugin-info .topics .scroll-shadow-left,
-.plugin-card .plugin-info .topics .scroll-shadow-right {
+.plugin-card .plugin-info .topics .scroll-shadow-right,
+.plugin-card .plugin-info .topics .scroll-shadow-left > i,
+.plugin-card .plugin-info .topics .scroll-shadow-right > i {
+    -webkit-transition: none;
+    transition: none;
+    -webkit-transition-delay: 0;
+    transition-delay: 0;
     opacity: 0;
 }
 .plugin-card .plugin-info .topics .scroll-shadow-right {

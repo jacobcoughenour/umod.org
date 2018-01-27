@@ -111,7 +111,7 @@ layout: docs
         $.getJSON('/plugins.json', function (data) {
             pluginsdata = data;
             currentids = pluginsdata.sort_by[sortby];
-            sortedtopics = Object.keys(pluginsdata.topics).sort((a, b) => pluginsdata.topics[b].length - pluginsdata.topics[a].length);
+            sortedtopics = Object.keys(pluginsdata.topics).sort(function (a, b) {pluginsdata.topics[b].length - pluginsdata.topics[a].length;});
 
             let index = $("#plugins-index");
 
@@ -120,38 +120,39 @@ layout: docs
             });
 
             // URL params
+            if ('URLSearchParams' in window) {
+                let url = new URL(window.location);
+                params = new URLSearchParams(url.search.slice(1));
 
-            let url = new URL(window.location);
-            params = new URLSearchParams(url.search.slice(1));
-
-            if (params.has('page')) {
-                let num = parseInt(params.get('page')) - 1;
-                currentpage = Math.min(Math.max(num, 0), Math.ceil(currentids.length / itemsperpage) - 1);
-                params.set('page', currentpage + 1);
-                UpdateUrl(params);
-            }
-
-            if (params.has('sortby')) {
-                let val = params.get('sortby');
-                if (val != sortby && (val === "title" || val in pluginsdata.sort_by)) {
-                    sortby = val;
-                    $('select[name=sortby]').val(val);
-                } else {
-                    params.set('sortby', sortby);
+                if (params.has('page')) {
+                    let num = parseInt(params.get('page')) - 1;
+                    currentpage = Math.min(Math.max(num, 0), Math.ceil(currentids.length / itemsperpage) - 1);
+                    params.set('page', currentpage + 1);
                     UpdateUrl(params);
                 }
-            }
 
-            if (params.has('topics')) {
-                params.get('topics').split(" ").forEach(i => {
-                    if (pluginsdata.topics.hasOwnProperty(i)) // Make sure topic exists
-                        currenttopics.push(i);
-                });
-                if (currenttopics.length === 0)
-                    params.delete('topics');
-                else
-                    params.set('topics', currenttopics.join(" "));
-                UpdateUrl(params);
+                if (params.has('sortby')) {
+                    let val = params.get('sortby');
+                    if (val != sortby && (val === "title" || val in pluginsdata.sort_by)) {
+                        sortby = val;
+                        $('select[name=sortby]').val(val);
+                    } else {
+                        params.set('sortby', sortby);
+                        UpdateUrl(params);
+                    }
+                }
+
+                if (params.has('topics')) {
+                    params.get('topics').split(" ").forEach(function (i) {
+                        if (pluginsdata.topics.hasOwnProperty(i)) // Make sure topic exists
+                            currenttopics.push(i);
+                    });
+                    if (currenttopics.length === 0)
+                        params.delete('topics');
+                    else
+                        params.set('topics', currenttopics.join(" "));
+                    UpdateUrl(params);
+                }
             }
 
             // Event listeners
@@ -164,6 +165,8 @@ layout: docs
                 sortby = val;
                 currentpage = 0;
                 RenderIndexPage();
+
+                if (params === undefined) return;
                 params.delete('page');
                 params.set('sortby', sortby);
                 UpdateUrl(params);
@@ -174,6 +177,8 @@ layout: docs
             $('input[name=gridtoggle]').click(function () {
                 $("#plugins-index").toggleClass("list-mode", $(this).is(":checked"));
                 RenderIndexPage();
+
+                if (params === undefined) return;
                 params.set('view', ($(this).is(":checked") ? "list" : "grid"));
                 UpdateUrl(params);
 
@@ -187,6 +192,8 @@ layout: docs
                     return;
                 currentpage = 0;
                 RenderIndexPage();
+
+                if (params === undefined) return;                
                 params.set('page', currentpage + 1);
                 UpdateUrl(params);
             });
@@ -196,6 +203,8 @@ layout: docs
                     return;
                 currentpage -= 1;
                 RenderIndexPage();
+
+                if (params === undefined) return;                
                 params.set('page', currentpage + 1);
                 UpdateUrl(params);
             });
@@ -206,6 +215,8 @@ layout: docs
                     return;
                 currentpage = num;
                 RenderIndexPage();
+
+                if (params === undefined) return;                
                 params.set('page', currentpage + 1);
                 UpdateUrl(params);
             });
@@ -215,6 +226,8 @@ layout: docs
                     return;
                 currentpage += 1;
                 RenderIndexPage();
+
+                if (params === undefined) return;                
                 params.set('page', currentpage + 1);
                 UpdateUrl(params);
             });
@@ -224,12 +237,14 @@ layout: docs
                     return;
                 currentpage = Math.ceil(currentids.length / itemsperpage) - 1;
                 RenderIndexPage();
+
+                if (params === undefined) return;                
                 params.set('page', currentpage + 1);
                 UpdateUrl(params);
             });
 
             // TODO: Default to list view on mobile
-            if (params.get('view') == "list") {
+            if ('URLSearchParams' in window && params.get('view') == "list") {
                 let toggle = $('input[name=gridtoggle]');
                 toggle.checked = true;
                 toggle.click();
@@ -262,6 +277,8 @@ layout: docs
         currentpage = 0; // Reset to first page
         RenderIndexPage();
         UpdateTopics();
+
+        if (params === undefined) return;        
         params.delete('page');
         if (currenttopics.length === 0)
             params.delete('topics');
@@ -276,8 +293,8 @@ layout: docs
         let topiccounts = {};
 
         if (currenttopics.length > 0) {
-            currentids.forEach(id => {
-                pluginsdata.all[id].topics.forEach(t => {
+            currentids.forEach(function (id) {
+                pluginsdata.all[id].topics.forEach(function (t) {
                     if (!topiccounts.hasOwnProperty(t))
                         topiccounts[t] = 0;
                     topiccounts[t]++;
@@ -292,7 +309,7 @@ layout: docs
         let alltopicshtml = "";
         let activealltopicshtml = "";
 
-        availabletopics.forEach(t => {
+        availabletopics.forEach(function (t) {
             let count = Object.keys(topiccounts).length > 0 ? topiccounts[t] : pluginsdata.topics[t].length;
 
             if (isgame = $.inArray(t, supportedgames) !== -1 || t === "universal")
@@ -317,7 +334,8 @@ layout: docs
         $("#all-topics>ul").trigger("UpdateShadows");
     }
 
-    function CreateTopicBadge(name, hasicon, isactive, count = 0) {
+    function CreateTopicBadge(name, hasicon, isactive, count) {
+        count = count || 0;
         if (hasicon) {
             return "<li><a " + (isactive ? "class='active' " : "") + "onclick='TopicBadge(this)' data-topic=" + name + "><img src='/assets/images/topics/" + name + ".png' class='icon'/><span class='name'>" + name + "</span>" + (count === 0 ? "" : ("<span class='count'> " + count + "</span>")) + "</a></li>";
         } else {
@@ -331,10 +349,10 @@ layout: docs
 
             pluginsdata.topics[
                 // Sort currenttopics to get the shortest
-                currenttopics.sort((a, b) => pluginsdata.topics[a].length - pluginsdata.topics[b].length)[0]
-            ].forEach(id => {  // For each plugin in shortest topic
+                currenttopics.sort(function (a, b) {pluginsdata.topics[a].length - pluginsdata.topics[b].length;})[0]
+            ].forEach(function (id) {  // For each plugin in shortest topic
                 // if plugin contains all current topics
-                if (!currenttopics.some(t => $.inArray(t, pluginsdata.all[id].topics) == -1))
+                if (!currenttopics.some(function (t) {$.inArray(t, pluginsdata.all[id].topics) == -1}))
                     ids.push(id);
             });
 
@@ -444,7 +462,7 @@ layout: docs
             if (a == "universal" || a == "oxide")
                 return 0;
             return 1;
-        }).forEach(t => {
+        }).forEach(function (t) {
             if ($.inArray(t, supportedgames) != -1) {
                 support += "<li><img src='/assets/images/topics/" + t + ".png' class='game'/></li>";
             } else
@@ -461,6 +479,7 @@ layout: docs
     }
 
     function UpdateUrl(p) {
+        if (p === undefined) return;
         window.history.replaceState({}, '', window.location.pathname + '?' + p);
     }
 </script>

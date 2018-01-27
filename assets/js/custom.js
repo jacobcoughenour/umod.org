@@ -12,11 +12,11 @@ function AttachHorizontalScroll(element) {
     $("ul", element)
         .data('shadowLeft', $("<a>").addClass("scroll-shadow-left").insertBefore($("ul", element)).html('<i class="fa fa-chevron-left" aria-hidden="true"></i>').mousedown(function (e) {
             let ul = $("ul", this.parentNode);
-            ul.animate({ scrollLeft: "-=" + (ul.width() * 0.5) }, { step: (n, fx) => { $(fx.elem).trigger("UpdateShadows"); } });
+            ul.animate({ scrollLeft: "-=" + (ul.width() * 0.5) }, { step: function (n, fx) { $(fx.elem).trigger("UpdateShadows"); } });
         }))
         .data('shadowRight', $("<a>").addClass("scroll-shadow-right").insertAfter($("ul", element)).html('<i class="fa fa-chevron-right" aria-hidden="true"></i>').mousedown(function (e) {
             let ul = $("ul", this.parentNode);
-            ul.animate({ scrollLeft: "+=" + (ul.width() * 0.5) }, { step: (n, fx) => { $(fx.elem).trigger("UpdateShadows"); } });
+            ul.animate({ scrollLeft: "+=" + (ul.width() * 0.5) }, { step: function (n, fx) { $(fx.elem).trigger("UpdateShadows"); } });
         }))
         .mousedown(function (e) {
             if (this.scrollWidth > this.offsetWidth)
@@ -50,7 +50,7 @@ function AttachHorizontalScroll(element) {
                 $(this).trigger("UpdateShadows");
                 return false;
             }
-        }).on("UpdateShadows", e => {
+        }).on("UpdateShadows", function (e) {
             if (e.target.scrollWidth > e.target.offsetWidth) {
                 $(e.target).data('shadowLeft').css("width", Math.min(e.target.scrollLeft, 50) + 'px');
                 $(e.target).data('shadowRight').css("width", Math.min(e.target.scrollWidth - e.target.scrollLeft - e.target.offsetWidth, 50) + 'px');
