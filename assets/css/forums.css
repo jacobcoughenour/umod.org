@@ -34,9 +34,6 @@ a:visited {
     box-shadow: none;
     top: -342px;
 }
-.admin-interface .full-width {
-    padding-top: 100px;
-}
 .admin-interface .d-header {
     top: 0;
 }
@@ -69,8 +66,8 @@ a:visited {
     padding-bottom: 37px;
 }
 .wrap {
-    max-width: unset;
-    padding: 0;
+    max-width: unset !important;
+    padding: 0 !important;
 }
 .topics {
     display: unset;
