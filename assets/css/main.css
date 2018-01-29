@@ -1,3 +1,5 @@
+---
+---
 @charset "UTF-8";
 @import url('//fonts.googleapis.com/css?family=Roboto:500,900,100,300,700,400&subset=latin,cyrillic-ext,cyrillic,latin-ext');
 @import url('//fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700&subset=latin,cyrillic-ext,cyrillic,latin-ext');
@@ -1286,13 +1288,13 @@ th {
     box-sizing: border-box;
 }
 .background-2 {
-    background: url('../images/backgrounds/2.jpg');
+    background: url('{{ site.url }}/assets/images/backgrounds/2.jpg');
 }
 .background-4 {
-    background: url('../images/backgrounds/4.jpg');
+    background: url('{{ site.url }}/assets/images/backgrounds/4.jpg');
 }
 .background-5 {
-    background: url('../images/backgrounds/5.jpg');
+    background: url('{{ site.url }}/assets/images/backgrounds/5.jpg');
 }
 .background-gradient-grey {
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,f2f2f2+95,f2f2f2+95,f2f2f2+100 */
@@ -3973,8 +3975,8 @@ dt {
 }
 @font-face {
     font-family: 'pe-icon-7-stroke';
-    src: url('../fonts/pe-icon-7-stroke.eot?d7yf1v');
-    src: url('../fonts/pe-icon-7-stroke.eot?#iefixd7yf1v') format('embedded-opentype'), url('../fonts/pe-icon-7-stroke.woff?d7yf1v') format('woff'), url('../fonts/pe-icon-7-stroke.ttf?d7yf1v') format('truetype'), url('../fonts/pe-icon-7-stroke.svg?d7yf1v#pe-icon-7-stroke') format('svg');
+    src: url('{{ site.url }}/assets/fonts/pe-icon-7-stroke.eot?d7yf1v');
+    src: url('{{ site.url }}/assets/fonts/pe-icon-7-stroke.eot?#iefixd7yf1v') format('embedded-opentype'), url('{{ site.url }}/assets/fonts/pe-icon-7-stroke.woff?d7yf1v') format('woff'), url('{{ site.url }}/assets/fonts/pe-icon-7-stroke.ttf?d7yf1v') format('truetype'), url('{{ site.url }}/assets/fonts/pe-icon-7-stroke.svg?d7yf1v#pe-icon-7-stroke') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -7748,37 +7750,37 @@ Copyright (c) 2015 Daniel Eden
     padding-bottom: 40px;
 }
 .header-back-default {
-    background-image: url('../images/backgrounds/6.jpg');
+    background-image: url('{{ site.url }}/assets/images/backgrounds/6.jpg');
     background-position: bottom;
 }
 .header-back-simple {
-    background-image: url('../images/backgrounds/2.jpg');
+    background-image: url('{{ site.url }}/assets/images/backgrounds/2.jpg');
 }
 .header-back-bg {
-    background-image: url('../images/backgrounds/1.jpg');
+    background-image: url('{{ site.url }}/assets/images/backgrounds/1.jpg');
 }
 .header-back-bg-2 {
-    background-image: url('../images/backgrounds/3.jpg');
+    background-image: url('{{ site.url }}/assets/images/backgrounds/3.jpg');
 }
 .header-back-bg-3 {
-    background-image: url('../images/backgrounds/5.jpg');
+    background-image: url('{{ site.url }}/assets/images/backgrounds/5.jpg');
 }
 .header-back-bg-web {
-    background-image: url('../images/backgrounds/8.jpg');
+    background-image: url('{{ site.url }}/assets/images/backgrounds/8.jpg');
 }
 .header-back-bg-app {
-    background-image: url('../images/backgrounds/9.jpg');
+    background-image: url('{{ site.url }}/assets/images/backgrounds/9.jpg');
 }
 .header-back-bg-soft {
-    background-image: url('../images/backgrounds/10.png');
+    background-image: url('{{ site.url }}/assets/images/backgrounds/10.png');
     background-position: center bottom;
 }
 .header-back-video-trigger-bg {
-    background-image: url('../images/backgrounds/11.jpg');
+    background-image: url('{{ site.url }}/assets/images/backgrounds/11.jpg');
     background-position: center bottom;
 }
 .header-back-bg-subscribe {
-    background-image: url('../images/backgrounds/12.jpg');
+    background-image: url('{{ site.url }}/assets/images/backgrounds/12.jpg');
 }
 .header-back-buttons .button {
     margin-right: 20px;
@@ -12866,7 +12868,7 @@ li:last-child .ytv-list a {
 }
 @font-face {
     font-family: VideoJS;
-    src: url('../font/1.3.0/VideoJS.eot?') format('eot');
+    src: url('{{ site.url }}/assets/font/1.3.0/VideoJS.eot?') format('eot');
 }
 @font-face {
     font-family: VideoJS;
@@ -15861,7 +15863,7 @@ input.changelog-input {
 .call-to-action {
     padding: 80px 0;
     background-size: cover;
-    background-image: url('../images/backgrounds/7.jpg');
+    background-image: url('{{ site.url }}/assets/images/backgrounds/7.jpg');
     text-align: center;
 }
 .call-to-action-title {
@@ -16989,7 +16991,7 @@ input.changelog-input {
 .video-section {
     border-top: 1px solid #e9eaec;
     border-bottom: 1px solid #e9eaec;
-    background-image: url('../images/backgrounds/13.jpg');
+    background-image: url('{{ site.url }}/assets/images/backgrounds/13.jpg');
     background-position: center;
     background-size: cover;
     padding: 20% 0;
@@ -17382,7 +17384,7 @@ input.changelog-input {
     }
 }
 .page-404 {
-    background-image: url('../images/backgrounds/14.jpg');
+    background-image: url('{{ site.url }}/assets/images/backgrounds/14.jpg');
     background-repeat: no-repeat;
     background-position: left bottom;
     background-size: cover;
@@ -18286,7 +18288,7 @@ input.changelog-input {
 }
 .topics > ul > li > a {
     display: inline-flex;
-    height: 30px;    
+    height: 30px;
     color: #808488;
     background-color: #f6f7f8;
     border-radius: 3px;
@@ -18314,8 +18316,8 @@ input.changelog-input {
     display: inline-block;
     line-height: 29px;
     font-size: .75em;
-    font-weight: 500;    
-    text-align: center;  
+    font-weight: 500;
+    text-align: center;
     padding: 0 12px;
 }
 .topics > ul > li > a > img.icon {
@@ -18340,7 +18342,7 @@ input.changelog-input {
     font-size: 0.75em;
     padding-right: 10px;
     pointer-events: none;
-    line-height: 29px;    
+    line-height: 29px;
 }
 .topics > ul > li > a.active > .count {
     display: none;
@@ -18425,7 +18427,7 @@ a.scroll-shadow-right > i {
     flex-grow: 1;
 }
 #topics-search {
-    margin-top: 10px;  
+    margin-top: 10px;
     flex-grow: 1;
     overflow: hidden;
     display: flex;
@@ -18649,7 +18651,7 @@ a.scroll-shadow-right > i {
 }
 .plugin-card .plugin-info .topics {
     margin: 8px;
-    height: 32px;    
+    height: 32px;
     opacity: 0;
     overflow: hidden;
     display: flex;
