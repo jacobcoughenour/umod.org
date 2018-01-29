@@ -1,12 +1,12 @@
 <div class="col-md-9 col-sm-6 col-xs-7">
     <nav class="right helper">
         <ul class="menu sf-menu js-menu">
-            <li><a href="{% link pages/index.html %}">Home</a></li>
-            <li><a href="{% link pages/download.html %}">Download</a></li>
-            <li><a href="/plugins/">Plugins</a></li>
-            <li><a href="{% link pages/faq.html %}">FAQ</a></li>
+            <li><a href="{{ site.baseurl }}{% link pages/index.html %}">Home</a></li>
+            <li><a href="{{ site.baseurl }}{% link pages/download.html %}">Download</a></li>
+            <li><a href="{{ site.baseurl }}/plugins/">Plugins</a></li>
+            <li><a href="{{ site.baseurl }}{% link pages/faq.html %}">FAQ</a></li>
             <!--<li><a href="{% link pages/changelog.html %}">Changelog</a></li>-->
-            <li><a href="{% link pages/api.html %}">API</a></li>
+            <li><a href="{{ site.baseurl }}{% link pages/api.html %}">API</a></li>
             <li><a href="{{ site.forums }}">Forums</a></li>
         </ul>
     </nav>
