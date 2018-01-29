@@ -23,3 +23,4 @@ collections:
 github: https://github.com/theumod
 plugins_org: umods
 exclude: ["js/dev", "js/preprod", "plugins", "vendor", .gitignore", "*.sh", "*.ps1", "Gemfile*", "README.md", "gulpfile.js", "netlify.toml"]
+include: ["_headers"]
