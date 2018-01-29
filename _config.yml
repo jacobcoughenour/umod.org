@@ -6,6 +6,7 @@ url: https://umod.org
 # Community
 home: https://umod.org
 forums: https://forums.umod.org
+github: https://github.com/theumod
 twitter: https://twitter.com/theumod
 patreon: https://www.patreon.com/umod
 
@@ -15,12 +16,8 @@ redcarpet:
   extensions: ["autolink", "filter_html", "hard_wrap", "no_images", "prettify", "strikethrough", "tables", "with_toc_data", "xhtml"]
 permalink: /:title/
 excerpt_separator: <!--more-->
-collections:
-  includes:
-    output: true
-
-# GitHub
-github: https://github.com/theumod
 plugins_org: umods
+
+# Output
 exclude: ["js/dev", "js/preprod", "plugins", "vendor", .gitignore", "*.sh", "*.ps1", "Gemfile*", "README.md", "gulpfile.js", "netlify.toml"]
 include: ["_headers"]
