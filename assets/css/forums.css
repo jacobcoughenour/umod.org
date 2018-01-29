@@ -28,10 +28,6 @@ a:visited {
     line-height: 1.8;
     color: #333333;
 }
-#main-outlet {
-    padding-top: 0 !important;
-    padding-bottom: 170px;
-}
 .d-header {
     position: absolute;
     background-color: inherit;
