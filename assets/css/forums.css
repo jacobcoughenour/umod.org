@@ -17,7 +17,7 @@ input[type="tel"], input[type="color"],
     color: #2288cc;
 }
 a:visited {
-    color: #333333;
+    color: #333333 !important;
 }
 .category-name {
     font-size: 1.375em;
@@ -41,6 +41,7 @@ a:visited {
     top: 0;
 }
 .docked .d-header {
+    visibility: hidden;
     position: absolute;
     margin-top: 19px;
     margin-bottom: 50px;
@@ -62,6 +63,21 @@ a:visited {
 }
 .footer-is-fixed {
     position: unset;
+}
+#main-outlet {
+    padding-top: 0;
+    padding-bottom: 37px;
+}
+.wrap {
+    max-width: unset;
+    padding: 0;
+}
+.topics {
+    display: unset;
+    margin: unset;
+    opacity: unset;
+    overflow: unset;
+    height: unset;
 }
 /* ==========================================================================
      Desktop overrides
