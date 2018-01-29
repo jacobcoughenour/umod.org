@@ -1,0 +1,129 @@
+/* ==========================================================================
+     Common overrides
+     ========================================================================== */
+.search { margin-bottom: 0; }
+.tags { font-size: 1em; }
+input[type="text"], input[type="password"],
+input[type="datetime"], input[type="datetime-local"],
+input[type="date"], input[type="month"],
+input[type="time"], input[type="week"],
+input[type="number"], input[type="email"],
+input[type="url"], input[type="search"],
+input[type="tel"], input[type="color"],
+.input-prepend .add-on, .input-append .add-on {
+    height: auto;
+}
+.category-list tbody .category h3 a[href] {
+    color: #2288cc;
+}
+a:visited {
+    color: #333333;
+}
+.category-name {
+    font-size: 1.375em;
+    color: #2288cc;
+}
+.category-description {
+    font-size: 1em;
+    line-height: 1.8;
+    color: #333333;
+}
+#main-outlet {
+    padding-top: 0 !important;
+    padding-bottom: 170px;
+}
+.d-header {
+    position: absolute;
+    background-color: inherit;
+    box-shadow: none;
+    top: -342px;
+}
+.admin-interface .full-width {
+    padding-top: 100px;
+}
+.admin-interface .d-header {
+    top: 0;
+}
+.docked .d-header {
+    position: absolute;
+    margin-top: 19px;
+    margin-bottom: 50px;
+}
+.d-header .icons, .docked .d-header .icons {
+    margin: 0 14px 0 5px;
+}
+.d-header .icons .icon, .docked .d-header .icons .icon {
+    color: #3a3a3a;
+}
+.d-header button.login-button {
+    margin-left: 0;
+}
+.header-back {
+    margin-bottom: 37px;
+}
+.category-list .subcategories {
+    display: none;
+}
+/* ==========================================================================
+     Desktop overrides
+     ========================================================================== */
+/* TODO: Detect and handle this section for non-mobile devices only */
+html {
+    font-size: initial;
+}
+.wrap {
+    max-width: 1170px;
+    padding-left: 15px;
+    padding-right: 0;
+}
+.post-stream {
+    padding-left: 15px;
+}
+#topic-title {
+    padding-top: 0;
+}
+.topic-list td {
+    margin-top: 10px;
+}
+.topic-statuses {
+    margin-bottom: -10px;
+}
+.topic-list .topic-excerpt {
+    padding: 8px 0 20px 0;
+}
+.list-controls .category-breadcrumb a.badge-category.category-dropdown-button {
+    width: 24px;
+}
+.badge-wrapper.box {
+    margin-bottom: 0;
+}
+#reply-title {
+    -webkit-box-sizing: initial;
+    -moz-box-sizing: initial;
+    box-sizing: initial;
+}
+#reply-control .toggler {
+    right: 40px;
+}
+.topic-list .topic-status {
+    font-size: inherit;
+}
+.topic-post {
+    margin-top: 20px;
+}
+/*.topic-map {
+    margin: 20px 0 0 55px;
+}*/
+.topic-body.highlighted {
+    background-color: initial;
+}
+.body-page {
+    padding-left: 0;
+}
+/*body {
+    font-size: 14px !important;
+    line-height: inherit !important;
+}*/
+#topic-title > .container {
+    padding-left: 0;
+}

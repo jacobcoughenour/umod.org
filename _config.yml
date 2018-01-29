@@ -15,6 +15,9 @@ redcarpet:
   extensions: ["autolink", "filter_html", "hard_wrap", "no_images", "prettify", "strikethrough", "tables", "with_toc_data", "xhtml"]
 permalink: /:title/
 excerpt_separator: <!--more-->
+collections:
+  includes:
+    output: true
 
 # GitHub
 github: https://github.com/theumod
