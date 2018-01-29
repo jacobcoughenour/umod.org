@@ -11,7 +11,7 @@ input[type="number"], input[type="email"],
 input[type="url"], input[type="search"],
 input[type="tel"], input[type="color"],
 .input-prepend .add-on, .input-append .add-on {
-    height: auto;
+    height: auto !important;
 }
 .category-list tbody .category h3 a[href] {
     color: #2288cc;
@@ -30,9 +30,14 @@ a:visited {
 }
 .d-header {
     position: absolute;
-    background-color: inherit;
+    background-color: unset;
     box-shadow: none;
-    top: -342px;
+    margin-top: -248px;
+    padding-right: 125px;
+}
+.d-header .title,
+.d-header #site-logo {
+    display: none;
 }
 .admin-interface .d-header {
     top: 0;
@@ -75,6 +80,9 @@ a:visited {
     opacity: unset;
     overflow: unset;
     height: unset;
+}
+#content {
+    padding: 7px 0 0 0;
 }
 /* ==========================================================================
      Desktop overrides
