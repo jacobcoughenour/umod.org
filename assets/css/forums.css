@@ -64,6 +64,9 @@ a:visited {
 .category-list .subcategories {
     display: none;
 }
+.footer-is-fixed {
+    position: unset;
+}
 /* ==========================================================================
      Desktop overrides
      ========================================================================== */
