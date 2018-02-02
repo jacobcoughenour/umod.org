@@ -111,7 +111,7 @@ layout: docs
         $.getJSON('/plugins.json', function (data) {
             pluginsdata = data;
             currentids = pluginsdata.sort_by[sortby];
-            sortedtopics = Object.keys(pluginsdata.topics).sort(function (a, b) {pluginsdata.topics[b].length - pluginsdata.topics[a].length;});
+            sortedtopics = Object.keys(pluginsdata.topics).sort(function (a, b) {return pluginsdata.topics[b].length - pluginsdata.topics[a].length;});
 
             let index = $("#plugins-index");
 
@@ -349,7 +349,7 @@ layout: docs
 
             pluginsdata.topics[
                 // Sort currenttopics to get the shortest
-                currenttopics.sort(function (a, b) {pluginsdata.topics[a].length - pluginsdata.topics[b].length;})[0]
+                currenttopics.sort(function (a, b) {return pluginsdata.topics[a].length - pluginsdata.topics[b].length;})[0]
             ].forEach(function (id) {  // For each plugin in shortest topic
                 // if plugin contains all current topics
                 if (!currenttopics.some(function (t) {return $.inArray(t, pluginsdata.all[id].topics) == -1;}))
