@@ -193,7 +193,7 @@ layout: docs
                 currentpage = 0;
                 RenderIndexPage();
 
-                if (params === undefined) return;                
+                if (params === undefined) return;
                 params.set('page', currentpage + 1);
                 UpdateUrl(params);
             });
@@ -204,7 +204,7 @@ layout: docs
                 currentpage -= 1;
                 RenderIndexPage();
 
-                if (params === undefined) return;                
+                if (params === undefined) return;
                 params.set('page', currentpage + 1);
                 UpdateUrl(params);
             });
@@ -216,7 +216,7 @@ layout: docs
                 currentpage = num;
                 RenderIndexPage();
 
-                if (params === undefined) return;                
+                if (params === undefined) return;
                 params.set('page', currentpage + 1);
                 UpdateUrl(params);
             });
@@ -227,7 +227,7 @@ layout: docs
                 currentpage += 1;
                 RenderIndexPage();
 
-                if (params === undefined) return;                
+                if (params === undefined) return;
                 params.set('page', currentpage + 1);
                 UpdateUrl(params);
             });
@@ -238,7 +238,7 @@ layout: docs
                 currentpage = Math.ceil(currentids.length / itemsperpage) - 1;
                 RenderIndexPage();
 
-                if (params === undefined) return;                
+                if (params === undefined) return;
                 params.set('page', currentpage + 1);
                 UpdateUrl(params);
             });
@@ -278,7 +278,7 @@ layout: docs
         RenderIndexPage();
         UpdateTopics();
 
-        if (params === undefined) return;        
+        if (params === undefined) return;
         params.delete('page');
         if (currenttopics.length === 0)
             params.delete('topics');
@@ -352,7 +352,7 @@ layout: docs
                 currenttopics.sort(function (a, b) {pluginsdata.topics[a].length - pluginsdata.topics[b].length;})[0]
             ].forEach(function (id) {  // For each plugin in shortest topic
                 // if plugin contains all current topics
-                if (!currenttopics.some(function (t) {$.inArray(t, pluginsdata.all[id].topics) == -1}))
+                if (!currenttopics.some(function (t) {return $.inArray(t, pluginsdata.all[id].topics) == -1;}))
                     ids.push(id);
             });
 
