@@ -58,6 +58,7 @@ module Jekyll
       %{
         <div class="separator"></div>
         <h#{header_level} id="#{id}">#{text}</h#{header_level}>
+        <!-- #{id} -->
       }
     end
 

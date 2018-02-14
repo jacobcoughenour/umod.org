@@ -2,13 +2,34 @@
 layout: docs
 ---
 
+{% for topic in page.plugin.topics %}
+    {% if topic == "umod" %}
+        {% assign platform = "uMod" %}
+    {% elsif topic == "oxide" %}
+        {% assign platform = "Oxide" %}
+    {% endif %}
+{% endfor %}
+
+{% capture note_configuration %}
+The settings and options for this plugin can be configured in the <code>{{ page.plugin.name }}.json</code> file under the <code>{{ platform | downcase }}/config</code> directory. The use of a JSON editor or validation site such as <a href="https://jsonlint.com/">jsonlint.com</a> is recommended to avoid formatting issues and syntax errors.
+{% endcapture %}
+{% capture note_configuration %}
+    {% include note.html body=note_configuration %}
+{% endcapture %}
+
+{% capture note_permissions %}
+This plugin uses {{ platform }}'s permission system. To assign a permission, use <code>{{ platform | downcase }}.grant &#x3C;user or group&#x3E; &#x3C;name or steam id&#x3E; &#x3C;permission&#x3E;</code>. To remove a permission, use <code>{{ platform | downcase }}.revoke &#x3C;user or group&#x3E; &#x3C;name or steam id&#x3E; &#x3C;permission&#x3E;</code>.
+{% endcapture %}
+{% capture note_permissions %}
+    {% include note.html body=note_permissions %}
+{% endcapture %}
+
 <div class="layout with-right-sidebar js-layout">
     <div class="row">
         <div class="col-md-9">
             <div class="main-content">
                 {% if page.more_info %}
-                    {% include toc.html html=page.more_info sanitize=true %}
-                    {{ page.more_info }}
+                    {{ page.more_info | replace: '<!-- configuration -->', note_configuration | replace: '<!-- permissions -->', note_permissions }}
                 {% else %}
                     <p>
                         This plugin has no additional information about it. Please let the author know or feel free to contribute a <a href="{{ page.plugin.github_url }}/new/master?readme=1">README.md</a> via GitHub or <a href="{{ page.plugin.github_url }}/issues/new?title=Plugin+page+is+lacking+additional+information&body=Please+add+a+README.md+file+to+provide+additional+information+at+{{ site.url }}/plugins/{{ page.plugin.name | downcase }}">open an issue</a> to request more information.
