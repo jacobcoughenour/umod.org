@@ -22,7 +22,7 @@ layout: default
             <ul class="one-page-nav js-one-page-nav js-menu-vertical" data-prepend-to=".js-prepend-mobile-menu">
 	            {% assign sortedPages = site.pages | sort: 'menu-weight' %}
                 {% for p in sortedPages %}
-                    {% if p.url contains "/api/" %}
+                    {% if p.url contains "/api" %}
                         <li class="{% if p.permalink == page.url %}is-active{% endif %}">
                             <a href="{{ p.permalink }}" class="">
                                 <span class="one-page-nav-icon"><i class="fa fa-{{ p.icon }}"></i></span>
@@ -55,7 +55,7 @@ layout: default
                             <ul class="menu sf-menu js-menu">
                                 <li><a href="{% link pages/index.html %}">Home</a></li>
                                 <li><a href="{% link pages/download.html %}">Download</a></li>
-                                <li><a href="/plugins/">Plugins</a></li>
+                                <li><a href="/plugins">Plugins</a></li>
                                 <li><a href="{% link pages/faq.html %}">FAQ</a></li>
                                 <!--<li><a href="{% link pages/changelog.html %}">Changelog</a></li>-->
                                 <li><a href="{% link pages/api.html %}">API</a></li>
