@@ -422,6 +422,7 @@ module Jekyll
     def write_plugins_index(plugins, dest_dir)
       # Write the plugins/index.html page
       index = PluginPage.new(self, self.source, dest_dir, 'index.html', 'plugins')
+      index.url = '/plugins' # Fixes layout name being appended to permalink
       index.set_data('plugins', plugins)
       index.render(self.layouts, site_payload)
       index.write(self.dest)
