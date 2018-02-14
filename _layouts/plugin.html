@@ -28,6 +28,7 @@ This plugin uses {{ platform }}'s permission system. To assign a permission, use
     <div class="row">
         <div class="col-md-9">
             <div class="main-content">
+                {% include toc.html html=page.more_info sanitize=true %}
                 {% if page.more_info %}
                     {{ page.more_info | replace: '<!-- configuration -->', note_configuration | replace: '<!-- permissions -->', note_permissions }}
                 {% else %}
