@@ -14,7 +14,7 @@ patreon: https://www.patreon.com/umod
 markdown: redcarpet
 redcarpet:
   extensions: ["autolink", "filter_html", "hard_wrap", "no_images", "prettify", "strikethrough", "tables", "with_toc_data", "xhtml"]
-permalink: /:title/
+permalink: /:title
 excerpt_separator: <!--more-->
 plugins_org: umods
 

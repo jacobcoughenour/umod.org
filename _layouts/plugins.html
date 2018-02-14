@@ -473,7 +473,7 @@ layout: docs
         });
 
         return cardtemplate
-            .replace(/\[\[name\]\]/g, data["name"])
+            .replace(/\[\[name\]\]/g, data["name"].toLowerCase())
             .replace(/\[\[icon_url\]\]/g, data["icon_url"] || ("https://www.gravatar.com/avatar/" + id + "?s=262.5&d=identicon"))
             .replace(/\[\[title\]\]/g, data["title"])
             .replace(/\[\[description\]\]/g, data["description"])

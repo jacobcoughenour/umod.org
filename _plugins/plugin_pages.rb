@@ -103,6 +103,11 @@ module Jekyll
       self.read_yaml(File.join(base, '_layouts'), src_name_with_ext)
     end
 
+    # Fixes layout name being added to permalinks
+    def url=(name)
+      @url = name
+    end
+
     # Attach our data to the global page variable. This allows pages to see this data
     def set_data(label, data)
       self.data[label] = data
@@ -445,8 +450,9 @@ module Jekyll
       puts "## Generating page for #{plugin['name']}"
 
       # Attach plugin data to global site variable. This allows pages to see this plugin's data
-      page = PluginPage.new(self, self.source, File.join(dest_dir, plugin['name']), 'index.html', 'plugin')
+      page = PluginPage.new(self, self.source, dest_dir, "#{plugin['name']}.html", 'plugin')
       page.set_page_data(plugin, prev_plugin, next_plugin)
+      page.url = "/plugins/#{plugin['name'].downcase}" # Fixes layout name being appended to permalinks
       page.render(self.layouts, site_payload)
       page.write(self.dest)
       self.pages << page
@@ -456,7 +462,7 @@ module Jekyll
         filename = plugin['name'] + $file_exts[plugin['language']]
         download = open(plugin['download_url']) {|f| f.read}
         unless download.nil?
-          write_static_file(download, filename, File.join(File.join(dest_dir, plugin['name'])))
+          write_static_file(download, filename, dest_dir)
           puts " - Downloaded file #{filename}"
         end
       end

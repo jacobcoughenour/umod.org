@@ -1287,15 +1287,6 @@ th {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
-.background-2 {
-    background: url('{{ site.url }}/assets/images/backgrounds/2.jpg');
-}
-.background-4 {
-    background: url('{{ site.url }}/assets/images/backgrounds/4.jpg');
-}
-.background-5 {
-    background: url('{{ site.url }}/assets/images/backgrounds/5.jpg');
-}
 .background-gradient-grey {
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,f2f2f2+95,f2f2f2+95,f2f2f2+100 */
     background: #ffffff;
