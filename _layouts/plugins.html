@@ -101,6 +101,7 @@ layout: docs
     var params;
 
     var islist = false;
+    var currentsearch = "";
     var currenttopics = [];
     var sortby = "title";
     var itemsperpage = 12;
@@ -157,6 +158,17 @@ layout: docs
             }
 
             // Event listeners
+
+            $('#searchinput').on("input", function () {
+                currentsearch = $(this).val();
+
+                // Only updates after set delay between inputs
+                clearTimeout(window.searchtimer); // clear previous timeout
+                window.searchtimer = setTimeout(function() {
+                    currentpage = 0;
+                    RenderIndexPage();
+                }, 500); // threshold in ms
+            });
 
             $('select[name=sortby]').change(function () {
                 let val = $(this).val();
@@ -364,6 +376,23 @@ layout: docs
         return pluginsdata.topics[currenttopics[0]];
     }
 
+    function SearchFilter() {
+        let idsname = [];
+        let idsdesc = [];
+        let regex = new RegExp(currentsearch, "i");
+
+        currentids.forEach(function (id) {  // For each plugin in shortest topic
+            if (pluginsdata.all[id].name.search(regex) !== -1)
+                idsname.push(id);
+            else if (pluginsdata.all[id].description.search(regex) !== -1)
+                idsdesc.push(id);
+        });
+
+        idsname.push.apply(idsname, idsdesc);
+
+        return idsname;
+    }
+
     function RenderIndexPage() {
         rendered = true;
 
@@ -377,6 +406,10 @@ layout: docs
             });
         } else {
             currentids = pluginsdata.sort_by[sortby];
+        }
+
+        if (currentsearch != "") {
+            currentids = SearchFilter();
         }
 
         let newhtml = "";
