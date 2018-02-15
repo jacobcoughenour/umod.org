@@ -10362,10 +10362,11 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     display: inline-block;
     font-size: 19px;
     text-align: center;
-    margin-left: -25px;
+    margin-left: -26px;
+    padding-right: 8px;
     outline: none;
     opacity: 0;
-    vertical-align: text-bottom;
+    vertical-align: middle;
     -webkit-transition: color 0.3s ease, border-color 0.3s ease;
     -moz-transition: color 0.3s ease, border-color 0.3s ease;
     -ms-transition: color 0.3s ease, border-color 0.3s ease;
