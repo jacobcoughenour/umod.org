@@ -1,0 +1,44 @@
+---
+layout: docs
+---
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="col-xs-1"></th>
+                        <th class="col-xs-1"></th>
+                        <th class="col-xs-1">Custom Console</th>
+                        <th class="col-xs-1">Chat Commands</th>
+                        <th class="col-xs-1">Console Commands</th>
+                        <th class="col-xs-1">Command Completion</th>
+                        <th class="col-xs-1">Basic Core Hooks</th>
+                        <th class="col-xs-1">Advanced Hooks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="col-xs-1">
+                            <img src="{{ "/assets/images/games/" | prepend: site.baseurl }}{{ page.title | slugify }}.png" alt="{{ page.title }}">
+                        </td>
+                        <td class="col-xs-1">
+                            {% for os in page.os %}<i class="fa fa-{{ os }} color grey fa-2x"></i>{% endfor %}
+                        </td>
+                        {% for feature in page.features %}
+                            <td class="col-xs-1">
+                                <i class="fa fa-{% if feature[1] == true %}check color green{% else %}close color red{% endif %} fa-2x"></i>
+                            </td>
+                        {% endfor %}
+                        {% for hook in page.hooks %}
+                            <td class="col-xs-1">
+                                <i class="fa fa-{% if hook[1] == true %}check color green{% else %}close color red{% endif %} fa-2x"></i>
+                            </td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
