@@ -18827,3 +18827,24 @@ a.scroll-shadow-right > i {
     margin-right: 10px;
     width: 47%;
 }
+.plugin-description .note.hidden {
+    display: none;
+}
+.plugin-description a.notetoggle {
+    color: #cbd3dd;
+    display: inline-block;
+    font-size: 22px;
+    text-align: center;
+    margin-left: 8px;
+    outline: none;
+    vertical-align: top;
+    -webkit-transition: color 0.3s ease, border-color 0.3s ease;
+    -moz-transition: color 0.3s ease, border-color 0.3s ease;
+    -ms-transition: color 0.3s ease, border-color 0.3s ease;
+    -o-transition: color 0.3s ease, border-color 0.3s ease;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+.plugin-description a.notetoggle:hover {
+    text-decoration: none;
+    color: #99a3b1;
+}

@@ -2,7 +2,7 @@ $(document).ready(function() {
     // Write any custom functions here. All the necessary plugins are already loaded.
 
     $('h2,h3,h4,h5,h6').filter('[id]').each(function () {
-        $(this).html('<a href="#' + $(this).attr('id') + '" class="fragment-identifier js-fragment-identifier fragment-identifier-scroll"><i class="fa fa-link"></i></a>'+ $(this).text());
+        $(this).html('<a href="#' + $(this).attr('id') + '" class="fragment-identifier js-fragment-identifier fragment-identifier-scroll"><i class="fa fa-link"></i></a>'+ $(this).text() + ($(this).next().hasClass('note') ? '<a class="notetoggle" href="#" onclick="$(this).parent().next().toggleClass(\'hidden\');return false;"><i class="fa fa-question-circle"></i></a>' : ''));
     });
 
     $('.topics.scroll').each(function () {AttachHorizontalScroll(this);});
@@ -21,7 +21,7 @@ function AttachHorizontalScroll(element) {
         .mousedown(function (e) {
             if (this.scrollWidth > this.offsetWidth)
                 $(this).data('down', true).data('x', e.clientX).data('scrollLeft', this.scrollLeft);
-            return false;            
+            return false;
         }).on('touchstart', function (e) {
             if (this.scrollWidth > this.offsetWidth)
                 $(this).data('down', true).data('x', e.originalEvent.touches[0].clientX).data('scrollLeft', this.scrollLeft);
