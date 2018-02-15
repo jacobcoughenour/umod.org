@@ -1,49 +1,59 @@
 - name: 7 Days to Die
+  description: "Essentials for surviving the undead horde"
   extension: SevenDaysToDie
   os: ['windows', 'linux']
   features: {console: true, chatcommands: false, consolecommands: false, tabcompletion: false}
   hooks: {core: true, advanced: false}
 - name: Blockstorm
+  description: "Survive the storm with additional arsenal"
   extension: Blockstorm
   os: ['windows', 'linux']
   features: {console: true, chatcommands: false, consolecommands: false, tabcompletion: false}
   hooks: {core: true, advanced: false}
 - name: Hurtworld
+  description: "Arsenal to survive the wild and infamous"
   extension: Hurtworld
   os: ['windows', 'linux']
   features: {console: true, chatcommands: true, consolecommands: true, tabcompletion: true}
   hooks: {core: true, advanced: true}
 - name: Medieval Engineers
+  description: "Advanced tools to move beyond the Middle Ages"
   extension: MedievalEngineers
   os: ['windows']
   features: {console: true, chatcommands: false, consolecommands: false, tabcompletion: false}
   hooks: {core: true, advanced: false}
 - name: Reign of Kings
+  description: "The throne isn't the only show of power"
   extension: ReignOfKings
   os: ['windows']
   features: {console: true, chatcommands: true, consolecommands: true, tabcompletion: true}
   hooks: {core: true, advanced: true}
 - name: Rust
+  description: "Tools to survive an apocolytic world"
   extension: Rust
   os: ['windows', 'linux']
   features: {console: true, chatcommands: true, consolecommands: true, tabcompletion: true}
   hooks: {core: true, advanced: true}
 - name: Space Engineers
+  description: "Tools for surviving the void of space"
   extension: SpaceEngineers
   os: ['windows']
   features: {console: false, chatcommands: false, consolecommands: false, tabcompletion: false}
   hooks: {core: true, advanced: false}
 - name: Terraria
+  description: "Tools to help on as you dig, fight, and build"
   extension: Terraria
   os: ['windows']
   features: {console: false, chatcommands: false, consolecommands: false, tabcompletion: false}
   hooks: {core: true, advanced: false}
 - name: The Forest
+  description: "Do more than just survive, take control"
   extension: TheForest
   os: ['windows']
   features: {console: true, chatcommands: false, consolecommands: false, tabcompletion: false}
   hooks: {core: true, advanced: false}
 - name: Unturned
+  description: "Grrrrgghhhh... arrrgghh... braaaainnnsss"
   extension: Unturned
   os: ['windows']
   features: {console: true, chatcommands: false, consolecommands: false, tabcompletion: false}

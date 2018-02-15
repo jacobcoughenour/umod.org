@@ -18,6 +18,14 @@ permalink: /:title
 excerpt_separator: <!--more-->
 plugins_org: umods
 
+# Generation
+page_gen:
+  - data: 'games'
+    template: 'game'
+    name: 'name'
+    description: 'description'
+    dir: 'games'
+
 # Output
 exclude: ["js/dev", "js/preprod", "plugins", "vendor", .gitignore", "*.sh", "*.ps1", "Gemfile*", "README.md", "gulpfile.js", "netlify.toml"]
 include: ["_headers", "_redirects"]
