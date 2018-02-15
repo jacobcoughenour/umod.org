@@ -2,6 +2,21 @@
 layout: docs
 ---
 
+<style type="text/css">
+    table th, table td {
+        text-align: center !important;
+    }
+    .table > tbody > tr > td {
+        vertical-align: middle;
+    }
+    .table > tbody > tr > td > i {
+        padding: 4px;
+    }
+    .table > tbody > tr > td > img {
+        width: 80px;
+    }
+</style>
+
 <div class="row">
     <div class="col-md-12">
         <div class="table-responsive">
@@ -21,7 +36,7 @@ layout: docs
                 <tbody>
                     <tr>
                         <td class="col-xs-1">
-                            <img src="{{ "/assets/images/games/" | prepend: site.baseurl }}{{ page.title | slugify }}.png" alt="{{ page.title }}">
+                            <img src="{{ "/assets/images/icons/" | prepend: site.baseurl }}{{ page.title | slugify }}.png" alt="{{ page.title }}">
                         </td>
                         <td class="col-xs-1">
                             {% for os in page.os %}<i class="fa fa-{{ os }} color grey fa-2x"></i>{% endfor %}

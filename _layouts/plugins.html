@@ -352,7 +352,7 @@ layout: docs
     function CreateTopicBadge(name, hasicon, isactive, count) {
         count = count || 0;
         if (hasicon) {
-            return "<li><a " + (isactive ? "class='active' " : "") + "onclick='TopicBadge(this)' data-topic=" + name + "><img src='/assets/images/topics/" + name + ".png' class='icon'/><span class='name'>" + name + "</span>" + (count === 0 ? "" : ("<span class='count'> " + count + "</span>")) + "</a></li>";
+            return "<li><a " + (isactive ? "class='active' " : "") + "onclick='TopicBadge(this)' data-topic=" + name + "><img src='/assets/images/icons/" + name + ".png' class='icon'/><span class='name'>" + name + "</span>" + (count === 0 ? "" : ("<span class='count'> " + count + "</span>")) + "</a></li>";
         } else {
             return "<li><a " + (isactive ? "class='active' " : "") + "onclick='TopicBadge(this)' data-topic=" + name + "><span class='name'>" + name + "</span>" + (count === 0 ? "" : ("<span class='count'> " + count + "</span>")) + "</a></li>";
         }
@@ -500,7 +500,7 @@ layout: docs
             return 1;
         }).forEach(function (t) {
             if ($.inArray(t, supportedgames) != -1) {
-                support += "<li><img src='/assets/images/topics/" + t + ".png' class='game'/></li>";
+                support += "<li><img src='/assets/images/icons/" + t + ".png' class='game'/></li>";
             } else
                 topicbadges += CreateTopicBadge(t, false, false);
         });
