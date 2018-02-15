@@ -113,7 +113,7 @@ This plugin uses {{ platform }}'s permission system. To assign a permission, use
                         <ul class="tags">
                             {% for topic in page.plugin.topics %}
                                 <li class="tag-item">
-                                    <a href="https://github.com/search?q=topic:{{ topic }}+org:{{ site.plugins_org }}">{{ topic }}</a>
+                                    <a href="/plugins?topics={{ topic }}">{{ topic }}</a>
                                 </li>
                             {% endfor %}
                         </ul>
