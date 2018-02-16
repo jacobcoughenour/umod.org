@@ -506,7 +506,7 @@ layout: docs
         });
 
         return cardtemplate
-            .replace(/\[\[url\]\]/g, data["name"].toLowerCase())
+            .replace(/\[\[url\]\]/g, '/plugins/' + data["name"].toLowerCase())
             .replace(/\[\[name\]\]/g, data["name"])
             .replace(/\[\[icon_url\]\]/g, data["icon_url"] || ("https://www.gravatar.com/avatar/" + id + "?s=262.5&d=identicon"))
             .replace(/\[\[title\]\]/g, data["title"])
