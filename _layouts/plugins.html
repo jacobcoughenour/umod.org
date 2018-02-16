@@ -517,8 +517,6 @@ layout: docs
 
     function UpdateUrl(p) {
         if (p === undefined) return;
-        let path = window.location.pathname;
-        path = path[0] == '/' ? path.substr(1) : path;
-        window.history.replaceState({}, '', path + '?' + p);
+        window.history.replaceState({}, '', window.location.pathname + '?' + p);
     }
 </script>
