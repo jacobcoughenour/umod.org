@@ -14,7 +14,6 @@ module Jekyll
   $github_org = Jekyll.configuration({})['plugin_org'] || 'umods'
   $github_token = ENV['JEKYLL_GITHUB_TOKEN'] || ENV['GITHUB_TOKEN']
   $webhook_body = ENV['WEBHOOK_BODY']
-  $plugins_dir = 'plugins'
   $file_exts = {
     'C#' => '.cs',
     'CoffeeScript' => '.coffee',
@@ -85,7 +84,7 @@ module Jekyll
     # site - The Site object
     # base - The String path to the source
     # dest_dir  - The String path between the dest and the file
-    # dest_name - The String name of the destination file (e.g. index.html or myplugin.html)
+    # dest_name - The String name of the destination file
     # src_name - The String filename of the source page file, minus the markdown or html extension
     def initialize(site, base, dest_dir, dest_name, src_name)
       @site = site
@@ -403,8 +402,8 @@ module Jekyll
       end
 
       # Write Jekyll pages and individual plugin files
-      write_plugins_index(plugins.values, $plugins_dir)
-      write_plugin_pages(plugins.values, $plugins_dir)
+      write_plugins_index(plugins.values, '/')
+      write_plugin_pages(plugins.values, 'plugins')
 
       # Write the plugins.json file
       write_static_file(sorted.to_json, 'plugins.json', '/')
@@ -421,8 +420,8 @@ module Jekyll
 
     # Write the plugins index files
     def write_plugins_index(plugins, dest_dir)
-      # Write the plugins/index.html page
-      index = PluginPage.new(self, self.source, dest_dir, 'index.html', 'plugins')
+      # Write the plugins.html page
+      index = PluginPage.new(self, self.source, dest_dir, 'plugins.html', 'plugins')
       index.url = '/plugins' # Fixes layout name being appended to permalink
       index.set_data('plugins', plugins)
       index.render(self.layouts, site_payload)
@@ -447,7 +446,7 @@ module Jekyll
       end
     end
 
-    # Write a plugins/plugin-name/index.html page
+    # Write a plugins/plugin-name.html page
     def write_plugin_page(plugin, dest_dir, prev_plugin, next_plugin)
       puts "## Generating page for #{plugin['name']}"
 

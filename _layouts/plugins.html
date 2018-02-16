@@ -506,7 +506,8 @@ layout: docs
         });
 
         return cardtemplate
-            .replace(/\[\[name\]\]/g, data["name"].toLowerCase())
+            .replace(/\[\[url\]\]/g, data["name"].toLowerCase())
+            .replace(/\[\[name\]\]/g, data["name"])
             .replace(/\[\[icon_url\]\]/g, data["icon_url"] || ("https://www.gravatar.com/avatar/" + id + "?s=262.5&d=identicon"))
             .replace(/\[\[title\]\]/g, data["title"])
             .replace(/\[\[description\]\]/g, data["description"])
@@ -516,6 +517,8 @@ layout: docs
 
     function UpdateUrl(p) {
         if (p === undefined) return;
-        window.history.replaceState({}, '', window.location.pathname + '?' + p);
+        let path = window.location.pathname;
+        path = path[0] == '/' ? path.substr(1) : path;
+        window.history.replaceState({}, '', path + '?' + p);
     }
 </script>
