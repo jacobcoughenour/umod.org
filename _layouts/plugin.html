@@ -3,10 +3,10 @@ layout: docs
 ---
 
 {% for topic in page.plugin.topics %}
-    {% if topic == "umod" %}
-        {% assign platform = "uMod" %}
-    {% elsif topic == "oxide" %}
+    {% if topic == "oxide" %}
         {% assign platform = "Oxide" %}
+    {% else %}
+        {% assign platform = "uMod" %}
     {% endif %}
 {% endfor %}
 
