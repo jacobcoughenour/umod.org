@@ -130,7 +130,7 @@ module Jekyll
 
       # Set the readme, if available
       url = "https://raw.githubusercontent.com/#{$github_org}/#{plugin['name']}/master/README.md"
-      response = site.get_remote_file(url)
+      response = site.get_webrequest(url)
       if response.code == '200' && !response.body.nil?
         self.data['more_info'] = site.to_markdown(site.sanitize_readme(response.body, plugin))
         puts " - README.md found, set page.more_info"
@@ -178,12 +178,23 @@ module Jekyll
       Redcarpet::Markdown.new(CustomRenderer, extensions).render(input)
     end
 
-    # Gets the response code and body for a remote file
-    def get_remote_file(url)
+    # Send GET web request and return response
+    def get_webrequest(url)
       uri = URI.parse(url)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
       request = Net::HTTP::Get.new(uri.request_uri)
+      http.request(request)
+    end
+
+    # Send PATCH web request and return response
+    def patch_webrequest(url, body)
+      uri = URI.parse(url)
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
+      request = Net::HTTP::Patch.new(uri.request_uri)
+      request.add_field('Authorization', "token #{$github_token}")
+      request.body = body
       http.request(request)
     end
 
@@ -313,6 +324,7 @@ module Jekyll
         'name' => repo['name'],
         'title' => repo['name'].humanize,
         'description' => Sanitize.clean(repo['description']).chomp('.'),
+        'homepage' => repo['homepage'],
         'language' => repo['language'],
         'topics' => get_repo_topics(repo),
         'created_at' => repo['created_at'],
@@ -355,14 +367,14 @@ module Jekyll
           plugins[repo['id']] = create_repo_hash(repo)
         end
       else
-        # Get all GitHub repositories for org
+        # Get all GitHub repositories for organization
         repos = get_org_repos($github_org)
 
         # Only keep non-empty repository information and sort A-Z by name
         repos = repos.select {|repo| !repo['language'].nil?}.sort_by {|repo| repo['name']}
         puts "Non-empty repositories found: #{repos.size.to_s}"
 
-        # Loop through remaining repository information and store
+        # Loop through remaining repositories
         repos.each do |repo|
           plugins[repo['id']] = create_repo_hash(repo)
         end
@@ -468,7 +480,24 @@ module Jekyll
         end
       end
 
+      update_repo_homepage(plugin)
       create_forums_category(plugin) unless ENV['DISCOURSE_API_KEY'].nil?
+    end
+
+    # Update homepage in plugin's repository
+    def update_repo_homepage(plugin)
+      new_homepage = "#{self.config['home']}/plugins/#{plugin['name'].downcase}"
+
+      body = {
+        'name' => plugin['name'],
+        'homepage' => new_homepage,
+        'private' => plugin['private'],
+        'has_issues' => true,
+        'has_projects' => true,
+        'has_wiki' => false
+      }
+      repo_url = "https://api.github.com/repos/#{$github_org}/#{plugin['name']}"
+      patch_webrequest(repo_url, body.to_json) if plugin['homepage'] != new_homepage
     end
 
     # Create Discourse forums category for plugin
@@ -484,7 +513,7 @@ module Jekyll
         color: "25AAE2",
         text_color: "FFFFFF",
         parent_category_id: 21, # Plugin Support category
-        description: "Support and discussion for #{plugin['name']}. Visit the plugin's page at #{self.config['home']}/plugins/#{plugin['name']}/." # Not working with Discourse yet
+        description: "Support and discussion for #{plugin['name']}. Visit the plugin's page at #{self.config['home']}/plugins/#{plugin['name']}." # Not working with Discourse yet
       )
       puts " - Created Discourse category: #{new_category['name']}"
     end
