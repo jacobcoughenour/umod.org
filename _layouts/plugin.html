@@ -5,6 +5,7 @@ layout: docs
 {% for topic in page.plugin.topics %}
     {% if topic == "oxide" %}
         {% assign platform = "Oxide" %}
+        {% break %}
     {% else %}
         {% assign platform = "uMod" %}
     {% endif %}
