@@ -2,12 +2,11 @@
 layout: docs
 ---
 
+{% assign platform = "Oxide" %}
 {% for topic in page.plugin.topics %}
-    {% if topic == "oxide" %}
-        {% assign platform = "Oxide" %}
-        {% break %}
-    {% else %}
+    {% if topic == "umod" %}
         {% assign platform = "uMod" %}
+        {% break %}
     {% endif %}
 {% endfor %}
 
