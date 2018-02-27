@@ -447,7 +447,7 @@ module Jekyll
         if self.layouts.key? 'plugin'
           plugins.each_with_index do |plugin, index|
             # Write the individual plugin's page
-            write_plugin_page(plugin, dest_dir, (index > 0) ? plugins[index - 1] : nil, plugins[index + 1])
+            write_plugin_page(plugin, dest_dir, (index > 0) ? plugins[index - 1] : nil, plugins[index + 1], "[#{index+1}/#{plugins.length}] ")
 
             # Write the individual plugin's .json file
             write_static_file(plugin.to_json, "#{plugin['name']}.json", dest_dir)
@@ -459,8 +459,8 @@ module Jekyll
     end
 
     # Write a plugins/plugin-name.html page
-    def write_plugin_page(plugin, dest_dir, prev_plugin, next_plugin)
-      puts "## Generating page for #{plugin['name']}"
+    def write_plugin_page(plugin, dest_dir, prev_plugin, next_plugin, gen_status = nil)
+      puts "## #{gen_status}Generating page for #{plugin['name']}"
 
       # Attach plugin data to global site variable. This allows pages to see this plugin's data
       page = PluginPage.new(self, self.source, dest_dir, "#{plugin['name']}.html", 'plugin')
