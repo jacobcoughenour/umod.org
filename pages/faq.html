@@ -13,7 +13,7 @@ permalink: /faq
                 <ul class="faq-table-of-contents-list">
                     {% for faq in category[1].questions %}
                         <li>
-                            <a href="#" class="js-scroll-to" data-target="#{{ category[0] | downcase }}-{{ forloop.index }}">{{ faq.question }}</a>
+                            <a href="#" class="js-scroll-to" data-target="#{{ category[0] | slugify }}-{{ forloop.index }}">{{ faq.question }}</a>
                         </li>
                     {% endfor %}
                 </ul>
@@ -25,8 +25,13 @@ permalink: /faq
 {% for category in site.data.faq %}
     <h3 class="faq-category-title" data-icon="{{ category[1].icon }}">{{ category[0] }}</h3>
     {% for faq in category[1].questions %}
-        <div class="faq-article" id="{{ category[0] | downcase }}-{{ forloop.index }}">
-            <h4 class="faq-article-title">{{ faq.question }}</h4>
+        <div class="faq-article" id="{{ category[0] | slugify }}-{{ forloop.index }}">
+            <h4 class="faq-article-title" id="{{ faq.question | slugify }}">
+                <a class="fragment-identifier js-fragment-identifier fragment-identifier-scroll" href="#{{ faq.question | slugify }}">
+                    <i class="fa fa-link"></i>
+                </a>
+                {{ faq.question }}
+            </h4>
             <div class="faq-article-content">
                 <p>{{ faq.answer }}</p>
             </div>
