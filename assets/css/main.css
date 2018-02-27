@@ -18720,6 +18720,7 @@ a.scroll-shadow-right > i {
 }
 .list-mode .plugin-card .plugin-icon-area img.image {
     min-height: 64px;
+    object-fit: cover;
 }
 .list-mode .plugin-card .plugin-icon-area > ul.gamesupport {
     right: 0;
