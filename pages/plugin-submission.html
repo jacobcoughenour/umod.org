@@ -1,0 +1,65 @@
+---
+title: Submit your plugin
+layout: docs
+permalink: /plugin-submission
+---
+
+<div class="row">
+    <form class="col-md-12 plugin-submission">
+        <div class="note js-note blue">
+            <p class="note-description">Please make sure to read the <a href="{{ site.url }}{% link pages/api/style-guide.html %}">plugin submission guidelines and requirements</a> before submitting any plugins.</p>
+            <p class="note-description">Plugins not following the requirements will not be approved.</p>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <label for="icon">Icon</label>
+                <input type="file" name="icon" accept=".jpg,.jpeg,.png">
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    <label for="title">Plugin title</label>
+                    <input type="text" id="title" name="title">
+                    <label for="title">Version</label>
+                    <input type="text" id="version" name="version" placeholder="1.0.0">
+                </div>
+                <div class="row">
+                    <label for="summary">Summary</label>
+                    <input type="text" id="summary" name="summary">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+var supportedgames = [{% for game in site.data.games %}"{{ game.name | slugify }}", {% endfor %}];
+
+var pluginsdata = {};
+var currentsearch = "";
+
+$(document).ready(function () {
+
+    $.getJSON('/plugins.json', function (data) {
+        pluginsdata = data;
+
+        $('input#title').on("input", function () {
+            currentsearch = $(this).val();
+
+            // Only updates after set delay between inputs
+            clearTimeout(window.searchtimer); // clear previous timeout
+            window.searchtimer = setTimeout(function() {
+                console.log(SearchFilter());
+            }, 500); // threshold in ms
+        });
+    });
+});
+
+function SearchFilter() {
+    let search = currentsearch.toLowerCase().replace(/\s+/g, '');
+    let ids = Object.keys(pluginsdata.all);
+    for (let i = 0; i < ids.length; i++)
+        if (pluginsdata.all[ids[i]].name.toLowerCase() === search)
+            return false;
+    return true;
+}
+</script>
