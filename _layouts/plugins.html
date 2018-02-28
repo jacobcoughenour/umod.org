@@ -451,15 +451,25 @@ layout: docs
         }
         $("#plugins-index .js-grid-view>.row").html(newhtml);
 
-        // Fade in each card separately with a delay
-        $("#plugins-index .js-grid-view>.row>.col-md-3").each(function (i, obj) {
-            AttachHorizontalScroll($('.topics.scroll', this));
-            setTimeout(function () {
-                $(obj).removeClass("hide");
-            }, i * 32);
-        });
+        if (itemsperpage > 16 && currentids.length > 16) {
+            // show each card without transition
+            $("#plugins-index .js-grid-view>.row>.col-md-3").each(function (i, obj) {
+                AttachHorizontalScroll($('.topics.scroll', this));
+                $(obj).addClass("no-transition").removeClass("hide");
+            });
 
-        index.css("opacity", "1"); // Show plugins index
+            index.animate({opacity: "1"}, 200); // fade in plugins index        
+        } else {
+            // Fade in each card separately with a delay
+            $("#plugins-index .js-grid-view>.row>.col-md-3").each(function (i, obj) {
+                AttachHorizontalScroll($('.topics.scroll', this));
+                setTimeout(function () {
+                    $(obj).removeClass("hide");
+                }, i * 32);
+            });
+
+            index.css("opacity", "1"); // Show plugins index
+        }
 
         // Update pagination
 

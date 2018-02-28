@@ -18539,6 +18539,12 @@ a.scroll-shadow-right > i {
     opacity: 0;
     transform: translateY(25%);
 }
+#plugins-index .row .col-md-3.no-transition {
+    -webkit-transition: none !important;
+    transition: none !important;
+    -webkit-transition-delay: 0;
+    transition-delay: 0;
+}
 .grid-view-elem.plugin-card {
     display: block;
     height: 210px;
