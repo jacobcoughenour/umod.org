@@ -46,44 +46,57 @@ layout: docs
                 </div>
             </div>
         </div>
-        <div id="plugins-index-pagination" class="container">
-            <ul>
-                <li>
-                    <a id="firstbutton" class="button stroke small blue pagebutton">
-                        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
-                    </a>
-                </li>
-                <li>
-                    <a id="prevbutton" class="button stroke small blue pagebutton">
-                        <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="button stroke small blue pagebutton" data-id="0" value="">1</a>
-                </li>
-                <li>
-                    <a class="button stroke small blue pagebutton" data-id="1" value="">2</a>
-                </li>
-                <li>
-                    <a class="button stroke small blue pagebutton" data-id="2" value="">3</a>
-                </li>
-                <li>
-                    <a class="button stroke small blue pagebutton" data-id="3" value="">4</a>
-                </li>
-                <li>
-                    <a class="button stroke small blue pagebutton" data-id="4" value="">5</a>
-                </li>
-                <li>
-                    <a id="nextbutton" class="button stroke small blue pagebutton">
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-                </li>
-                <li>
-                    <a id="lastbutton" class="button stroke small blue pagebutton">
-                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    </a>
-                </li>
-            </ul>
+        <div class="container">
+            <div id="plugins-index-pagination">
+                <ul>
+                    <li>
+                        <a id="firstbutton" class="button stroke small blue pagebutton">
+                            <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="prevbutton" class="button stroke small blue pagebutton">
+                            <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="button stroke small blue pagebutton" data-id="0" value="">1</a>
+                    </li>
+                    <li>
+                        <a class="button stroke small blue pagebutton" data-id="1" value="">2</a>
+                    </li>
+                    <li>
+                        <a class="button stroke small blue pagebutton" data-id="2" value="">3</a>
+                    </li>
+                    <li>
+                        <a class="button stroke small blue pagebutton" data-id="3" value="">4</a>
+                    </li>
+                    <li>
+                        <a class="button stroke small blue pagebutton" data-id="4" value="">5</a>
+                    </li>
+                    <li>
+                        <a id="nextbutton" class="button stroke small blue pagebutton">
+                            <i class="fa fa-angle-right" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="lastbutton" class="button stroke small blue pagebutton">
+                            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="dropdown pull-right">
+                <label for="itemsperpage">Items per page</label>
+                <select name="itemsperpage" class="button small stroke blue dropdown-select">
+                    <option value="8">8</option>
+                    <option value="12">12</option>
+                    <option value="16">16</option>
+                    <option value="32">32</option>
+                    <option value="64">64</option>
+                    <option value="128">128</option>
+                </select>
+            </div>
         </div>
     </div>
 </div>
@@ -156,6 +169,8 @@ layout: docs
                     UpdateUrl(params);
                 }
             }
+
+            $('select[name=itemsperpage]').val(itemsperpage);
 
             // Event listeners
 
@@ -255,6 +270,23 @@ layout: docs
                 if (params === undefined) return;
                 params.set('page', currentpage + 1);
                 UpdateUrl(params);
+            });
+
+            $('select[name=itemsperpage]').change(function () {
+                let val = $(this).val();
+                if (val == itemsperpage)
+                    return;
+
+                itemsperpage = val;
+                currentpage = 0;
+                RenderIndexPage();
+
+                if (params === undefined) return;
+                params.delete('page');
+                //params.set('sortby', sortby);
+                //UpdateUrl(params);
+
+                // TODO: Save to session storage https://www.w3schools.com/jsref/prop_win_sessionstorage.asp
             });
 
             // TODO: Default to list view on mobile

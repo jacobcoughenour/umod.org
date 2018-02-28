@@ -18428,7 +18428,7 @@ a.scroll-shadow-right > i {
 #all-topics-selected {
     overflow: visible;
 }
-.plugins-index-header .dropdown {
+.dropdown {
     display: inline-block;
     position: relative;
     border: none;
@@ -18437,7 +18437,7 @@ a.scroll-shadow-right > i {
     -ms-user-select: none;
     user-select: none;
 }
-.plugins-index-header .dropdown::before {
+.dropdown::before {
     content: '\f078';
     font-family: FontAwesome;
     color: #2288cc;
@@ -18449,7 +18449,7 @@ a.scroll-shadow-right > i {
     padding: 7px 16px;
     pointer-events: none;
 }
-.plugins-index-header .dropdown label {
+.dropdown label {
     display: inline-block;
     max-width: 100%;
     margin-bottom: 0;
@@ -18458,16 +18458,16 @@ a.scroll-shadow-right > i {
     color: #333333;
     font-size: 16px;
 }
-.plugins-index-header .dropdown-select {
+.dropdown-select {
     -webkit-appearance: none;
-    padding: 8px 32px 8px 16px;
+    padding: 8px 32px 8px 16px !important;
     height: 100%;
 }
-.plugins-index-header .dropdown-select:focus {
+.dropdown-select:focus {
     z-index: 3;
     outline: none;
 }
-.plugins-index-header .dropdown-select > option {
+.dropdown-select > option {
     margin: 3px;
     padding: 8px 16px;
     text-shadow: none;
