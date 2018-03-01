@@ -18590,17 +18590,19 @@ a.scroll-shadow-right > i {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
 }
-.plugin-card .plugin-icon-area > ul.gamesupport {
-    display: inline-block;
+.plugin-card ul.gamesupport {
     margin: 0;
     opacity: 1;
     line-height: 0;
-    position: absolute;
     z-index: 1;
     right: 8px;
     bottom: 8px;
 }
-.plugin-card .plugin-icon-area > .gamesupport > li {
+.plugin-card .plugin-icon-area > ul.gamesupport {
+    display: inline-block;
+    position: absolute;
+}
+.plugin-card .gamesupport > li {
     display: inline-block;
     margin: 0 4px 4px 0;
     -webkit-user-select: none;
@@ -18608,7 +18610,7 @@ a.scroll-shadow-right > i {
     -ms-user-select: none;
     user-select: none;
 }
-.plugin-card .plugin-icon-area > .gamesupport > li > img {
+.plugin-card ul.gamesupport > li > img {
     height: 30px;
     width: 30px;
     border-radius: 3px;
@@ -18633,6 +18635,9 @@ a.scroll-shadow-right > i {
     background: transparent;
     padding: 16px 18px 8px 18px;
     transition: background .15s, color .15s;
+}
+.plugin-card .plugin-info .title > ul.gamesupport {
+    display: none;
 }
 .plugin-card .plugin-info .description {
     opacity: 0;
@@ -18729,8 +18734,7 @@ a.scroll-shadow-right > i {
     object-fit: cover;
 }
 .list-mode .plugin-card .plugin-icon-area > ul.gamesupport {
-    right: 0;
-    bottom: 0;
+    display: none;
 }
 .list-mode .plugin-card .plugin-icon-area {
     opacity: 0.9;
@@ -18747,6 +18751,25 @@ a.scroll-shadow-right > i {
 }
 .list-mode .plugin-card .plugin-info .title {
     margin-bottom: 0;
+}
+.list-mode .plugin-card .plugin-info .title > ul.gamesupport {
+    display: inline-block;
+    margin: 0 0 0 12px;
+    vertical-align: bottom;
+}
+.list-mode .plugin-card .gamesupport > li {
+    display: inline-block;
+    margin: 0 0 -4px 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.list-mode .plugin-card ul.gamesupport > li > img {
+    height: 24px;
+    width: 24px;
+    border-radius: 3px;
+    background: #fff;
 }
 .list-mode .plugin-card .plugin-info .description {
     opacity: 1;
