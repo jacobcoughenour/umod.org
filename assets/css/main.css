@@ -18652,6 +18652,19 @@ a.scroll-shadow-right > i {
 .plugin-card:hover .plugin-info .description {
     opacity: 1;
 }
+.plugin-card .plugin-info .relevant {
+    opacity: 0;
+    -webkit-transition: opacity .15s ease-in-out;
+    transition: opacity .15s ease-in-out;
+    font-size: 0.8em;
+    color: #808488;
+    margin: 0;
+    padding: 0 18px 8px 18px;
+    line-height: 1.25;
+}
+.plugin-card:hover .plugin-info .relevant {
+    opacity: 1;
+}
 .plugin-card .plugin-info .topics {
     margin: 8px;
     height: 32px;
@@ -18699,6 +18712,7 @@ a.scroll-shadow-right > i {
      Plugins index list view
      ========================================================================== */
 #plugins-index.list-mode .row .col-md-3 {
+    overflow: hidden;
     width: 100%;
     height: 80px;
     padding-left: 0;
@@ -18745,12 +18759,15 @@ a.scroll-shadow-right > i {
 .list-mode .plugin-card .plugin-info {
     position: absolute;
     left: 72px;
+    right: 0;
     top: 0;
-    height: 64px;
     padding-bottom: 0;
 }
 .list-mode .plugin-card .plugin-info .title {
-    margin-bottom: 0;
+    margin: 6px 8px 4px 18px;
+    height: 24px;
+    padding: 0;
+    line-height: 1.75em;
 }
 .list-mode .plugin-card .plugin-info .title > ul.gamesupport {
     display: inline-block;
@@ -18759,7 +18776,7 @@ a.scroll-shadow-right > i {
 }
 .list-mode .plugin-card .gamesupport > li {
     display: inline-block;
-    margin: 0 0 -4px 4px;
+    margin: 0 6px 3px 0;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -18773,7 +18790,17 @@ a.scroll-shadow-right > i {
 }
 .list-mode .plugin-card .plugin-info .description {
     opacity: 1;
-    padding-bottom: 0;
+    padding: 0 18px 0 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.list-mode .plugin-card .plugin-info .relevant {
+    opacity: 1;
+    padding: 4px 18px 0 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .list-mode .plugin-card .plugin-info .topics {
     display: none;

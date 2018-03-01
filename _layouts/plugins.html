@@ -554,7 +554,40 @@ layout: docs
             .replace(/\[\[title\]\]/g, data["title"])
             .replace(/\[\[description\]\]/g, data["description"])
             .replace(/\[\[topics\]\]/g, topicbadges)
-            .replace(/\[\[gamesupport\]\]/g, support != "" ? '<ul class="gamesupport">' + support + '</ul>' : "");
+            .replace(/\[\[gamesupport\]\]/g, support != "" ? '<ul class="gamesupport">' + support + '</ul>' : "")
+            .replace(/\[\[relevant\]\]/g, sortby === "newest" ? "Added " + TimeAgo(data["created_at"]) : "Updated " + TimeAgo(data["updated_at"]));
+    }
+
+    function TimeAgo(s) {
+        let seconds = Math.floor((Date.now() - new Date(s)) / 1000);
+        var interval = Math.floor(seconds / 31536000);
+
+        if (interval > 1) {
+            return interval + " years ago";
+        } else if (interval === 1) {
+            return "a year ago";
+        }
+        interval = Math.floor(seconds / 2592000);
+        if (interval > 1) {
+            return interval + " months ago";
+        } else if (interval === 1) {
+            return "a month ago";
+        }
+        interval = Math.floor(seconds / 86400);
+        if (interval > 1) {
+            return interval + " days ago";
+        }
+        interval = Math.floor(seconds / 3600);
+        if (interval > 23) {
+            return "yesterday";
+        } else if (interval > 1) {
+            return interval + " hours ago";
+        }
+        interval = Math.floor(seconds / 60);
+        if (interval > 1) {
+            return interval + " minutes ago";
+        }
+        return "less than a minute ago";
     }
 
     function UpdateUrl(p) {
