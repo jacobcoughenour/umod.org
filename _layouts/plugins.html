@@ -150,12 +150,6 @@ layout: docs
                     }
                 }
 
-                if (localStorage.getItem('view') === "list") {
-                    let toggle = $('input[name=gridtoggle]');
-                    toggle.checked = true;
-                    islist = true;
-                }
-
                 if (localStorage.getItem('itemsperpage')) {
                     itemsperpage = localStorage.getItem('itemsperpage');
                 }
@@ -221,13 +215,13 @@ layout: docs
                 currentpage = 0;
                 RenderIndexPage();
 
+                if (hasLocalStorage)
+                    localStorage.setItem('sortby', sortby);
+
                 if (params === undefined) return;
                 params.delete('page');
                 params.set('sortby', sortby);
                 UpdateUrl(params);
-
-                if (hasLocalStorage)
-                    localStorage.setItem('sortby', sortby);
             });
 
             $('input[name=gridtoggle]').click(function () {
@@ -235,12 +229,12 @@ layout: docs
                 $("#plugins-index").toggleClass("list-mode", islist);
                 RenderIndexPage();
 
-                if (params === undefined) return;
-                params.set('view', islist ? "list" : "grid");
-                UpdateUrl(params);
-
                 if (hasLocalStorage)
                     localStorage.setItem('view', islist ? "list" : "grid");
+
+                if (params === undefined) return;
+                params.set('view', islist ? "list" : "grid");
+                UpdateUrl(params);                
             });
 
             // Pagination buttons
@@ -310,19 +304,24 @@ layout: docs
                 currentpage = 0;
                 RenderIndexPage();
 
-                if (params === undefined) return;
-                params.delete('page');
-
                 if (hasLocalStorage)
                     localStorage.setItem('itemsperpage', itemsperpage);
+
+                if (params === undefined) return;
+                params.delete('page');
             });
 
             // TODO: Default to list view on mobile
-            if ('URLSearchParams' in window && params.get('view') == "list") {
+            if ('URLSearchParams' in window && params.has('view')) {
+                islist = params.get('view') == "list";
                 let toggle = $('input[name=gridtoggle]');
-                toggle.checked = true;
-                islist = true;
+                toggle.checked = islist;
                 toggle.click();
+            } else if (hasLocalStorage && localStorage.getItem('view')) {
+                islist = localStorage.getItem('view') == "list";
+                let toggle = $('input[name=gridtoggle]');
+                toggle.checked = islist;
+                toggle.click()
             }
 
             $(window).resize(function () {
