@@ -120,8 +120,11 @@ layout: docs
     var itemsperpage = 8;
     var currentpage = 0;
 
+    var hasLocalStorage = false;
+
     $(document).ready(function () {
         cardtemplate = $("#plugin-card-template").html();
+        hasLocalStorage = storageAvailable("localStorage");
 
         $.getJSON('/plugins.json', function (data) {
             pluginsdata = data;
@@ -133,6 +136,30 @@ layout: docs
             $(".page-description").each(function (i, obj) {
                 $(obj).html("{{ page.description }}".replace("many", Object.keys(data.all).length));
             });
+
+            // stored params
+            if (hasLocalStorage) {
+
+                if (localStorage.getItem('sortby')) {
+                    let val = localStorage.getItem('sortby');
+                    if (val != sortby && (val === "title" || val in pluginsdata.sort_by)) {
+                        sortby = val;
+                        $('select[name=sortby]').val(val);
+                    } else {
+                        localStorage.setItem('sortby', sortby);
+                    }
+                }
+
+                if (localStorage.getItem('view') === "list") {
+                    let toggle = $('input[name=gridtoggle]');
+                    toggle.checked = true;
+                    islist = true;
+                }
+
+                if (localStorage.getItem('itemsperpage')) {
+                    itemsperpage = localStorage.getItem('itemsperpage');
+                }
+            }
 
             // URL params
             if ('URLSearchParams' in window) {
@@ -199,7 +226,8 @@ layout: docs
                 params.set('sortby', sortby);
                 UpdateUrl(params);
 
-                // TODO: Save to session storage https://www.w3schools.com/jsref/prop_win_sessionstorage.asp
+                if (hasLocalStorage)
+                    localStorage.setItem('sortby', sortby);
             });
 
             $('input[name=gridtoggle]').click(function () {
@@ -211,7 +239,8 @@ layout: docs
                 params.set('view', islist ? "list" : "grid");
                 UpdateUrl(params);
 
-                // TODO: Save to session storage https://www.w3schools.com/jsref/prop_win_sessionstorage.asp
+                if (hasLocalStorage)
+                    localStorage.setItem('view', islist ? "list" : "grid");
             });
 
             // Pagination buttons
@@ -283,10 +312,9 @@ layout: docs
 
                 if (params === undefined) return;
                 params.delete('page');
-                //params.set('sortby', sortby);
-                //UpdateUrl(params);
 
-                // TODO: Save to session storage https://www.w3schools.com/jsref/prop_win_sessionstorage.asp
+                if (hasLocalStorage)
+                    localStorage.setItem('itemsperpage', itemsperpage);
             });
 
             // TODO: Default to list view on mobile
