@@ -1,1 +1,3 @@
-/forums  https://forums.umod.org/  302
+https://umod.netlify.com/* https://umod.org/:splat 301!
+http://umod.netlify.com/* https://umod.org/:splat 301!
+/forums https://forums.umod.org/ 302
