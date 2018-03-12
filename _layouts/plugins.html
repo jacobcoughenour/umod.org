@@ -314,15 +314,12 @@ layout: docs
             // TODO: Default to list view on mobile
             if ('URLSearchParams' in window && params.has('view')) {
                 islist = params.get('view') == "list";
-                let toggle = $('input[name=gridtoggle]');
-                toggle.checked = islist;
-                toggle.click();
             } else if (hasLocalStorage && localStorage.getItem('view')) {
                 islist = localStorage.getItem('view') == "list";
-                let toggle = $('input[name=gridtoggle]');
-                toggle.checked = islist;
-                toggle.click()
             }
+
+            $('input[name=gridtoggle]').prop("checked", islist);
+            $("#plugins-index").toggleClass("list-mode", islist);
 
             $(window).resize(function () {
                 let changetolist = $(window).width() < 992;
