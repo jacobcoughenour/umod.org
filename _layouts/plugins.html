@@ -129,7 +129,9 @@ layout: docs
         $.getJSON('/plugins.json', function (data) {
             pluginsdata = data;
             currentids = pluginsdata.sort_by[sortby];
-            sortedtopics = Object.keys(pluginsdata.topics).sort(function (a, b) {return pluginsdata.topics[b].length - pluginsdata.topics[a].length;});
+            sortedtopics = Object.keys(pluginsdata.topics).sort(function (a, b) {
+                return pluginsdata.topics[b].length - pluginsdata.topics[a].length;
+            });
 
             let index = $("#plugins-index");
 
@@ -137,9 +139,8 @@ layout: docs
                 $(obj).html("{{ page.description }}".replace("many", Object.keys(data.all).length));
             });
 
-            // stored params
+            // Stored params
             if (hasLocalStorage) {
-
                 if (localStorage.getItem('sortby')) {
                     let val = localStorage.getItem('sortby');
                     if (val != sortby && (val === "title" || val in pluginsdata.sort_by)) {
@@ -199,11 +200,11 @@ layout: docs
                 currentsearch = $(this).val();
 
                 // Only updates after set delay between inputs
-                clearTimeout(window.searchtimer); // clear previous timeout
-                window.searchtimer = setTimeout(function() {
+                clearTimeout(window.searchtimer); // Clear previous timeout
+                window.searchtimer = setTimeout(function () {
                     currentpage = 0;
                     RenderIndexPage();
-                }, 500); // threshold in ms
+                }, 500); // Threshold in ms
             });
 
             $('select[name=sortby]').change(function () {
@@ -218,7 +219,9 @@ layout: docs
                 if (hasLocalStorage)
                     localStorage.setItem('sortby', sortby);
 
-                if (params === undefined) return;
+                if (params === undefined)
+                    return;
+
                 params.delete('page');
                 params.set('sortby', sortby);
                 UpdateUrl(params);
@@ -232,9 +235,11 @@ layout: docs
                 if (hasLocalStorage)
                     localStorage.setItem('view', islist ? "list" : "grid");
 
-                if (params === undefined) return;
+                if (params === undefined)
+                    return;
+
                 params.set('view', islist ? "list" : "grid");
-                UpdateUrl(params);                
+                UpdateUrl(params);
             });
 
             // Pagination buttons
@@ -242,10 +247,13 @@ layout: docs
             $('a#firstbutton').click(function () {
                 if (currentpage == 0)
                     return;
+
                 currentpage = 0;
                 RenderIndexPage();
 
-                if (params === undefined) return;
+                if (params === undefined)
+                    return;
+
                 params.set('page', currentpage + 1);
                 UpdateUrl(params);
             });
@@ -253,10 +261,13 @@ layout: docs
             $('a#prevbutton').click(function () {
                 if (currentpage == 0)
                     return;
+
                 currentpage -= 1;
                 RenderIndexPage();
 
-                if (params === undefined) return;
+                if (params === undefined)
+                    return;
+
                 params.set('page', currentpage + 1);
                 UpdateUrl(params);
             });
@@ -265,10 +276,13 @@ layout: docs
                 let num = parseInt($(obj.target).attr("value")) - 1;
                 if (currentpage == num)
                     return;
+
                 currentpage = num;
                 RenderIndexPage();
 
-                if (params === undefined) return;
+                if (params === undefined)
+                    return;
+
                 params.set('page', currentpage + 1);
                 UpdateUrl(params);
             });
@@ -276,10 +290,13 @@ layout: docs
             $('a#nextbutton').click(function () {
                 if ((currentpage + 1) * itemsperpage >= currentids.length)
                     return;
+
                 currentpage += 1;
                 RenderIndexPage();
 
-                if (params === undefined) return;
+                if (params === undefined)
+                    return;
+
                 params.set('page', currentpage + 1);
                 UpdateUrl(params);
             });
@@ -287,10 +304,13 @@ layout: docs
             $('a#lastbutton').click(function () {
                 if ((currentpage + 1) * itemsperpage >= currentids.length)
                     return;
+
                 currentpage = Math.ceil(currentids.length / itemsperpage) - 1;
                 RenderIndexPage();
 
-                if (params === undefined) return;
+                if (params === undefined)
+                    return;
+
                 params.set('page', currentpage + 1);
                 UpdateUrl(params);
             });
@@ -307,7 +327,9 @@ layout: docs
                 if (hasLocalStorage)
                     localStorage.setItem('itemsperpage', itemsperpage);
 
-                if (params === undefined) return;
+                if (params === undefined)
+                    return;
+
                 params.delete('page');
             });
 
@@ -349,7 +371,9 @@ layout: docs
         RenderIndexPage();
         UpdateTopics();
 
-        if (params === undefined) return;
+        if (params === undefined)
+            return;
+
         params.delete('page');
         if (currenttopics.length === 0)
             params.delete('topics');
@@ -422,7 +446,7 @@ layout: docs
                 // Sort currenttopics to get the shortest
                 currenttopics.sort(function (a, b) {return pluginsdata.topics[a].length - pluginsdata.topics[b].length;})[0]
             ].forEach(function (id) {  // For each plugin in shortest topic
-                // if plugin contains all current topics
+                // If plugin contains all current topics
                 if (!currenttopics.some(function (t) {return $.inArray(t, pluginsdata.all[id].topics) == -1;}))
                     ids.push(id);
             });
@@ -437,7 +461,7 @@ layout: docs
         let idsdesc = [];
         let regex = new RegExp(currentsearch, "i");
 
-        currentids.forEach(function (id) {  // For each plugin in shortest topic
+        currentids.forEach(function (id) { // For each plugin in shortest topic
             if (pluginsdata.all[id].name.search(regex) !== -1)
                 idsname.push(id);
             else if (pluginsdata.all[id].description.search(regex) !== -1)
@@ -476,13 +500,13 @@ layout: docs
         $("#plugins-index .js-grid-view>.row").html(newhtml);
 
         if (itemsperpage > 16 && currentids.length > 16) {
-            // show each card without transition
+            // Show each card without transition
             $("#plugins-index .js-grid-view>.row>.col-md-3").each(function (i, obj) {
                 AttachHorizontalScroll($('.topics.scroll', this));
                 $(obj).addClass("no-transition").removeClass("hide");
             });
 
-            index.animate({opacity: "1"}, 200); // fade in plugins index        
+            index.animate({opacity: "1"}, 200); // Fade in plugins index
         } else {
             // Fade in each card separately with a delay
             $("#plugins-index .js-grid-view>.row>.col-md-3").each(function (i, obj) {
@@ -615,7 +639,9 @@ layout: docs
     }
 
     function UpdateUrl(p) {
-        if (p === undefined) return;
+        if (p === undefined)
+            return;
+
         window.history.replaceState({}, '', window.location.pathname + '?' + p);
     }
 </script>
