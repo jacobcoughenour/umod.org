@@ -1,5 +1,5 @@
 ---
-layout: docs
+layout: default
 ---
 
 {% assign platform = "Oxide" %}
@@ -24,6 +24,44 @@ This plugin uses {{ platform }}'s permission system. To assign a permission, use
     {% include note.html body=note_permissions %}
 {% endcapture %}
 
+{% include layout/header.html %}
+<div class="header-back header-back-simple header-back-small" style="padding: 80px 0 20px 0;">
+</div>
+<div class="plugin-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="plugin-icon">
+                    {% if page.plugin.icon_url %}
+                        <img src="{{ page.plugin.icon_url }}" alt="{{ page.plugin.name }}" />
+                    {% else %}
+                        <img src="https://www.gravatar.com/avatar/{{ page.plugin.id }}?s=262.5&d=identicon" alt="{{ page.plugin.name }}" />
+                    {% endif %}
+                </div>
+                <div class="plugin-info">
+                    <h1 class="plugin-title">
+                        {{ page.plugin.title }}
+                    </h1>
+                    <h2 class="plugin-description">
+                        {{ page.plugin.description }}
+                    </h2>
+                    <span data-number="{{ page.plugin.stargazers_count }}">
+                        <i class="fa fa-star"></i>{{ page.plugin.stargazers }}
+                    </span>
+                    <span data-number="{{ page.plugin.watchers_count }}">
+                        <i class="fa fa-eye"></i>{{ page.plugin.watchers }}
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-3 button-list">
+                <span class="version-number">{% if page.plugin.latest_release %}Version {{ page.plugin.latest_release.version }}{% else %}Commit {{ page.plugin.latest_commit.sha | truncate: 7, "" }}{% endif %}</span>
+                <a href="{{ page.plugin.name }}.cs" class="button button-icon large full blue plugin-download-button" download="{{ page.plugin.name }}.cs"><i class="fa fa-cloud-download pull-left"></i>Download Now</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="content">
+    <div class="container">
 <div class="layout with-right-sidebar js-layout">
     <div class="row">
         <div class="col-md-9">
@@ -40,37 +78,7 @@ This plugin uses {{ platform }}'s permission system. To assign a permission, use
         </div>
         <div class="col-md-3 hidden-sm hidden-xs">
             <div class="js-sidebar-wrapper">
-                <div class="sidebar js-sidebar-fixed">
-                    <div class="widget">
-                        <div class="box plugin-icon">
-                            {% if page.plugin.icon_url %}
-                                <img src="{{ page.plugin.icon_url }}" class="image" alt="{{ page.plugin.name }}" />
-                            {% else %}
-                                <img src="https://www.gravatar.com/avatar/{{ page.plugin.id }}?s=262.5&d=identicon" class="image" alt="{{ page.plugin.name }}" />
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="widget">
-                        <div class="button-list helper center">
-                            <a href="{{ page.plugin.name }}.cs" class="button button-icon large blue plugin-download-button" download="{{ page.plugin.name }}.cs">
-                                <i class="fa fa-cloud-download fa-2x pull-left"></i>Download Now
-                                {% if page.plugin.latest_release %}
-                                    Version: {{ page.plugin.latest_release.version }}
-                                {% else %}
-                                    Commit: {{ page.plugin.latest_commit.sha | truncate: 7, "" }}
-                                {% endif %}
-                            </a>
-                            <a href="{{ site.forums }}/c/plugin-support/{{ page.title | slugify }}" class="button button-icon orange plugin-support-button">
-                                <span class="fa fa-life-ring fa-2x"></span>
-                            </a>
-                            <a href="{{ page.plugin.github_url }}" class="button button-icon green plugin-support-button">
-                                <span class="fa fa-github fa-2x"></span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="widget">
-                        <div id="the-ad-box"></div>
-                    </div>
+                <div class="sidebar">
                     <div class="widget">
                         <h3 class="widget-title">Contributors</h3>
                         <ul class="widget-contributors">
@@ -82,30 +90,6 @@ This plugin uses {{ platform }}'s permission system. To assign a permission, use
                                 </li>
                             {% endfor %}
                         </ul>
-                    </div>
-                    <div class="widget">
-                        <div class="number-box">
-                            <div class="number-icon">
-                                <i class="pe-7s-star"></i>
-                            </div>
-                            <div class="number-wrapper">
-                                <span data-number="{{ page.plugin.stargazers_count }}">
-                                    {{ page.plugin.stargazers }}
-                                    <span class="number-description grey">stargazer{% if page.plugin.stargazers != 1 %}s{% endif %}</span>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="number-box">
-                            <div class="number-icon">
-                                <i class="pe-7s-look"></i>
-                            </div>
-                            <div class="number-wrapper">
-                                <span data-number="{{ page.plugin.watchers_count }}">
-                                    {{ page.plugin.watchers }}
-                                    <span class="number-description grey">watcher{% if page.plugin.watchers != 1 %}s{% endif %}</span>
-                                </span>
-                            </div>
-                        </div>
                     </div>
                     {% if page.plugin.topics.size > 0 %}
                     <div class="widget">
@@ -124,3 +108,5 @@ This plugin uses {{ platform }}'s permission system. To assign a permission, use
         </div>
     </div>
 </div>
+{% include layout/subfooter.html %}
+{% include layout/footer.html %}

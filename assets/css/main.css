@@ -18222,14 +18222,6 @@ input.changelog-input {
     position: relative;
     overflow: hidden;
 }
-.plugin-icon {
-    #overflow: hidden;
-    #max-height: 180px;
-}
-.plugin-icon img {
-    #margin-left: 50%;
-    #transform: translateX(-50%);
-}
 @keyframes ghost {
     from {
         opacity: 0;
@@ -18878,9 +18870,63 @@ a.scroll-shadow-right > i {
 /* ==========================================================================
      Plugin page
      ========================================================================== */
-.plugin-download-button {
-    white-space: normal;
+.plugin-header {
+    padding-top: 16px;
+    border-bottom: solid 1px #cbd3dd;
+}
+.plugin-header .col-md-9 {
+    height: 176px;
+}
+.plugin-header .plugin-icon {
+    border-radius: 5px;
+    height: 160px;
+    width: 160px;
+    top: 0;
+    left: 15px;
+    position: absolute;
+    overflow: hidden;
+}
+.plugin-header .plugin-icon > img {
+    position: absolute;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    margin: 0;
     width: 100%;
+    height: auto;
+    min-height: 160px;    
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    object-fit: cover;
+}
+.plugin-header .plugin-info {
+    position: absolute;
+    top: 0;
+    left: 175px;
+    right: 15px;
+    bottom: 15px;
+    margin: 8px 8px 8px 24px;
+}
+.plugin-header .plugin-info .plugin-title {
+    font-size: 2em;
+}
+.plugin-header .plugin-info .plugin-description {
+    font-size: 1.2em;
+}
+.plugin-header .plugin-info span {
+    margin-right: 0.3em;
+}
+.plugin-header .plugin-info span > i {
+    margin-right: 0.3em;
+}
+.plugin-header .button-list .version-number {
+    display: inline-block;
+    margin: 15px;
+    font-size: 1.1em;
+    font-weight: 300;
 }
 .plugin-support-button {
     margin-right: 10px;
